@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="일본 집 찾기, 클릭 한번으로 끝내기 - 일공 부동산">
+    <link rel="icon" href="../assest/favicon.png" type="image/png"/>
+    <title>일공 - 일본 부동산 찾기</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="main/style.css">
+    <link rel="stylesheet" href="main/index.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <nav class="header-nav">
+                <ul class="nav-menu" id="mainNav">
+                    <li>
+                        <div class="header-logo">
+                            <a href="/">iloong</a>
+                        </div>
+                    </li>
+                    <li><a href="/agent/houber">임대매물 찾기</a></li>
+                    <li style="cursor: not-allowed;">
+                        <a>일공 포럼</a>
+                        <span class="nav-badge">준비중</span>
+                    </li>
+                    <li style="cursor: not-allowed;">
+                        <a>부동산 정보</a>
+                        <span class="nav-badge">준비중</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <div class="header-logo">
+                    <a href="/">iloong</a>
+                </div>
+                <div class="language-selector">
+                    <span class="lang-btn active">
+                        KR
+                        <img src="https://flagcdn.com/w20/kr.png" alt="한국" class="lang-flag">
+                        <i class="fas fa-chevron-down lang-chevron"></i>
+                    </span>
+                </div>
+                <button class="mobile-menu-toggle" id="hamburger" aria-label="메뉴 열기">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    
+    </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">일본에서의 집 찾기<br><b>더 쉽고 정확하게</b></h1>
+                    <p class="hero-description">
+                        희망하는 지역의 매물을 지도에서 바로 확인<br>지역·역세권을 한눈에 비교
+                    </p>
+                    <a href="/agent/houber" class="btn btn-primary hreo-btn">매물 바로 찾기</a>
+                </div>
+                <div class="hero-features">
+                    <div class="hero-feature-card">
+                        <div class="hero-feature-icon">
+                            <i class="icon-1"></i>
+                        </div>
+                        <p class="hero-feature-text">실시간 업데이트되는<br>정확한 매물 정보</p>
+                    </div>
+                    <div class="hero-feature-card">
+                        <div class="hero-feature-icon">
+                            <i class="icon-2"></i>
+                        </div>
+                        <p class="hero-feature-text">비자·예산·옵션으로<br>쉽고 빠른 필터링</p>
+                    </div>
+                    <div class="hero-feature-card">
+                        <div class="hero-feature-icon">
+                            <i class="icon-3"></i>
+                        </div>
+                        <p class="hero-feature-text">외국인도 안심하고<br>이용할 수 있는 전문 상담 연결</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="how-it-works-title"><b>통합형 주거 플랫폼,</b> 일본 공간</h2>
+            <p class="how-it-works-description"><b></b>온라인에서 임차인·임대인·중개사를 자연스럽게 연결하고,<br>정확하고 편리하며 신뢰할 수 있는 주거 정보를 신속하게 제공합니다</p>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/">ilgong</a>
+                </div>
+                
+                <!-- <div class="footer-links">
+                    <a href="#terms">이용약관</a>
+                    <span class="divider">|</span>
+                    <a href="#privacy">개인정보처리방침</a>
+                    <span class="divider">|</span>
+                    <a href="#contact">문의하기</a>
+                </div> -->
+                
+                <div class="footer-info">
+                    <p>&copy; 2024 ilgong. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Systems (SPA 라우팅 및 보안) -->
+    <script src="core/obfuscator.js"></script>
+    <script src="core/router.js"></script>
+    <script src="core/app.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="main/main.js"></script>
+</body>
+</html>

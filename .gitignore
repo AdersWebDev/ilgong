@@ -1,0 +1,15 @@
+# 환경 변수 파일
+.env
+.env.local
+.env.*.local
+
+# 설정 파일 (API 키 포함)
+config.js
+
+# 로그 파일
+*.log
+
+# 운영체제 파일
+.DS_Store
+Thumbs.db
+

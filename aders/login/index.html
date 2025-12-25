@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>ADERS-PRO</title>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="../../assest/favicon.png" type="image/png"/>
+    <link rel="stylesheet" href="/main/style.css">
+    <link rel="stylesheet" href="/aders/login/login.css">
+</head>
+<body>
+<div id="loader"></div>
+<div id="alert-modal"></div>
+<ul id="select-box"></ul>
+<header>
+    <div class="logo-box">
+        <a href="/auth/login" style="font-size: 0"><img src="/asset/logo.png" alt=""></a>
+    </div>
+</header>
+<div class="login-section">
+    <div class="login-div">
+        <h1>관리자 로그인</h1>
+        <p class="md">ID</p>
+        <input id="id" class="input-box" type="text" placeholder="아이디를 입력하세요" autocomplete="off">
+        <p class="md">패스워드</p>
+        <div class="password-container">
+            <input id="pw" class="input-box" type="password" placeholder="비밀번호를 입력하세요" autocomplete="off">
+            <button id="togglePw" class="toggle-btn"></button>
+        </div>
+        <div class="login-btn-box">
+            <div class="login-btn" onclick="tryLogin()">로그인</div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+<script src="/aders/login/login.js"></script>
+<script>
+    const alertMessage = `[[${alertMessage}]]`;
+    if (alertMessage) {
+        showAlert(alertMessage);
+    }
+</script>
+</html>

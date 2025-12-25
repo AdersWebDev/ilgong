@@ -1,0 +1,1169 @@
+/* 전역 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    line-height: 1.6;
+}
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 14px 0 ;
+    border-bottom: 1px solid #DCDCDC;
+}
+.container {
+    max-width: 670px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 헤더 */
+
+
+.logo-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-ilgong {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0074E4;
+}
+
+.logo-separator {
+    font-size: 20px;
+    color: #333;
+}
+
+.logo-house {
+    height: 24px;
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 메인 타이틀 */
+.main-title {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #DADFEB;
+    margin-bottom: 40px;
+}
+
+.main-title h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #17171B;
+}
+
+.main-title .subtitle {
+    font-size: 30px;
+    color: #17171B;
+    margin-bottom: 15px;
+}
+
+.main-title .required-note {
+    font-size: 14px;
+    color: #17171B;
+    font-weight: bold;
+}
+
+/* 폼 스타일 */
+#housingForm {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* 이메일 & 비자 종류 한 줄 배치 */
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 12px;
+}
+
+/* 라벨 */
+label {
+    display: block;
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+/* 입력 필드 */
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #000000;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus {
+    outline: none;
+    border-color: #0074E4;
+}
+
+input::placeholder {
+    color: #999;
+}
+
+/* 지역 입력 컨테이너 */
+.region-input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.region-input-container input {
+    flex: 1;
+}
+
+/* 체크박스 그룹 */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+.checkbox-label.inline {
+    display: inline-flex;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #0074E4;
+}
+
+.checkbox-label span {
+    user-select: none;
+}
+
+/* 매물 타입 그룹 */
+.property-type-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.property-type-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.property-type-item > span:first-child {
+    min-width: 80px;
+    font-weight: 500;
+}
+
+/* 실내시설 그리드 */
+.facility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+/* 버튼 스타일 */
+.select-all-btn,
+.service-select-btn,
+.notification-btn {
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.select-all-btn:hover,
+.service-select-btn:hover,
+.notification-btn:hover {
+    background-color: #e8e8e8;
+    border-color: #ccc;
+}
+
+.select-all-btn {
+    white-space: nowrap;
+    min-width: 100px;
+}
+
+/* 제출 버튼 */
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #0064E4;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #0056c4;
+}
+
+.submit-btn:active {
+    background-color: #004aa8;
+}
+
+/* 개인정보 수집 이용 동의 섹션 */
+.privacy-agreement-section {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #DADFEB;
+}
+
+.privacy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.privacy-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+.required-asterisk {
+    color: #3D8BFF;
+}
+
+.privacy-detail-link {
+    font-size: 14px;
+    color: #666666;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.privacy-detail-link:hover {
+    color: #0074E4;
+    text-decoration: underline;
+}
+
+.privacy-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.privacy-checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.privacy-checkbox-label .checkbox-custom {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #666;
+    border-radius: 4px;
+    background-color: #ffffff;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.privacy-checkbox-label:hover .checkbox-custom {
+    border-color: #3D8BFF;
+}
+
+.privacy-checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+    background-color: #3D8BFF;
+    border-color: #3D8BFF;
+}
+
+.privacy-checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.privacy-checkbox-label .checkbox-text {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 400;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .main-title h1 {
+        font-size: 24px;
+    }
+
+    .main-title .subtitle {
+        font-size: 16px;
+    }
+
+    .logo-ilgong {
+        font-size: 20px;
+    }
+
+    .logo-house {
+        font-size: 16px;
+        padding: 3px 10px;
+    }
+
+    .facility-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .region-input-container {
+        flex-direction: column;
+    }
+
+    .select-all-btn {
+        width: 100%;
+    }
+
+    /* 모바일에서 이메일 & 비자 종류 세로 배치 */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .main-title h1 {
+        font-size: 20px;
+    }
+
+    .main-title .subtitle {
+        font-size: 14px;
+    }
+
+    .checkbox-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .property-type-group {
+        gap: 10px;
+    }
+
+    .facility-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .privacy-detail-link {
+        align-self: flex-end;
+    }
+
+    /* 모바일에서 이메일 & 비자 종류 세로 배치 */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        margin-bottom: 20px;
+    }
+}
+
+/* 접근성 */
+input[type="checkbox"]:focus {
+    outline: 2px solid #0074E4;
+    outline-offset: 2px;
+}
+
+
+/* 폼 검증 스타일 */
+input:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+}
+
+input:valid:not(:placeholder-shown) {
+    border-color: #28a745;
+}
+
+/* ========================================
+   Filter Styles (from map.html)
+======================================== */
+
+/* Toggle All Button */
+.toggle-all-btn {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.toggle-all-btn:hover {
+    background-color: #f5f5f5;
+}
+
+.toggle-all-btn.active {
+    background-color: #3D8BFF;
+    font-weight: bold;
+}
+
+/* Checkbox Grid & List */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.checkbox-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+/* Custom Checkbox with Custom Style */
+.checkbox-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox-custom {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #666;
+    border-radius: 4px;
+    background-color: #ffffff;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.checkbox-label:hover .checkbox-custom {
+    border-color: #3D8BFF;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+    background-color: #3D8BFF;
+    border-color: #3D8BFF;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-text {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 400;
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .checkbox-text {
+    font-weight: 500;
+}
+
+/* Price Range Selector */
+.price-range-selector {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.price-dropdown-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.price-dropdown-wrapper label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.price-separator {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Walking Time Selector */
+.walking-time-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.walking-time-label {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.walking-time-selector .custom-select {
+    flex: 0 0 auto;
+    min-width: 120px;
+}
+
+.walking-time-unit {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Custom Select Dropdown */
+.custom-select {
+    position: relative;
+}
+
+.select-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.select-button:hover {
+    background-color: #ffffff;
+    border-color: #999;
+}
+
+.select-button.active {
+    border-color: #3D8BFF;
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+.select-text {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.select-button i {
+    font-size: 12px;
+    color: #666;
+    transition: transform 0.3s;
+}
+
+.select-button.active i {
+    transform: rotate(180deg);
+}
+
+.select-dropdown {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    min-width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: none;
+}
+
+.select-dropdown.active {
+    display: block;
+}
+
+.select-dropdown li {
+    padding: 12px 15px;
+    font-size: 14px;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    list-style: none;
+}
+
+.select-dropdown li:hover {
+    background-color: #f5f5f5;
+}
+
+.select-dropdown li.selected {
+    background-color: rgba(255, 215, 0, 0.2);
+    font-weight: 500;
+}
+
+/* Building Age Filter */
+.building-age-filter {
+    margin-top: 15px;
+}
+
+.age-filter-display {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 20px;
+    min-height: 28px;
+}
+
+.age-slider {
+    position: relative;
+    padding: 20px 0;
+}
+
+.age-slider-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #e0e0e0;
+    transform: translateY(-50%);
+}
+
+.age-slider-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background-color: #3D8BFF;
+    transition: width 0.3s, left 0.3s;
+    z-index: 1;
+}
+
+.age-slider-points {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+.age-point {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #666;
+    border-radius: 50%;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.age-point:hover {
+    border-color: #3D8BFF;
+    transform: scale(1.1);
+}
+
+.age-point.active {
+    background-color: #3D8BFF;
+    border-color: #3D8BFF;
+    width: 24px;
+    height: 24px;
+}
+
+.age-point-label {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #000000;
+    white-space: nowrap;
+    font-weight: 400;
+}
+
+.age-point.active .age-point-label {
+    font-weight: 500;
+}
+
+/* Responsive Design for Filters */
+@media (max-width: 768px) {
+    .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .price-range-selector {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .price-separator {
+        display: none;
+    }
+    
+    .walking-time-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .walking-time-selector .custom-select {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   Confirm Modal
+======================================== */
+.confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.confirm-modal.active {
+    display: flex;
+}
+
+.confirm-modal .modal-content {
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 100%;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.confirm-message {
+    text-align: center;
+}
+
+.confirm-text {
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.confirm-question {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.confirm-modal .modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 16px 24px 24px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.modal-cancel-btn {
+    padding: 12px 24px;
+    background-color: #ffffff;
+    color: #666666;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.modal-cancel-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #999;
+    color: #000000;
+}
+
+.modal-confirm-btn {
+    padding: 12px 24px;
+    background-color: #3D8BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-confirm-btn:hover {
+    background-color: #2d7ae8;
+}
+
+.modal-confirm-btn:active {
+    background-color: #1d6ad8;
+}
+
+/* ========================================
+   Search Status Modal
+======================================== */
+.search-status-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.search-status-modal.active {
+    display: flex;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1;
+}
+
+.modal-content {
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 24px;
+    text-align: center;
+}
+
+.status-loader {
+    margin-bottom: 24px;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e0e0e0;
+    border-top-color: #3D8BFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.status-message {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 20px;
+    min-height: 24px;
+}
+
+.status-details {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 24px;
+    min-height: 20px;
+}
+
+.status-progress {
+    margin-top: 24px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #3D8BFF;
+    border-radius: 4px;
+    transition: width 0.5s ease-out;
+    width: 0%;
+}
+
+.progress-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666666;
+}
+
+.modal-footer {
+    padding: 16px 24px 24px;
+    border-top: 1px solid #e0e0e0;
+    display: none;
+    justify-content: center;
+}
+
+.modal-close-btn {
+    padding: 12px 32px;
+    background-color: #3D8BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-close-btn:hover {
+    background-color: #2d7ae8;
+}
+
+.modal-close-btn:active {
+    background-color: #1d6ad8;
+}
+
+/* 완료 상태 */
+.search-status-modal.completed .spinner {
+    border: 4px solid #28a745;
+    border-top-color: #28a745;
+    animation: none;
+    position: relative;
+}
+
+.search-status-modal.completed .spinner::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    color: #28a745;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.search-status-modal.completed .progress-fill {
+    background-color: #28a745;
+}
+
+/* 에러 상태 */
+.search-status-modal.error .spinner {
+    border: 4px solid #dc3545;
+    border-top-color: #dc3545;
+    animation: none;
+    position: relative;
+}
+
+.search-status-modal.error .spinner::after {
+    content: '✕';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    color: #dc3545;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.search-status-modal.error .progress-fill {
+    background-color: #dc3545;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+    .confirm-modal .modal-content,
+    .search-status-modal .modal-content {
+        max-width: 100%;
+        margin: 10px;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 20px;
+    }
+    
+    .modal-header h2 {
+        font-size: 18px;
+    }
+    
+    .status-message {
+        font-size: 14px;
+    }
+    
+    .confirm-text {
+        font-size: 14px;
+    }
+    
+    .confirm-question {
+        font-size: 16px;
+    }
+    
+    .confirm-modal .modal-footer {
+        flex-direction: column-reverse;
+    }
+    
+    .modal-cancel-btn,
+    .modal-confirm-btn {
+        width: 100%;
+    }
+}
