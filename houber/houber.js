@@ -3,188 +3,87 @@ function selectAllRegions() {
     alert('전체 지역이 선택되었습니다.');
 }
 
-// 폼 데이터 수집 및 백엔드 전송용 파라미터 생성
-function collectFormData() {
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:7',message:'collectFormData called',data:{timestamp:Date.now()},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
+// Custom Select에서 선택된 값 가져오기
+function getCustomSelectValue(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return null;
+    
+    const selectedLi = select.querySelector('.select-dropdown li.selected');
+    if (selectedLi && selectedLi.dataset.value) {
+        const value = selectedLi.dataset.value;
+        return value === '' ? null : parseInt(value);
+    }
+    
+    // selected 클래스가 없을 경우 select-text에서 값 추출
+    const selectText = select.querySelector('.select-text')?.textContent;
+    if (selectText && selectText !== '제한 없음') {
+        const allOptions = select.querySelectorAll('.select-dropdown li');
+        for (const li of allOptions) {
+            if (li.textContent.trim() === selectText.trim() && li.dataset.value) {
+                const value = li.dataset.value;
+                return value === '' ? null : parseInt(value);
+            }
+        }
+    }
+    
+    return null;
+}
 
+// 체크박스 그룹에서 선택된 값들 가져오기
+function getCheckedValues(name) {
+    const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+    return Array.from(checkboxes).map(cb => cb.value);
+}
+
+// 건물 축년 수 수집 (활성화된 연도 중 최소값)
+function getMinConstructionYear() {
+    const activeAgePoints = document.querySelectorAll('.age-point.active:not([data-year="all"])');
+    if (activeAgePoints.length === 0) return null;
+    
+    const years = Array.from(activeAgePoints)
+        .map(point => parseInt(point.dataset.year))
+        .filter(year => !isNaN(year));
+    
+    return years.length > 0 ? Math.min(...years) : null;
+}
+
+// 폼 데이터 수집
+function collectFormData() {
     const formData = {
-        // 기본 정보
-        email: document.getElementById('email').value.trim(),
-        visaType: document.getElementById('propertyLocation').value,
+        // 필수 필드
+        email: document.getElementById('email')?.value.trim() || '',
+        visaType: document.getElementById('propertyLocation')?.value || '',
         
         // 가격 범위
-        minPrice: null,
-        maxPrice: null,
+        minPrice: getCustomSelectValue('minPriceSelect'),
+        maxPrice: getCustomSelectValue('maxPriceSelect'),
         
         // 방 타입
-        roomTypes: [],
+        roomTypes: getCheckedValues('roomType'),
         
         // 건물 구조 타입
-        structureTypes: [],
+        structureTypes: getCheckedValues('structureType'),
         
-        // 건물 축년 수 (최소 연도만 전송)
-        minConstructionYear: null,
+        // 건물 축년 수
+        minConstructionYear: getMinConstructionYear(),
         
         // 희망 지역
-        locationTypes: [],
-        
-        // 많이 찾는 옵션
-        popularOptions: [],
-        
-        // 건물 옵션
-        buildingOptions: [],
+        locationTypes: getCheckedValues('locationType'),
         
         // 역까지 최대 소요 시간
-        maxWalkingTime: null
+        maxWalkingTime: getCustomSelectValue('walkingTimeSelect'),
+        
+        // 많이 찾는 옵션
+        popularOptions: getCheckedValues('popularOptions'),
+        
+        // 건물 옵션
+        buildingOptions: getCheckedValues('buildingOptions')
     };
-
-    // 가격 범위 수집
-    const minPriceSelect = document.getElementById('minPriceSelect');
-    const maxPriceSelect = document.getElementById('maxPriceSelect');
     
-    // #region agent log
-    const minPriceText = minPriceSelect?.querySelector('.select-text')?.textContent || 'not found';
-    const maxPriceText = maxPriceSelect?.querySelector('.select-text')?.textContent || 'not found';
-    const minPriceSelected = minPriceSelect?.querySelector('.select-dropdown li.selected');
-    const maxPriceSelected = maxPriceSelect?.querySelector('.select-dropdown li.selected');
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:44',message:'Price select state',data:{minPriceText,maxPriceText,minPriceSelected:!!minPriceSelected,maxPriceSelected:!!maxPriceSelected,minPriceValue:minPriceSelected?.dataset.value,maxPriceValue:maxPriceSelected?.dataset.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
-    
-    if (minPriceSelect) {
-        const minPriceLi = minPriceSelect.querySelector('.select-dropdown li.selected');
-        if (minPriceLi && minPriceLi.dataset.value) {
-            formData.minPrice = parseInt(minPriceLi.dataset.value);
-        } else {
-            // selected 클래스가 없을 경우 select-text에서 값 추출 시도
-            const minPriceText = minPriceSelect.querySelector('.select-text')?.textContent;
-            if (minPriceText && minPriceText !== '제한 없음') {
-                const allOptions = minPriceSelect.querySelectorAll('.select-dropdown li');
-                for (const li of allOptions) {
-                    if (li.textContent.trim() === minPriceText.trim()) {
-                        formData.minPrice = parseInt(li.dataset.value);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    
-    if (maxPriceSelect) {
-        const maxPriceLi = maxPriceSelect.querySelector('.select-dropdown li.selected');
-        if (maxPriceLi && maxPriceLi.dataset.value) {
-            formData.maxPrice = parseInt(maxPriceLi.dataset.value);
-        } else {
-            // selected 클래스가 없을 경우 select-text에서 값 추출 시도
-            const maxPriceText = maxPriceSelect.querySelector('.select-text')?.textContent;
-            if (maxPriceText && maxPriceText !== '제한 없음') {
-                const allOptions = maxPriceSelect.querySelectorAll('.select-dropdown li');
-                for (const li of allOptions) {
-                    if (li.textContent.trim() === maxPriceText.trim()) {
-                        formData.maxPrice = parseInt(li.dataset.value);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    // 방 타입 수집
-    const roomTypeCheckboxes = document.querySelectorAll('input[name="roomType"]:checked');
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:78',message:'Room types collection',data:{checkedCount:roomTypeCheckboxes.length,values:Array.from(roomTypeCheckboxes).map(cb=>cb.value)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
-    roomTypeCheckboxes.forEach(cb => {
-        formData.roomTypes.push(cb.value);
-    });
-
-    // 건물 구조 타입 수집
-    const structureTypeCheckboxes = document.querySelectorAll('input[name="structureType"]:checked');
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:87',message:'Structure types collection',data:{checkedCount:structureTypeCheckboxes.length,values:Array.from(structureTypeCheckboxes).map(cb=>cb.value)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
-    structureTypeCheckboxes.forEach(cb => {
-        formData.structureTypes.push(cb.value);
-    });
-
-    // 건물 축년 수 수집 (최소 연도만)
-    const activeAgePoints = document.querySelectorAll('.age-point.active:not([data-year="all"])');
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:95',message:'Building age points',data:{activeCount:activeAgePoints.length,years:Array.from(activeAgePoints).map(p=>p.dataset.year)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-    // #endregion
-    const buildingAgeYears = [];
-    activeAgePoints.forEach(point => {
-        const year = parseInt(point.dataset.year);
-        if (year) {
-            buildingAgeYears.push(year);
-        }
-    });
-    if (buildingAgeYears.length > 0) {
-        formData.minConstructionYear = Math.min(...buildingAgeYears);
-    }
-
-    // 희망 지역 수집
-    const locationTypeCheckboxes = document.querySelectorAll('input[name="locationType"]:checked');
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:110',message:'Location types collection',data:{checkedCount:locationTypeCheckboxes.length,values:Array.from(locationTypeCheckboxes).map(cb=>cb.value)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
-    locationTypeCheckboxes.forEach(cb => {
-        formData.locationTypes.push(cb.value);
-    });
-
-    // 많이 찾는 옵션 수집
-    const popularOptionsCheckboxes = document.querySelectorAll('input[name="popularOptions"]:checked');
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:118',message:'Popular options collection',data:{checkedCount:popularOptionsCheckboxes.length,values:Array.from(popularOptionsCheckboxes).map(cb=>cb.value)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
-    popularOptionsCheckboxes.forEach(cb => {
-        formData.popularOptions.push(cb.value);
-    });
-
-    // 건물 옵션 수집
-    const buildingOptionsCheckboxes = document.querySelectorAll('input[name="buildingOptions"]:checked');
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:126',message:'Building options collection',data:{checkedCount:buildingOptionsCheckboxes.length,values:Array.from(buildingOptionsCheckboxes).map(cb=>cb.value)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
-    buildingOptionsCheckboxes.forEach(cb => {
-        formData.buildingOptions.push(cb.value);
-    });
-
-    // 역까지 최대 소요 시간 수집
-    const walkingTimeSelect = document.getElementById('walkingTimeSelect');
-    // #region agent log
-    const walkingTimeText = walkingTimeSelect?.querySelector('.select-text')?.textContent || 'not found';
-    const walkingTimeSelected = walkingTimeSelect?.querySelector('.select-dropdown li.selected');
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:135',message:'Walking time select state',data:{walkingTimeText,walkingTimeSelected:!!walkingTimeSelected,walkingTimeValue:walkingTimeSelected?.dataset.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
-    if (walkingTimeSelect) {
-        const walkingTimeLi = walkingTimeSelect.querySelector('.select-dropdown li.selected');
-        if (walkingTimeLi && walkingTimeLi.dataset.value) {
-            formData.maxWalkingTime = parseInt(walkingTimeLi.dataset.value);
-        } else {
-            // selected 클래스가 없을 경우 select-text에서 값 추출 시도
-            const walkingTimeText = walkingTimeSelect.querySelector('.select-text')?.textContent;
-            if (walkingTimeText && walkingTimeText !== '제한 없음') {
-                const allOptions = walkingTimeSelect.querySelectorAll('.select-dropdown li');
-                for (const li of allOptions) {
-                    if (li.textContent.trim() === walkingTimeText.trim()) {
-                        formData.maxWalkingTime = parseInt(li.dataset.value);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/fe271648-e152-4df7-81d5-741f73daf5dc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'houber.js:152',message:'collectFormData result',data:{formData},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-    // #endregion
-
     return formData;
 }
 
-// 백엔드 전송용 파라미터 정리 (빈 값 제거)
+// 백엔드 전송용 파라미터 생성 (빈 값 제거)
 function prepareBackendParams(formData) {
     const params = {};
     
@@ -193,8 +92,9 @@ function prepareBackendParams(formData) {
         params.email = formData.email;
     }
     
-    if (formData.visaType && formData.visaType !== '선택 필수') {
-        params.visaType = formData.visaType;
+    // 비자 종류 - 숫자형으로 변환
+    if (formData.visaType) {
+        params.visaType = parseInt(formData.visaType);
     }
     
     // 가격 범위
@@ -221,42 +121,39 @@ function prepareBackendParams(formData) {
         params.minConstructionYear = formData.minConstructionYear;
     }
     
-    // 희망 지역
+    // 희망 지역 - 숫자형 배열로 변환
     if (formData.locationTypes.length > 0) {
-        params.locationTypes = formData.locationTypes;
-    }
-    
-    // 많이 찾는 옵션
-    if (formData.popularOptions.length > 0) {
-        params.popularOptions = formData.popularOptions;
-    }
-    
-    // 건물 옵션
-    if (formData.buildingOptions.length > 0) {
-        params.buildingOptions = formData.buildingOptions;
+        params.locationTypes = formData.locationTypes.map(val => parseInt(val));
     }
     
     // 역까지 최대 소요 시간
-    if (formData.maxWalkingTime !== null && formData.maxWalkingTime !== undefined) {
+    if (formData.maxWalkingTime !== null) {
         params.maxWalkingTime = formData.maxWalkingTime;
+    }
+    
+    // 많이 찾는 옵션 - 숫자형 배열로 변환
+    if (formData.popularOptions.length > 0) {
+        params.popularOptions = formData.popularOptions.map(val => parseInt(val));
+    }
+    
+    // 건물 옵션 - 숫자형 배열로 변환
+    if (formData.buildingOptions.length > 0) {
+        params.buildingOptions = formData.buildingOptions.map(val => parseInt(val));
     }
     
     return params;
 }
 
-// 백엔드로 데이터 전송 시뮬레이션
+// 백엔드로 데이터 전송
 async function sendToBackend(params) {
-    // 실제 백엔드 엔드포인트 (준비되면 사용)
-    const API_ENDPOINT = '/api/housing/search';
+    const API_ENDPOINT = 'http://localhost:40011/agent/houber';
     
-    console.log('=== 백엔드 전송 시뮬레이션 ===');
+    console.log('=== 백엔드 전송 ===');
     console.log('엔드포인트:', API_ENDPOINT);
     console.log('전송 파라미터:', JSON.stringify(params, null, 2));
     console.log('전송 방법: POST');
     console.log('Content-Type: application/json');
     
-    // 실제 전송 코드 (주석 처리 - 백엔드 준비되면 활성화)
-    /*
     try {
         const response = await fetch(API_ENDPOINT, {
             method: 'POST',
@@ -271,27 +168,13 @@ async function sendToBackend(params) {
         }
         
         const data = await response.json();
+        console.log('=== 백엔드 응답 ===');
+        console.log(JSON.stringify(data, null, 2));
         return data;
     } catch (error) {
         console.error('백엔드 전송 오류:', error);
         throw error;
     }
-    */
-    
-    // 시뮬레이션: 성공 응답 (requestId 반환)
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const mockResponse = {
-                success: true,
-                message: '검색 요청이 성공적으로 전송되었습니다.',
-                requestId: `req_${Date.now()}`,
-                timestamp: new Date().toISOString()
-            };
-            console.log('=== 백엔드 응답 (시뮬레이션) ===');
-            console.log(JSON.stringify(mockResponse, null, 2));
-            resolve(mockResponse);
-        }, 500); // 0.5초 지연으로 실제 전송처럼 보이게
-    });
 }
 
 // ========================================
@@ -309,37 +192,6 @@ async function checkSearchStatus(requestId) {
     console.log('엔드포인트:', STATUS_ENDPOINT);
     console.log('Request ID:', requestId);
     
-    // 실제 API 호출 코드 (백엔드 준비되면 활성화)
-    /*
-    try {
-        const response = await fetch(STATUS_ENDPOINT, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        // 백엔드 응답 형식 예상: { flow: 10, email: "user@example.com", ... }
-        return {
-            requestId: requestId,
-            flow: data.flow, // 백엔드에서 받은 flow 넘버
-            email: data.email, // 이메일 (80일 때 표시용)
-            status: data.flow === 100 ? 'completed' : (data.flow === -1 ? 'failed' : 'processing'),
-            progress: data.flow === -1 ? 0 : Math.max(0, Math.min(100, data.flow)),
-            message: getStatusMessageByFlow(data.flow),
-            details: getStatusDetailsByFlow(data.flow, data.email),
-            timestamp: new Date().toISOString()
-        };
-    } catch (error) {
-        console.error('상태 확인 오류:', error);
-        throw error;
-    }
-    */
     
     // 시뮬레이션: 상태 응답 (테스트용 - flow 넘버 시뮬레이션)
     return new Promise((resolve) => {
@@ -573,36 +425,164 @@ function updateStatusModal(statusData) {
     }
 }
 
+// 이메일 필드 검증
+function validateEmail(showErrorOnEmpty = false) {
+    const emailField = document.getElementById('email');
+    const emailAsterisk = document.getElementById('emailAsterisk');
+    if (!emailField) return false;
+    
+    const email = emailField.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // 클래스 제거 (초기 상태로 복원)
+    emailField.classList.remove('error', 'valid');
+    if (emailAsterisk) {
+        emailAsterisk.classList.remove('error', 'valid');
+    }
+    
+    // 빈 값 처리
+    if (!email) {
+        if (showErrorOnEmpty) {
+            emailField.classList.add('error');
+            if (emailAsterisk) {
+                emailAsterisk.classList.add('error');
+            }
+        }
+        return false;
+    }
+    
+    // 이메일 형식 검증
+    if (!emailRegex.test(email)) {
+        emailField.classList.add('error');
+        if (emailAsterisk) {
+            emailAsterisk.classList.add('error');
+        }
+        return false;
+    }
+    
+    // 검증 성공
+    emailField.classList.add('valid');
+    if (emailAsterisk) {
+        emailAsterisk.classList.add('valid');
+    }
+    return true;
+}
+
+// 비자 종류 필드 검증
+function validateVisaType(showErrorOnEmpty = false) {
+    const visaField = document.getElementById('propertyLocation');
+    const visaAsterisk = document.getElementById('visaAsterisk');
+    if (!visaField) return false;
+    
+    const value = visaField.value;
+    
+    // 클래스 제거 (초기 상태로 복원)
+    visaField.classList.remove('error', 'valid');
+    if (visaAsterisk) {
+        visaAsterisk.classList.remove('error', 'valid');
+    }
+    
+    // 빈 값 처리
+    if (!value || value === '') {
+        if (showErrorOnEmpty) {
+            visaField.classList.add('error');
+            if (visaAsterisk) {
+                visaAsterisk.classList.add('error');
+            }
+        }
+        return false;
+    }
+    
+    // 검증 성공
+    visaField.classList.add('valid');
+    if (visaAsterisk) {
+        visaAsterisk.classList.add('valid');
+    }
+    return true;
+}
+
 // 폼 검증
 function validateForm() {
     const email = document.getElementById('email').value.trim();
     const propertyLocation = document.getElementById('propertyLocation').value;
+    
+    let isValid = true;
 
-    if (!email) {
-        alert('이메일을 입력해주세요.');
-        return false;
+    // 이메일 검증 (제출 시에는 빈 값일 때도 에러 표시)
+    if (!validateEmail(true)) {
+        isValid = false;
+        if (!email) {
+            alert('이메일을 입력해주세요.');
+        } else {
+            alert('올바른 이메일 형식을 입력해주세요.');
+        }
     }
 
-    // 이메일 형식 검증
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('올바른 이메일 형식을 입력해주세요.');
-        return false;
-    }
-
-    if (!propertyLocation || propertyLocation === '선택 필수') {
-        alert('비자 종류를 선택해주세요.');
-        return false;
+    // 비자 종류 검증 (제출 시에는 빈 값일 때도 에러 표시)
+    if (!validateVisaType(true)) {
+        isValid = false;
+        if (!propertyLocation || propertyLocation === '') {
+            alert('비자 종류를 선택해주세요.');
+        }
     }
 
     // 개인정보 수집 이용 동의 검증
     const privacyAgreement = document.getElementById('privacyAgreement');
+    const privacyAgreementSection = document.getElementById('privacyAgreementSection');
+    const privacyValidationMessage = document.getElementById('privacyValidationMessage');
+    const privacyCheckboxLabel = privacyAgreement?.closest('.privacy-checkbox-label');
+    
     if (!privacyAgreement || !privacyAgreement.checked) {
-        alert('개인정보 수집 이용 동의에 체크해주세요.');
-        return false;
+        isValid = false;
+        
+        // 체크박스에 에러 클래스 추가
+        if (privacyCheckboxLabel) {
+            privacyCheckboxLabel.classList.add('error');
+        }
+        
+        // 해당 섹션으로 스크롤
+        if (privacyAgreementSection) {
+            privacyAgreementSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // 약간의 지연 후 포커스 효과
+            setTimeout(() => {
+                privacyAgreementSection.style.outline = '2px solid #dc3545';
+                privacyAgreementSection.style.outlineOffset = '4px';
+                privacyAgreementSection.style.borderRadius = '4px';
+                
+                // 3초 후 outline 제거
+                setTimeout(() => {
+                    privacyAgreementSection.style.outline = '';
+                    privacyAgreementSection.style.outlineOffset = '';
+                }, 3000);
+            }, 100);
+        }
+        
+        // 검증 메시지 표시
+        if (privacyValidationMessage) {
+            privacyValidationMessage.style.display = 'block';
+        }
+        
+        // 체크박스에 포커스 (접근성)
+        if (privacyAgreement) {
+            privacyAgreement.focus();
+        }
+    } else {
+        // 체크되어 있으면 에러 클래스 제거
+        if (privacyCheckboxLabel) {
+            privacyCheckboxLabel.classList.remove('error');
+        }
+        // 체크되어 있으면 메시지 숨기기
+        if (privacyValidationMessage) {
+            privacyValidationMessage.style.display = 'none';
+        }
+        if (privacyAgreementSection) {
+            privacyAgreementSection.style.outline = '';
+            privacyAgreementSection.style.outlineOffset = '';
+        }
     }
 
-    return true;
+    return isValid;
 }
 
 // 실제 검색 요청 처리 함수
@@ -850,10 +830,6 @@ function initializeBuildingAgeFilter() {
         return;
     }
     
-    // 연도 순서 (인덱스 순서)
-    const yearOrder = ['all', '1990', '2000', '2010', '2020'];
-    let buildingAgeYears = [];
-    
     // 초기 상태 설정 - 전체 버튼 활성화
     const allPoint = document.querySelector('.age-point[data-year="all"]');
     if (allPoint) {
@@ -864,82 +840,32 @@ function initializeBuildingAgeFilter() {
     agePoints.forEach(point => {
         point.addEventListener('click', (e) => {
             e.stopPropagation();
-            const year = point.dataset.year;
-            const index = parseInt(point.dataset.index);
+            const clickedIndex = parseInt(point.dataset.index);
+            const clickedYear = point.dataset.year;
             
-            if (year === 'all') {
-                // 전체를 클릭하면 모든 연도 해제
-                buildingAgeYears = [];
+            // "전체" 버튼 클릭 시 모든 버튼 off
+            if (clickedYear === 'all') {
                 agePoints.forEach(p => {
-                    if (p.dataset.year !== 'all') {
-                        p.classList.remove('active');
-                    }
+                    p.classList.remove('active');
                 });
-                // 전체 버튼 활성화
                 point.classList.add('active');
             } else {
-                const yearNum = parseInt(year);
-                const isActive = point.classList.contains('active');
-                
-                if (isActive) {
-                    // 이미 선택된 연도를 다시 클릭하면 해당 연도와 그 이상의 모든 연도 해제
-                    const yearsToRemove = [];
-                    for (let i = index; i < yearOrder.length; i++) {
-                        if (yearOrder[i] !== 'all') {
-                            const y = parseInt(yearOrder[i]);
-                            yearsToRemove.push(y);
-                            const correspondingPoint = document.querySelector(`.age-point[data-year="${yearOrder[i]}"]`);
-                            if (correspondingPoint) {
-                                correspondingPoint.classList.remove('active');
-                            }
-                        }
-                    }
-                    buildingAgeYears = buildingAgeYears.filter(y => !yearsToRemove.includes(y));
-                } else {
-                    // 선택되지 않은 연도를 클릭할 때
-                    if (buildingAgeYears.length > 0) {
-                        // 이미 선택된 연도가 있으면, 가장 작은 연도부터 클릭한 연도까지 모두 선택
-                        const minSelectedYear = Math.min(...buildingAgeYears);
-                        const minSelectedIndex = yearOrder.indexOf(minSelectedYear.toString());
-                        
-                        const selectedYears = [];
-                        for (let i = minSelectedIndex; i <= index; i++) {
-                            if (yearOrder[i] !== 'all') {
-                                const y = parseInt(yearOrder[i]);
-                                selectedYears.push(y);
-                                const correspondingPoint = document.querySelector(`.age-point[data-year="${yearOrder[i]}"]`);
-                                if (correspondingPoint) {
-                                    correspondingPoint.classList.add('active');
-                                }
-                            }
-                        }
-                        buildingAgeYears = [...new Set([...buildingAgeYears, ...selectedYears])].sort((a, b) => a - b);
-                    } else {
-                        // 선택된 연도가 없으면, 클릭한 연도 이상의 모든 연도 선택
-                        point.classList.add('active');
-                        
-                        const selectedYears = [];
-                        for (let i = index; i < yearOrder.length; i++) {
-                            if (yearOrder[i] !== 'all') {
-                                const y = parseInt(yearOrder[i]);
-                                selectedYears.push(y);
-                                const correspondingPoint = document.querySelector(`.age-point[data-year="${yearOrder[i]}"]`);
-                                if (correspondingPoint) {
-                                    correspondingPoint.classList.add('active');
-                                }
-                            }
-                        }
-                        buildingAgeYears = [...new Set([...buildingAgeYears, ...selectedYears])].sort((a, b) => a - b);
-                    }
+                // "전체" 버튼 off
+                const allPoint = document.querySelector('.age-point[data-year="all"]');
+                if (allPoint) {
+                    allPoint.classList.remove('active');
                 }
-            }
-            
-            // 전체 버튼 상태 업데이트
-            const allPoint = document.querySelector('.age-point[data-year="all"]');
-            if (buildingAgeYears.length === 0) {
-                if (allPoint) allPoint.classList.add('active');
-            } else {
-                if (allPoint) allPoint.classList.remove('active');
+                
+                // 클릭한 버튼 기준으로 좌측은 off, 우측은 on
+                agePoints.forEach((p, idx) => {
+                    if (idx < clickedIndex) {
+                        // 좌측: off
+                        p.classList.remove('active');
+                    } else if (idx >= clickedIndex) {
+                        // 우측(클릭한 버튼 포함): on
+                        p.classList.add('active');
+                    }
+                });
             }
             
             updateBuildingAgeSlider();
@@ -949,31 +875,51 @@ function initializeBuildingAgeFilter() {
     function updateBuildingAgeSlider() {
         if (!ageSliderLine) return;
         
-        if (buildingAgeYears.length === 0) {
+        // 활성화된 연도 버튼 찾기 (전체 제외)
+        const activeYearPoints = Array.from(agePoints).filter(p => {
+            return p.classList.contains('active') && p.dataset.year !== 'all';
+        });
+        
+        if (activeYearPoints.length === 0) {
             ageSliderLine.style.width = '0%';
             ageSliderLine.style.left = '0%';
             return;
         }
         
+        // 연도 순서에 따라 정렬
         const yearOrder = ['1990', '2000', '2010', '2020'];
-        const minYear = Math.min(...buildingAgeYears).toString();
-        const maxYear = Math.max(...buildingAgeYears).toString();
+        activeYearPoints.sort((a, b) => {
+            const indexA = yearOrder.indexOf(a.dataset.year);
+            const indexB = yearOrder.indexOf(b.dataset.year);
+            return indexA - indexB;
+        });
         
-        const minIndex = yearOrder.indexOf(minYear);
-        const maxIndex = yearOrder.indexOf(maxYear);
-        
-        if (minIndex >= 0 && maxIndex >= 0) {
-            const totalPoints = yearOrder.length;
-            const leftPercent = (minIndex / (totalPoints - 1)) * 100;
-            const widthPercent = ((maxIndex - minIndex) / (totalPoints - 1)) * 100;
-            
-            ageSliderLine.style.left = `${leftPercent}%`;
-            ageSliderLine.style.width = `${widthPercent}%`;
-        } else {
-            // 인덱스를 찾을 수 없는 경우 기본값 설정
+        if (activeYearPoints.length === 0) {
             ageSliderLine.style.width = '0%';
             ageSliderLine.style.left = '0%';
+            return;
         }
+        
+        // 첫 번째와 마지막 활성화된 점의 실제 위치 가져오기
+        const firstPoint = activeYearPoints[0];
+        const lastPoint = activeYearPoints[activeYearPoints.length - 1];
+        
+        const track = ageSliderLine.parentElement;
+        const trackRect = track.getBoundingClientRect();
+        const firstPointRect = firstPoint.getBoundingClientRect();
+        const lastPointRect = lastPoint.getBoundingClientRect();
+        
+        // 점의 중심 위치 계산 (점의 너비가 24px이므로 중심은 12px)
+        const pointCenterOffset = 12; // 24px / 2
+        const firstPointCenter = firstPointRect.left - trackRect.left + pointCenterOffset;
+        const lastPointCenter = lastPointRect.left - trackRect.left + pointCenterOffset;
+        
+        // 라인의 시작 위치와 너비 계산
+        const left = firstPointCenter;
+        const width = lastPointCenter - firstPointCenter;
+        
+        ageSliderLine.style.left = `${left}px`;
+        ageSliderLine.style.width = `${width}px`;
     }
 }
 
@@ -1098,10 +1044,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     // 저장된 데이터 불러오기 (선택사항)
-    const savedData = localStorage.getItem('housingFormData');
-    if (savedData) {
-        console.log('저장된 데이터:', JSON.parse(savedData));
-    }
+    // const savedData = localStorage.getItem('housingFormData');
+    // if (savedData) {
+    //     console.log('저장된 데이터:', JSON.parse(savedData));
+    // }
 
     // 체크박스 그룹 설정
     setupCheckboxGroups();
@@ -1114,11 +1060,72 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 개인정보 처리방침 상세보기 링크
     const privacyDetailLink = document.getElementById('privacyDetailLink');
+    const privacyModal = document.getElementById('privacyModal');
+    const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
+    const privacyBackdrop = privacyModal?.querySelector('.modal-backdrop');
+    
+    function showPrivacyModal() {
+        if (privacyModal) {
+            privacyModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    function hidePrivacyModal() {
+        if (privacyModal) {
+            privacyModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+    
     if (privacyDetailLink) {
         privacyDetailLink.addEventListener('click', function(e) {
             e.preventDefault();
-            // TODO: 개인정보 처리방침 모달 또는 페이지로 이동
-            alert('개인정보 처리방침 상세 내용을 표시합니다.');
+            showPrivacyModal();
+        });
+    }
+    
+    if (privacyModalCloseBtn) {
+        privacyModalCloseBtn.addEventListener('click', function() {
+            hidePrivacyModal();
+        });
+    }
+    
+    if (privacyBackdrop) {
+        privacyBackdrop.addEventListener('click', function() {
+            hidePrivacyModal();
+        });
+    }
+    
+    // ESC 키로 모달 닫기
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && privacyModal && privacyModal.classList.contains('active')) {
+            hidePrivacyModal();
+        }
+    });
+
+    // 개인정보 수집 이용 동의 체크박스 이벤트
+    const privacyAgreement = document.getElementById('privacyAgreement');
+    const privacyValidationMessage = document.getElementById('privacyValidationMessage');
+    const privacyAgreementSection = document.getElementById('privacyAgreementSection');
+    const privacyCheckboxLabel = privacyAgreement?.closest('.privacy-checkbox-label');
+    
+    if (privacyAgreement) {
+        privacyAgreement.addEventListener('change', function() {
+            if (this.checked) {
+                // 체크되면 에러 클래스 제거
+                if (privacyCheckboxLabel) {
+                    privacyCheckboxLabel.classList.remove('error');
+                }
+                // 체크되면 메시지 숨기기
+                if (privacyValidationMessage) {
+                    privacyValidationMessage.style.display = 'none';
+                }
+                if (privacyAgreementSection) {
+                    privacyAgreementSection.style.outline = '';
+                    privacyAgreementSection.style.outlineOffset = '';
+                }
+            }
         });
     }
 
@@ -1145,15 +1152,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 폼 유효성 검사 실시간 피드백
+    // 이메일 필드 실시간 검증
     const emailField = document.getElementById('email');
+    const emailAsterisk = document.getElementById('emailAsterisk');
     if (emailField) {
+        // input 이벤트: 입력 중 실시간 검증 (값이 있을 때만)
         emailField.addEventListener('input', function() {
-            if (this.value && !this.value.includes('@')) {
-                this.setCustomValidity('올바른 이메일 형식을 입력해주세요.');
+            if (this.value.trim()) {
+                validateEmail();
             } else {
-                this.setCustomValidity('');
+                // 빈 값이면 클래스 제거하여 기본 상태로
+                this.classList.remove('error', 'valid');
+                if (emailAsterisk) {
+                    emailAsterisk.classList.remove('error', 'valid');
+                }
             }
+        });
+        
+        // blur 이벤트: 포커스 잃을 때 검증
+        emailField.addEventListener('blur', function() {
+            validateEmail();
+        });
+    }
+    
+    // 비자 종류 필드 실시간 검증
+    const visaField = document.getElementById('propertyLocation');
+    if (visaField) {
+        // change 이벤트: 선택 변경 시 검증
+        visaField.addEventListener('change', function() {
+            validateVisaType();
         });
     }
 });
