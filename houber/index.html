@@ -79,13 +79,13 @@
                             </button>
                             <ul class="select-dropdown">
                                 <li data-value="">제한 없음</li>
-                                <li data-value="40000">4만엔</li>
-                                <li data-value="50000">5만엔</li>
-                                <li data-value="60000">6만엔</li>
-                                <li data-value="70000">7만엔</li>
-                                <li data-value="80000">8만엔</li>
-                                <li data-value="90000">9만엔</li>
-                                <li data-value="100000">10만엔</li>
+                                <li data-value="49999">4만엔</li>
+                                <li data-value="59999">5만엔</li>
+                                <li data-value="69999">6만엔</li>
+                                <li data-value="79999">7만엔</li>
+                                <li data-value="89999">8만엔</li>
+                                <li data-value="9999">9만엔</li>
+                                <li data-value="199999">10만엔</li>
                             </ul>
                         </div>
                     </div>
@@ -156,17 +156,17 @@
                 <button type="button" class="toggle-all-btn" data-group="structureType">전체</button>
                 <div class="checkbox-list">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="structureType" value="concrete">
+                        <input type="checkbox" name="structureType" value="CONCRETE">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">철근·콘크리트 계열</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="structureType" value="steel">
+                        <input type="checkbox" name="structureType" value="STEEL">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">철골 계열</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="structureType" value="other">
+                        <input type="checkbox" name="structureType" value="OTHER">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">기타 계열(목조 등)</span>
                     </label>
@@ -214,7 +214,7 @@
                         <span class="checkbox-text">고노하나구</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="locationType" value="27101">
+                        <input type="checkbox" name="locationType" value="27127">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">기타구</span>
                     </label>
@@ -264,14 +264,19 @@
                         <span class="checkbox-text">스미요시구</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="locationType" value="27117">
+                        <input type="checkbox" name="locationType" value="27124">
                         <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">아사히구</span>
+                        <span class="checkbox-text">쓰루미구</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" name="locationType" value="27119">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">아베노구</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="locationType" value="27117">
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">아사히구</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" name="locationType" value="27123">
@@ -284,24 +289,24 @@
                         <span class="checkbox-text">이쿠노구</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="locationType" value="27128">
-                        <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">주오구</span>
-                    </label>
-                    <label class="checkbox-label">
                         <input type="checkbox" name="locationType" value="27118">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">조토구</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" name="locationType" value="27124">
+                        <input type="checkbox" name="locationType" value="27128">
                         <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">쓰루미구</span>
+                        <span class="checkbox-text">주오구</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" name="locationType" value="27109">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">텐노지구</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="locationType" value="27103">
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">후쿠시마구</span>
                     </label>
                     <label class="checkbox-label">
                         <input type="checkbox" name="locationType" value="27115">
@@ -323,20 +328,15 @@
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">히라노구</span>
                     </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="locationType" value="27103">
-                        <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">후쿠시마구</span>
-                    </label>
                 </div>
             </div>
-            <!-- 8. 역까지 최대 소요시간 -->
+            <!-- 10. 역까지 최대 소요시간 -->
             <div class="form-section">
                 <h3>역까지 최대 소요 시간</h3>
                 <div class="walking-time-selector">
-                    <label class="walking-time-label" style="margin-bottom: 0;">역까지 도보로 최대</label>
-                    <div class="custom-select" id="walkingTimeSelect" style="min-width: 100px;">
-                        <button class="select-button" type="button" style="justify-content: center; gap: 8px; padding: 9px 14px;">
+                    <label class="walking-time-label">역까지 도보로 최대</label>
+                    <div class="custom-select" id="walkingTimeSelect">
+                        <button class="select-button" type="button" style="width: 104px; max-height: 40px;">
                             <span class="select-text">제한 없음</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
@@ -353,8 +353,7 @@
                     <span class="walking-time-unit">분 이내</span>
                 </div>
             </div>
-            
-            <!-- 9. 많이 찾는 옵션 -->
+            <!-- 8. 많이 찾는 옵션 -->
             <div class="form-section">
                 <h3>많이 찾는 옵션</h3>
                 <div class="checkbox-grid">
@@ -376,10 +375,9 @@
                 </div>
             </div>
 
-            <!-- 10. 건물 옵션 -->
+            <!-- 9. 건물 옵션 -->
             <div class="form-section">
                 <h3>건물 옵션</h3>
-                <button type="button" class="toggle-all-btn" data-group="buildingOptions">전체</button>
                 <div class="checkbox-grid">
                     <label class="checkbox-label">
                         <input type="checkbox" name="buildingOptions" value="114">
@@ -420,7 +418,7 @@
             </div>
 
             <!-- 개인정보 수집 이용 동의 -->
-            <div class="privacy-agreement-section" id="privacyAgreementSection">
+            <div class="privacy-agreement-section">
                 <div class="privacy-header">
                     <h3 class="privacy-title">개인정보 수집 이용 동의 <span class="required-asterisk">*</span></h3>
                     <a href="#" class="privacy-detail-link" id="privacyDetailLink">상세보기 ></a>
@@ -430,7 +428,6 @@
                     <span class="checkbox-custom"></span>
                     <span class="checkbox-text">개인정보 처리방침을 확인하였으며 이에 동의합니다.</span>
                 </label>
-                <div class="validation-message" id="privacyValidationMessage" style="display: none; color: #dc3545; font-size: 14px; margin-top: 8px;">항목을 선택하세요</div>
             </div>
             
             <!-- 제출 버튼 -->

@@ -1,89 +1,177 @@
-// 전체선택 기능
-function selectAllRegions() {
-    alert('전체 지역이 선택되었습니다.');
-}
+const API_ENDPOINT = 'http://localhost:40011';
 
-// Custom Select에서 선택된 값 가져오기
-function getCustomSelectValue(selectId) {
-    const select = document.getElementById(selectId);
-    if (!select) return null;
+// 폼 데이터 수집 및 백엔드 전송용 파라미터 생성
+function collectFormData() {
+    // #region agent log
+
+
+    const formData = {
+        // 기본 정보
+        email: document.getElementById('email').value.trim(),
+        visaType: document.getElementById('propertyLocation').value,
+        
+        // 가격 범위
+        minPrice: null,
+        maxPrice: null,
+        
+        // 방 타입
+        roomTypes: [],
+        
+        // 건물 구조 타입
+        structureTypes: [],
+        
+        // 건물 축년 수 (최소 연도만 전송)
+        minConstructionYear: null,
+        
+        // 희망 지역
+        locationTypes: [],
+        
+        // 많이 찾는 옵션
+        popularOptions: [],
+        
+        // 건물 옵션
+        buildingOptions: [],
+        
+        // 역까지 최대 소요 시간
+        maxWalkingTime: null
+    };
+
+    // 가격 범위 수집
+    const minPriceSelect = document.getElementById('minPriceSelect');
+    const maxPriceSelect = document.getElementById('maxPriceSelect');
     
-    const selectedLi = select.querySelector('.select-dropdown li.selected');
-    if (selectedLi && selectedLi.dataset.value) {
-        const value = selectedLi.dataset.value;
-        return value === '' ? null : parseInt(value);
-    }
+    // #region agent log
+    const minPriceText = minPriceSelect?.querySelector('.select-text')?.textContent || 'not found';
+    const maxPriceText = maxPriceSelect?.querySelector('.select-text')?.textContent || 'not found';
+    const minPriceSelected = minPriceSelect?.querySelector('.select-dropdown li.selected');
+    const maxPriceSelected = maxPriceSelect?.querySelector('.select-dropdown li.selected');
+    // #endregion
     
-    // selected 클래스가 없을 경우 select-text에서 값 추출
-    const selectText = select.querySelector('.select-text')?.textContent;
-    if (selectText && selectText !== '제한 없음') {
-        const allOptions = select.querySelectorAll('.select-dropdown li');
-        for (const li of allOptions) {
-            if (li.textContent.trim() === selectText.trim() && li.dataset.value) {
-                const value = li.dataset.value;
-                return value === '' ? null : parseInt(value);
+    if (minPriceSelect) {
+        const minPriceLi = minPriceSelect.querySelector('.select-dropdown li.selected');
+        if (minPriceLi && minPriceLi.dataset.value) {
+            formData.minPrice = parseInt(minPriceLi.dataset.value);
+        } else {
+            // selected 클래스가 없을 경우 select-text에서 값 추출 시도
+            const minPriceText = minPriceSelect.querySelector('.select-text')?.textContent;
+            if (minPriceText && minPriceText !== '제한 없음') {
+                const allOptions = minPriceSelect.querySelectorAll('.select-dropdown li');
+                for (const li of allOptions) {
+                    if (li.textContent.trim() === minPriceText.trim()) {
+                        formData.minPrice = parseInt(li.dataset.value);
+                        break;
+                    }
+                }
             }
         }
     }
     
-    return null;
-}
+    if (maxPriceSelect) {
+        const maxPriceLi = maxPriceSelect.querySelector('.select-dropdown li.selected');
+        if (maxPriceLi && maxPriceLi.dataset.value) {
+            formData.maxPrice = parseInt(maxPriceLi.dataset.value);
+        } else {
+            // selected 클래스가 없을 경우 select-text에서 값 추출 시도
+            const maxPriceText = maxPriceSelect.querySelector('.select-text')?.textContent;
+            if (maxPriceText && maxPriceText !== '제한 없음') {
+                const allOptions = maxPriceSelect.querySelectorAll('.select-dropdown li');
+                for (const li of allOptions) {
+                    if (li.textContent.trim() === maxPriceText.trim()) {
+                        formData.maxPrice = parseInt(li.dataset.value);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
-// 체크박스 그룹에서 선택된 값들 가져오기
-function getCheckedValues(name) {
-    const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
-    return Array.from(checkboxes).map(cb => cb.value);
-}
+    // 방 타입 수집
+    const roomTypeCheckboxes = document.querySelectorAll('input[name="roomType"]:checked');
+    // #region agent log
+    // #endregion
+    roomTypeCheckboxes.forEach(cb => {
+        formData.roomTypes.push(cb.value);
+    });
 
-// 건물 축년 수 수집 (활성화된 연도 중 최소값)
-function getMinConstructionYear() {
+    // 건물 구조 타입 수집
+    const structureTypeCheckboxes = document.querySelectorAll('input[name="structureType"]:checked');
+    // #region agent log
+    // #endregion
+    structureTypeCheckboxes.forEach(cb => {
+        formData.structureTypes.push(cb.value);
+    });
+
+    // 건물 축년 수 수집 (최소 연도만)
     const activeAgePoints = document.querySelectorAll('.age-point.active:not([data-year="all"])');
-    if (activeAgePoints.length === 0) return null;
-    
-    const years = Array.from(activeAgePoints)
-        .map(point => parseInt(point.dataset.year))
-        .filter(year => !isNaN(year));
-    
-    return years.length > 0 ? Math.min(...years) : null;
-}
+    // #region agent log
+    // #endregion
+    const buildingAgeYears = [];
+    activeAgePoints.forEach(point => {
+        const year = parseInt(point.dataset.year);
+        if (year) {
+            buildingAgeYears.push(year);
+        }
+    });
+    if (buildingAgeYears.length > 0) {
+        formData.minConstructionYear = Math.min(...buildingAgeYears);
+    }
 
-// 폼 데이터 수집
-function collectFormData() {
-    const formData = {
-        // 필수 필드
-        email: document.getElementById('email')?.value.trim() || '',
-        visaType: document.getElementById('propertyLocation')?.value || '',
-        
-        // 가격 범위
-        minPrice: getCustomSelectValue('minPriceSelect'),
-        maxPrice: getCustomSelectValue('maxPriceSelect'),
-        
-        // 방 타입
-        roomTypes: getCheckedValues('roomType'),
-        
-        // 건물 구조 타입
-        structureTypes: getCheckedValues('structureType'),
-        
-        // 건물 축년 수
-        minConstructionYear: getMinConstructionYear(),
-        
-        // 희망 지역
-        locationTypes: getCheckedValues('locationType'),
-        
-        // 역까지 최대 소요 시간
-        maxWalkingTime: getCustomSelectValue('walkingTimeSelect'),
-        
-        // 많이 찾는 옵션
-        popularOptions: getCheckedValues('popularOptions'),
-        
-        // 건물 옵션
-        buildingOptions: getCheckedValues('buildingOptions')
-    };
-    
+    // 희망 지역 수집
+    const locationTypeCheckboxes = document.querySelectorAll('input[name="locationType"]:checked');
+    // #region agent log
+    // #endregion
+    locationTypeCheckboxes.forEach(cb => {
+        formData.locationTypes.push(cb.value);
+    });
+
+    // 많이 찾는 옵션 수집
+    const popularOptionsCheckboxes = document.querySelectorAll('input[name="popularOptions"]:checked');
+    // #region agent log
+    // #endregion
+    popularOptionsCheckboxes.forEach(cb => {
+        formData.popularOptions.push(cb.value);
+    });
+
+    // 건물 옵션 수집
+    const buildingOptionsCheckboxes = document.querySelectorAll('input[name="buildingOptions"]:checked');
+    // #region agent log
+    // #endregion
+    buildingOptionsCheckboxes.forEach(cb => {
+        formData.buildingOptions.push(cb.value);
+    });
+
+    // 역까지 최대 소요 시간 수집
+    const walkingTimeSelect = document.getElementById('walkingTimeSelect');
+    // #region agent log
+    const walkingTimeText = walkingTimeSelect?.querySelector('.select-text')?.textContent || 'not found';
+    const walkingTimeSelected = walkingTimeSelect?.querySelector('.select-dropdown li.selected');
+    // #endregion
+    if (walkingTimeSelect) {
+        const walkingTimeLi = walkingTimeSelect.querySelector('.select-dropdown li.selected');
+        if (walkingTimeLi && walkingTimeLi.dataset.value) {
+            formData.maxWalkingTime = parseInt(walkingTimeLi.dataset.value);
+        } else {
+            // selected 클래스가 없을 경우 select-text에서 값 추출 시도
+            const walkingTimeText = walkingTimeSelect.querySelector('.select-text')?.textContent;
+            if (walkingTimeText && walkingTimeText !== '제한 없음') {
+                const allOptions = walkingTimeSelect.querySelectorAll('.select-dropdown li');
+                for (const li of allOptions) {
+                    if (li.textContent.trim() === walkingTimeText.trim()) {
+                        formData.maxWalkingTime = parseInt(li.dataset.value);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    // #endregion
+
     return formData;
 }
 
-// 백엔드 전송용 파라미터 생성 (빈 값 제거)
+// 백엔드 전송용 파라미터 정리 (빈 값 제거)
 function prepareBackendParams(formData) {
     const params = {};
     
@@ -92,8 +180,7 @@ function prepareBackendParams(formData) {
         params.email = formData.email;
     }
     
-    // 비자 종류 - 숫자형으로 변환
-    if (formData.visaType) {
+    if (formData.visaType && formData.visaType !== '선택 필수') {
         params.visaType = parseInt(formData.visaType);
     }
     
@@ -121,41 +208,65 @@ function prepareBackendParams(formData) {
         params.minConstructionYear = formData.minConstructionYear;
     }
     
-    // 희망 지역 - 숫자형 배열로 변환
+    // 희망 지역
     if (formData.locationTypes.length > 0) {
-        params.locationTypes = formData.locationTypes.map(val => parseInt(val));
+        params.locationTypes = formData.locationTypes.map(loc => parseInt(loc));
+    }
+    
+    // 많이 찾는 옵션
+    if (formData.popularOptions.length > 0) {
+        params.popularOptions = formData.popularOptions;
+    }
+    
+    // 건물 옵션
+    if (formData.buildingOptions.length > 0) {
+        params.buildingOptions = formData.buildingOptions;
     }
     
     // 역까지 최대 소요 시간
-    if (formData.maxWalkingTime !== null) {
+    if (formData.maxWalkingTime !== null && formData.maxWalkingTime !== undefined) {
         params.maxWalkingTime = formData.maxWalkingTime;
-    }
-    
-    // 많이 찾는 옵션 - 숫자형 배열로 변환
-    if (formData.popularOptions.length > 0) {
-        params.popularOptions = formData.popularOptions.map(val => parseInt(val));
-    }
-    
-    // 건물 옵션 - 숫자형 배열로 변환
-    if (formData.buildingOptions.length > 0) {
-        params.buildingOptions = formData.buildingOptions.map(val => parseInt(val));
     }
     
     return params;
 }
 
+
+
 // 백엔드로 데이터 전송
 async function sendToBackend(params) {
-    const API_ENDPOINT = 'http://localhost:40011/agent/houber';
+    const emailInput = document.getElementById('email');
+    const email = emailInput ? emailInput.value.trim() : '';
     
-    console.log('=== 백엔드 전송 ===');
-    console.log('엔드포인트:', API_ENDPOINT);
-    console.log('전송 파라미터:', JSON.stringify(params, null, 2));
-    console.log('전송 방법: POST');
-    console.log('Content-Type: application/json');
+    // 모달 먼저 표시
+    const modal = document.getElementById('searchStatusModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
     
+    // 60까지 진행시키는 시뮬레이션
+    const flowSequence = [5, 10, 20, 30, 60];
+    
+    // 진행 애니메이션 실행
+    for (let i = 0; i < flowSequence.length; i++) {
+        const flow = flowSequence[i];
+        updateStatusModal({
+            status: 'processing',
+            flow: flow,
+            progress: flow,
+            message: getStatusMessageByFlow(flow),
+            details: '',
+            email: email
+        });
+        if (i < flowSequence.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 800)); // 각 단계마다 0.8초
+        }
+    }
+    
+    // 백엔드 요청 전송 (60까지 진행한 후)
     try {
-        const response = await fetch(API_ENDPOINT, {
+        const response = await fetch(API_ENDPOINT + '/agent/houber', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -164,96 +275,89 @@ async function sendToBackend(params) {
         });
         
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            // 에러 발생 시 모달 닫기
+            hideStatusModal();
+            
+            // 제출 버튼 다시 활성화
+            const submitBtn = document.querySelector('.submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '검색 요청하기';
+            }
+            
+            if (response.status === 400) {
+                alert('메일 주소로 발송이 실패했습니다. 주소를 다시 확인해주세요');
+            } else if (response.status === 404) {
+                alert('현재 조건에 맞는 건물을 찾을 수 없어요.');
+            }
+             else {
+                alert('요청 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+            }
+            return;
         }
         
-        const data = await response.json();
-        console.log('=== 백엔드 응답 ===');
-        console.log(JSON.stringify(data, null, 2));
-        return data;
+        // 성공 시 응답에서 건물 개수 추출 (숫자만 바디로 넘어옴)
+        const responseText = await response.text();
+        const buildingCount = parseInt(responseText) || 0;
+        
+        // 성공 시 나머지 진행 (70, 80, 100)
+        const successFlowSequence = [70, 80, 100];
+        for (let i = 0; i < successFlowSequence.length; i++) {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 간격
+            const flow = successFlowSequence[i];
+            updateStatusModal({
+                status: flow === 100 ? 'completed' : 'processing',
+                flow: flow,
+                progress: flow,
+                message: getStatusMessageByFlow(flow, buildingCount),
+                details: flow === 80 ? getStatusDetailsByFlow(flow, email) : '',
+                email: email
+            });
+        }
+        
     } catch (error) {
+        // 네트워크 오류 등
+        hideStatusModal();
         console.error('백엔드 전송 오류:', error);
-        throw error;
+        
+        // 제출 버튼 다시 활성화
+        const submitBtn = document.querySelector('.submit-btn');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '검색 요청하기';
+        }
+        
+        alert('요청 전송 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.');
     }
 }
 
 // ========================================
-// 검색 상태 확인 (폴링)
+// 검색 상태 확인 (폴링) - 더 이상 사용하지 않음
 // ========================================
-let pollingInterval = null;
-let pollingRequestId = null;
-let currentProgress = 0; // 현재 진행률 추적
-
-// 검색 상태 확인 API 호출
-async function checkSearchStatus(requestId) {
-    const STATUS_ENDPOINT = `/api/housing/search/status/${requestId}`;
-    
-    console.log('=== 상태 확인 요청 ===');
-    console.log('엔드포인트:', STATUS_ENDPOINT);
-    console.log('Request ID:', requestId);
-    
-    
-    // 시뮬레이션: 상태 응답 (테스트용 - flow 넘버 시뮬레이션)
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            // 테스트용: flow 넘버를 순차적으로 증가
-            const flowSequence = [5, 10, 20, 30, 60, 41, 70, 80, 100];
-            let currentIndex = -1;
-            
-            // 현재 진행 중인 flow 찾기
-            if (currentProgress === 0) {
-                currentIndex = -1; // 시작
-            } else {
-                currentIndex = flowSequence.indexOf(currentProgress);
-            }
-            
-            // 다음 flow로 진행
-            const nextIndex = currentIndex < flowSequence.length - 1 ? currentIndex + 1 : flowSequence.length - 1;
-            currentProgress = flowSequence[nextIndex];
-            
-            // 완료 조건: 100 도달
-            const isCompleted = currentProgress === 100;
-            const isError = currentProgress === -1;
-            
-            // 이메일 가져오기 (80일 때 표시용)
-            const emailInput = document.getElementById('email');
-            const email = emailInput ? emailInput.value.trim() : '';
-            
-            const mockResponse = {
-                requestId: requestId,
-                flow: currentProgress,
-                email: email,
-                status: isCompleted ? 'completed' : (isError ? 'failed' : 'processing'),
-                progress: isError ? 0 : Math.max(0, Math.min(100, currentProgress)),
-                message: getStatusMessageByFlow(currentProgress),
-                details: getStatusDetailsByFlow(currentProgress, email),
-                timestamp: new Date().toISOString()
-            };
-            
-            console.log('=== 상태 확인 응답 (시뮬레이션) ===');
-            console.log(JSON.stringify(mockResponse, null, 2));
-            resolve(mockResponse);
-        }, 300); // 0.3초 지연
-    });
-}
 
 // Flow 넘버에 따른 메시지 반환
-function getStatusMessageByFlow(flow) {
+function getStatusMessageByFlow(flow, count) {
     const flowMessages = {
         'start': '검색 요청을 발송했어요! 조건에 대한 10개의 건물을 보내드릴게요',
         5: '프로세스 신청 대기 중',
         10: '프로세스 시작됌',
         20: '요청사항 분석 중 ...',
         30: '데이터베이스 추합 중...',
-        41: '정확도 미달로 재검색중',
-        60: '결과 값 정확도 분석중',
+        60: '실제 공실 갱신 중...',
         70: '예쁘게 포장 중',
-        80: '산출 완료 메일로 전송을 준비합니다',
-        100: '발송완료 메일을 확인해주세요',
+        80: '건물 {}개를 찾았어요',
+        100: '건물 {}개를 찾았어요,<br> 도착까지 약간의 시간이 소요될 수 있습니다',
         '-1': '에러 발생 요청을 강제 종료합니다'
     };
     
-    return flowMessages[flow] || flowMessages[flow.toString()] || '처리 중...';
+    let message = flowMessages[flow] || flowMessages[flow.toString()] || '처리 중...';
+    
+    // 숫자가 필요한 메시지(80, 100)에 count 값 치환
+    if ((flow === 80 || flow === 100) && count !== undefined && count !== null) {
+        message = message.replace('{}', count);
+    }
+    
+    return message;
 }
 
 // Flow 넘버에 따른 상세 정보 반환
@@ -264,68 +368,7 @@ function getStatusDetailsByFlow(flow, email) {
     return '';
 }
 
-// 폴링 시작
-function startPolling(requestId) {
-    pollingRequestId = requestId;
-    currentProgress = 0; // flow 초기화
-    
-    // 시작 메시지 표시
-    const emailInput = document.getElementById('email');
-    const email = emailInput ? emailInput.value.trim() : '';
-    updateStatusModal({
-        status: 'processing',
-        flow: 'start',
-        progress: 0,
-        message: getStatusMessageByFlow('start'),
-        details: '',
-        email: email
-    });
-    
-    // 2초 후 첫 번째 상태 확인 시작
-    setTimeout(() => {
-        checkStatusOnce();
-        
-        // 2초마다 상태 확인
-        pollingInterval = setInterval(() => {
-            checkStatusOnce();
-        }, 2000);
-    }, 2000);
-}
-
-// 폴링 중지
-function stopPolling() {
-    if (pollingInterval) {
-        clearInterval(pollingInterval);
-        pollingInterval = null;
-    }
-    pollingRequestId = null;
-    currentProgress = 0; // 진행률 초기화
-}
-
-// 상태 확인 한 번 실행
-async function checkStatusOnce() {
-    if (!pollingRequestId) return;
-    
-    try {
-        const statusData = await checkSearchStatus(pollingRequestId);
-        updateStatusModal(statusData);
-        
-        // 완료 또는 실패 시 폴링 중지
-        if (statusData.status === 'completed' || statusData.status === 'failed') {
-            stopPolling();
-        }
-    } catch (error) {
-        console.error('상태 확인 오류:', error);
-        updateStatusModal({
-            status: 'error',
-            flow: -1,
-            message: getStatusMessageByFlow(-1),
-            progress: 0,
-            details: '상태 확인 중 오류가 발생했습니다.'
-        });
-        stopPolling();
-    }
-}
+// 폴링 관련 함수들 - 더 이상 사용하지 않음
 
 // ========================================
 // 확인 모달 제어
@@ -351,24 +394,14 @@ function hideConfirmModal() {
 // ========================================
 // 모달 제어
 // ========================================
-function showStatusModal(requestId) {
-    const modal = document.getElementById('searchStatusModal');
-    if (!modal) return;
-    
-    // 모달 표시
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // 스크롤 방지
-    
-    // 폴링 시작 (시작 메시지는 startPolling에서 처리)
-    startPolling(requestId);
+function showStatusModal() {
+    // 이 함수는 더 이상 사용하지 않음 (sendToBackend에서 직접 처리)
+    // 호환성을 위해 유지하지만 실제로는 아무 동작도 하지 않음
 }
 
 function hideStatusModal() {
     const modal = document.getElementById('searchStatusModal');
     if (!modal) return;
-    
-    // 폴링 중지
-    stopPolling();
     
     // 모달 숨김
     modal.classList.remove('active');
@@ -387,7 +420,13 @@ function updateStatusModal(statusData) {
     if (!statusMessage || !statusDetails || !progressFill || !progressText) return;
     
     // 메시지 업데이트 (flow에 따른 메시지)
-    statusMessage.textContent = statusData.message || '처리 중...';
+    const message = statusData.message || '처리 중...';
+    // HTML 태그가 포함된 경우 innerHTML 사용, 아니면 textContent 사용
+    if (message.includes('<br>') || message.includes('<br/>') || message.includes('<br />')) {
+        statusMessage.innerHTML = message;
+    } else {
+        statusMessage.textContent = message;
+    }
     
     // 상세 정보 업데이트
     if (statusData.details) {
@@ -404,7 +443,12 @@ function updateStatusModal(statusData) {
     
     // 완료 또는 실패 시
     if (statusData.status === 'completed' || statusData.flow === 100) {
-        statusMessage.textContent = statusData.message || getStatusMessageByFlow(100);
+        const completedMessage = statusData.message || getStatusMessageByFlow(100);
+        if (completedMessage.includes('<br>') || completedMessage.includes('<br/>') || completedMessage.includes('<br />')) {
+            statusMessage.innerHTML = completedMessage;
+        } else {
+            statusMessage.textContent = completedMessage;
+        }
         if (statusData.details) {
             statusDetails.textContent = statusData.details;
         } else {
@@ -425,164 +469,36 @@ function updateStatusModal(statusData) {
     }
 }
 
-// 이메일 필드 검증
-function validateEmail(showErrorOnEmpty = false) {
-    const emailField = document.getElementById('email');
-    const emailAsterisk = document.getElementById('emailAsterisk');
-    if (!emailField) return false;
-    
-    const email = emailField.value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    // 클래스 제거 (초기 상태로 복원)
-    emailField.classList.remove('error', 'valid');
-    if (emailAsterisk) {
-        emailAsterisk.classList.remove('error', 'valid');
-    }
-    
-    // 빈 값 처리
-    if (!email) {
-        if (showErrorOnEmpty) {
-            emailField.classList.add('error');
-            if (emailAsterisk) {
-                emailAsterisk.classList.add('error');
-            }
-        }
-        return false;
-    }
-    
-    // 이메일 형식 검증
-    if (!emailRegex.test(email)) {
-        emailField.classList.add('error');
-        if (emailAsterisk) {
-            emailAsterisk.classList.add('error');
-        }
-        return false;
-    }
-    
-    // 검증 성공
-    emailField.classList.add('valid');
-    if (emailAsterisk) {
-        emailAsterisk.classList.add('valid');
-    }
-    return true;
-}
-
-// 비자 종류 필드 검증
-function validateVisaType(showErrorOnEmpty = false) {
-    const visaField = document.getElementById('propertyLocation');
-    const visaAsterisk = document.getElementById('visaAsterisk');
-    if (!visaField) return false;
-    
-    const value = visaField.value;
-    
-    // 클래스 제거 (초기 상태로 복원)
-    visaField.classList.remove('error', 'valid');
-    if (visaAsterisk) {
-        visaAsterisk.classList.remove('error', 'valid');
-    }
-    
-    // 빈 값 처리
-    if (!value || value === '') {
-        if (showErrorOnEmpty) {
-            visaField.classList.add('error');
-            if (visaAsterisk) {
-                visaAsterisk.classList.add('error');
-            }
-        }
-        return false;
-    }
-    
-    // 검증 성공
-    visaField.classList.add('valid');
-    if (visaAsterisk) {
-        visaAsterisk.classList.add('valid');
-    }
-    return true;
-}
-
 // 폼 검증
 function validateForm() {
     const email = document.getElementById('email').value.trim();
     const propertyLocation = document.getElementById('propertyLocation').value;
-    
-    let isValid = true;
 
-    // 이메일 검증 (제출 시에는 빈 값일 때도 에러 표시)
-    if (!validateEmail(true)) {
-        isValid = false;
-        if (!email) {
-            alert('이메일을 입력해주세요.');
-        } else {
-            alert('올바른 이메일 형식을 입력해주세요.');
-        }
+    if (!email) {
+        alert('이메일을 입력해주세요.');
+        return false;
     }
 
-    // 비자 종류 검증 (제출 시에는 빈 값일 때도 에러 표시)
-    if (!validateVisaType(true)) {
-        isValid = false;
-        if (!propertyLocation || propertyLocation === '') {
-            alert('비자 종류를 선택해주세요.');
-        }
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('올바른 이메일 형식을 입력해주세요.');
+        return false;
+    }
+
+    if (!propertyLocation || propertyLocation === '선택 필수') {
+        alert('비자 종류를 선택해주세요.');
+        return false;
     }
 
     // 개인정보 수집 이용 동의 검증
     const privacyAgreement = document.getElementById('privacyAgreement');
-    const privacyAgreementSection = document.getElementById('privacyAgreementSection');
-    const privacyValidationMessage = document.getElementById('privacyValidationMessage');
-    const privacyCheckboxLabel = privacyAgreement?.closest('.privacy-checkbox-label');
-    
     if (!privacyAgreement || !privacyAgreement.checked) {
-        isValid = false;
-        
-        // 체크박스에 에러 클래스 추가
-        if (privacyCheckboxLabel) {
-            privacyCheckboxLabel.classList.add('error');
-        }
-        
-        // 해당 섹션으로 스크롤
-        if (privacyAgreementSection) {
-            privacyAgreementSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // 약간의 지연 후 포커스 효과
-            setTimeout(() => {
-                privacyAgreementSection.style.outline = '2px solid #dc3545';
-                privacyAgreementSection.style.outlineOffset = '4px';
-                privacyAgreementSection.style.borderRadius = '4px';
-                
-                // 3초 후 outline 제거
-                setTimeout(() => {
-                    privacyAgreementSection.style.outline = '';
-                    privacyAgreementSection.style.outlineOffset = '';
-                }, 3000);
-            }, 100);
-        }
-        
-        // 검증 메시지 표시
-        if (privacyValidationMessage) {
-            privacyValidationMessage.style.display = 'block';
-        }
-        
-        // 체크박스에 포커스 (접근성)
-        if (privacyAgreement) {
-            privacyAgreement.focus();
-        }
-    } else {
-        // 체크되어 있으면 에러 클래스 제거
-        if (privacyCheckboxLabel) {
-            privacyCheckboxLabel.classList.remove('error');
-        }
-        // 체크되어 있으면 메시지 숨기기
-        if (privacyValidationMessage) {
-            privacyValidationMessage.style.display = 'none';
-        }
-        if (privacyAgreementSection) {
-            privacyAgreementSection.style.outline = '';
-            privacyAgreementSection.style.outlineOffset = '';
-        }
+        alert('개인정보 수집 이용 동의에 체크해주세요.');
+        return false;
     }
 
-    return isValid;
+    return true;
 }
 
 // 실제 검색 요청 처리 함수
@@ -600,32 +516,9 @@ async function processSearchRequest() {
     // 확인 모달 닫기
     hideConfirmModal();
     
-    try {
-        // 백엔드로 데이터 전송 시뮬레이션
-        const response = await sendToBackend(backendParams);
+    // 백엔드로 데이터 전송
+    await sendToBackend(backendParams);
         
-        // 데이터를 localStorage에 저장 (백업용)
-        localStorage.setItem('housingFormData', JSON.stringify(formData));
-        localStorage.setItem('lastSearchRequest', JSON.stringify({
-            params: backendParams,
-            timestamp: new Date().toISOString(),
-            requestId: response.requestId
-        }));
-        
-        // 상태 모달 표시 및 폴링 시작
-        showStatusModal(response.requestId);
-        
-    } catch (error) {
-        console.error('전송 오류:', error);
-        alert('검색 요청 전송 중 오류가 발생했습니다. 다시 시도해주세요.');
-        
-        // 제출 버튼 활성화
-        const submitBtn = document.querySelector('.submit-btn');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = '검색 요청하기';
-        }
-    }
 }
 
 // 페이지 로드 시 초기화
@@ -835,34 +728,49 @@ function initializeBuildingAgeFilter() {
     if (allPoint) {
         allPoint.classList.add('active');
     }
-    updateBuildingAgeSlider();
+    
+    // 초기 업데이트 (약간의 지연을 두어 레이아웃이 완전히 로드된 후 실행)
+    setTimeout(() => {
+        updateBuildingAgeSlider();
+    }, 100);
+    
+    // 리사이즈 시 선 위치 업데이트
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updateBuildingAgeSlider();
+        }, 100);
+    });
     
     agePoints.forEach(point => {
         point.addEventListener('click', (e) => {
             e.stopPropagation();
+            const year = point.dataset.year;
             const clickedIndex = parseInt(point.dataset.index);
-            const clickedYear = point.dataset.year;
             
-            // "전체" 버튼 클릭 시 모든 버튼 off
-            if (clickedYear === 'all') {
+            if (year === 'all') {
+                // 전체를 클릭하면 모든 연도 해제
                 agePoints.forEach(p => {
                     p.classList.remove('active');
                 });
+                // 전체 버튼만 활성화
                 point.classList.add('active');
             } else {
-                // "전체" 버튼 off
+                // 전체 버튼 해제
                 const allPoint = document.querySelector('.age-point[data-year="all"]');
                 if (allPoint) {
                     allPoint.classList.remove('active');
                 }
                 
-                // 클릭한 버튼 기준으로 좌측은 off, 우측은 on
-                agePoints.forEach((p, idx) => {
-                    if (idx < clickedIndex) {
-                        // 좌측: off
+                // 클릭한 버튼의 좌측은 모두 off, 우측(자신 포함)은 모두 on
+                agePoints.forEach(p => {
+                    const pIndex = parseInt(p.dataset.index);
+                    if (pIndex < clickedIndex) {
+                        // 좌측: 모두 off
                         p.classList.remove('active');
-                    } else if (idx >= clickedIndex) {
-                        // 우측(클릭한 버튼 포함): on
+                    } else if (pIndex >= clickedIndex && p.dataset.year !== 'all') {
+                        // 우측(자신 포함): 모두 on (전체 버튼 제외)
                         p.classList.add('active');
                     }
                 });
@@ -875,51 +783,49 @@ function initializeBuildingAgeFilter() {
     function updateBuildingAgeSlider() {
         if (!ageSliderLine) return;
         
-        // 활성화된 연도 버튼 찾기 (전체 제외)
-        const activeYearPoints = Array.from(agePoints).filter(p => {
-            return p.classList.contains('active') && p.dataset.year !== 'all';
-        });
+        // 활성화된 버튼들 중에서 'all' 제외한 연도 버튼들 찾기
+        const activeYearPoints = Array.from(agePoints).filter(p => 
+            p.classList.contains('active') && p.dataset.year !== 'all'
+        );
         
         if (activeYearPoints.length === 0) {
+            // 활성화된 연도 버튼이 없으면 선 숨김
             ageSliderLine.style.width = '0%';
             ageSliderLine.style.left = '0%';
             return;
         }
         
-        // 연도 순서에 따라 정렬
-        const yearOrder = ['1990', '2000', '2010', '2020'];
-        activeYearPoints.sort((a, b) => {
-            const indexA = yearOrder.indexOf(a.dataset.year);
-            const indexB = yearOrder.indexOf(b.dataset.year);
-            return indexA - indexB;
-        });
-        
-        if (activeYearPoints.length === 0) {
-            ageSliderLine.style.width = '0%';
-            ageSliderLine.style.left = '0%';
-            return;
-        }
-        
-        // 첫 번째와 마지막 활성화된 점의 실제 위치 가져오기
-        const firstPoint = activeYearPoints[0];
-        const lastPoint = activeYearPoints[activeYearPoints.length - 1];
-        
+        // 트랙의 실제 위치와 너비 가져오기
         const track = ageSliderLine.parentElement;
         const trackRect = track.getBoundingClientRect();
-        const firstPointRect = firstPoint.getBoundingClientRect();
-        const lastPointRect = lastPoint.getBoundingClientRect();
+        const trackWidth = trackRect.width;
         
-        // 점의 중심 위치 계산 (점의 너비가 24px이므로 중심은 12px)
-        const pointCenterOffset = 12; // 24px / 2
-        const firstPointCenter = firstPointRect.left - trackRect.left + pointCenterOffset;
-        const lastPointCenter = lastPointRect.left - trackRect.left + pointCenterOffset;
+        // 첫 번째와 마지막 활성화된 버튼 찾기
+        const sortedActivePoints = activeYearPoints.sort((a, b) => {
+            return parseInt(a.dataset.index) - parseInt(b.dataset.index);
+        });
         
-        // 라인의 시작 위치와 너비 계산
-        const left = firstPointCenter;
-        const width = lastPointCenter - firstPointCenter;
+        const firstButton = sortedActivePoints[0];
+        const lastButton = sortedActivePoints[sortedActivePoints.length - 1];
         
-        ageSliderLine.style.left = `${left}px`;
-        ageSliderLine.style.width = `${width}px`;
+        // 각 버튼의 중심점 위치 계산
+        const firstButtonRect = firstButton.getBoundingClientRect();
+        const lastButtonRect = lastButton.getBoundingClientRect();
+        
+        const firstButtonCenter = firstButtonRect.left + firstButtonRect.width / 2;
+        const lastButtonCenter = lastButtonRect.left + lastButtonRect.width / 2;
+        
+        // 트랙 기준으로 상대 위치 계산
+        const trackLeft = trackRect.left;
+        const lineStart = firstButtonCenter - trackLeft;
+        const lineEnd = lastButtonCenter - trackLeft;
+        
+        // 퍼센트로 변환
+        const leftPercent = (lineStart / trackWidth) * 100;
+        const widthPercent = ((lineEnd - lineStart) / trackWidth) * 100;
+        
+        ageSliderLine.style.left = `${leftPercent}%`;
+        ageSliderLine.style.width = `${widthPercent}%`;
     }
 }
 
@@ -1044,10 +950,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     // 저장된 데이터 불러오기 (선택사항)
-    // const savedData = localStorage.getItem('housingFormData');
-    // if (savedData) {
-    //     console.log('저장된 데이터:', JSON.parse(savedData));
-    // }
+    const savedData = localStorage.getItem('housingFormData');
+    if (savedData) {
+        console.log('저장된 데이터:', JSON.parse(savedData));
+    }
 
     // 체크박스 그룹 설정
     setupCheckboxGroups();
@@ -1060,72 +966,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 개인정보 처리방침 상세보기 링크
     const privacyDetailLink = document.getElementById('privacyDetailLink');
-    const privacyModal = document.getElementById('privacyModal');
-    const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
-    const privacyBackdrop = privacyModal?.querySelector('.modal-backdrop');
-    
-    function showPrivacyModal() {
-        if (privacyModal) {
-            privacyModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    function hidePrivacyModal() {
-        if (privacyModal) {
-            privacyModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    }
-    
     if (privacyDetailLink) {
         privacyDetailLink.addEventListener('click', function(e) {
             e.preventDefault();
-            showPrivacyModal();
-        });
-    }
-    
-    if (privacyModalCloseBtn) {
-        privacyModalCloseBtn.addEventListener('click', function() {
-            hidePrivacyModal();
-        });
-    }
-    
-    if (privacyBackdrop) {
-        privacyBackdrop.addEventListener('click', function() {
-            hidePrivacyModal();
-        });
-    }
-    
-    // ESC 키로 모달 닫기
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && privacyModal && privacyModal.classList.contains('active')) {
-            hidePrivacyModal();
-        }
-    });
-
-    // 개인정보 수집 이용 동의 체크박스 이벤트
-    const privacyAgreement = document.getElementById('privacyAgreement');
-    const privacyValidationMessage = document.getElementById('privacyValidationMessage');
-    const privacyAgreementSection = document.getElementById('privacyAgreementSection');
-    const privacyCheckboxLabel = privacyAgreement?.closest('.privacy-checkbox-label');
-    
-    if (privacyAgreement) {
-        privacyAgreement.addEventListener('change', function() {
-            if (this.checked) {
-                // 체크되면 에러 클래스 제거
-                if (privacyCheckboxLabel) {
-                    privacyCheckboxLabel.classList.remove('error');
-                }
-                // 체크되면 메시지 숨기기
-                if (privacyValidationMessage) {
-                    privacyValidationMessage.style.display = 'none';
-                }
-                if (privacyAgreementSection) {
-                    privacyAgreementSection.style.outline = '';
-                    privacyAgreementSection.style.outlineOffset = '';
-                }
-            }
+            // TODO: 개인정보 처리방침 모달 또는 페이지로 이동
+            alert('개인정보 처리방침 상세 내용을 표시합니다.');
         });
     }
 
@@ -1152,35 +997,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 이메일 필드 실시간 검증
+    // 폼 유효성 검사 실시간 피드백
     const emailField = document.getElementById('email');
-    const emailAsterisk = document.getElementById('emailAsterisk');
     if (emailField) {
-        // input 이벤트: 입력 중 실시간 검증 (값이 있을 때만)
         emailField.addEventListener('input', function() {
-            if (this.value.trim()) {
-                validateEmail();
+            if (this.value && !this.value.includes('@')) {
+                this.setCustomValidity('올바른 이메일 형식을 입력해주세요.');
             } else {
-                // 빈 값이면 클래스 제거하여 기본 상태로
-                this.classList.remove('error', 'valid');
-                if (emailAsterisk) {
-                    emailAsterisk.classList.remove('error', 'valid');
-                }
+                this.setCustomValidity('');
             }
-        });
-        
-        // blur 이벤트: 포커스 잃을 때 검증
-        emailField.addEventListener('blur', function() {
-            validateEmail();
-        });
-    }
-    
-    // 비자 종류 필드 실시간 검증
-    const visaField = document.getElementById('propertyLocation');
-    if (visaField) {
-        // change 이벤트: 선택 변경 시 검증
-        visaField.addEventListener('change', function() {
-            validateVisaType();
         });
     }
 });
