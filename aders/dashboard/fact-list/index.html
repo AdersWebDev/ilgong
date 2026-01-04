@@ -1,55 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자료 확인</title>
     <link rel="stylesheet" href="/main/style.css">
+    <link rel="stylesheet" href="/aders/dashboard/fact-list/fact-list.css">
     <link rel="icon" href="../../../assest/favicon.png" type="image/png"/>
-    <style>
-        .managemant-container {
-            width: 100vw;
-            height: 100vh;
-            padding: 20px;
-        }
-        .button-container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            width: 100%;
-            height: auto;
-            gap: 10px;
-            flex-direction: column;
-        }
-        .button-container a {
-            padding: 10px 20px;
-            border: 1px solid var(--primary-blue);
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .button-container a:hover {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
-    <section class="managemant-container">
-        <div class="button-container">
-            <a href="/aders/dashboard/fact-list?company=498">フェニックス管理 자료 확인</a>
-            <a href="/aders/dashboard/fact-list?company=105">エヌ・ケー興産 자료 확인</a>
-            <a href="/aders/dashboard/fact-list?company=120">LFET（エルフェット 자료 확인</a>
-            <a href="/aders/dashboard/fact-list?company=214">ゴールドファステート 자료 확인</a>
-            <a href="/aders/dashboard/fact-list?company=591">リアルエステート 자료 확인</a>
-            <a href="/aders/dashboard/fact-list?company=556">みなもと管理 자료 확인</a>
-            <hr style="width: 50%;">
-            <a href="/aders/dashboard/fact-list?company=">株式会社ネクサスエージェント</a>
-            <a href="/aders/dashboard/fact-list?company=">株式会社RENOSY ASSET </a>
-            <a href="/aders/dashboard/fact-list?company=">MANAGEMENT大阪支店</a>
-            <a href="/aders/dashboard/fact-list?company=">大成トラスト株式会社</a>
-            
-
+    <div class="container">
+        <div class="header-container">
+            <div class="header-title">건물 자료 목록</div>
+            <div class="agent-script">Genspark 스크립트 편집</div>
         </div>
         
-    </section>
+        <div id="loading" class="loading">데이터를 불러오는 중...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="content" style="display: none;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>건물명</th>
+                        <th>확인 상태</th>
+                        <th>승인 상태</th>
+                        <th>업데이트 시간</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 상세 뷰 (초기에는 숨김) -->
+        <div id="detailView" class="detail-container" style="display: none;">
+            <!-- 창 닫기 버튼 -->
+            <button id="closeDetailButton" class="close-detail-button">×</button>
+            
+            <!-- 좌측 PDF/이미지 영역 -->
+            <div class="left-panel">
+                <div class="document-viewer" id="documentViewer">
+                    <!-- PDF 또는 이미지가 여기에 로드됩니다 -->
+                </div>
+            </div>
+
+            <!-- 우측 정보 패널 -->
+            <div class="right-panel">
+                <!-- 헤더 정보 -->
+                <div class="header-info">
+                    <div class="building-name" id="buildingName">건물명</div>
+                    <div class="management-company" id="managementCompany">관리회사명</div>
+                </div>
+
+                <!-- 탭 버튼 -->
+                <div class="tab-container">
+                    <button class="tab-button active" id="initialCostTab" data-tab="initialCost">초기 상세비용</button>
+                    <button class="tab-button" id="specialTermsTab" data-tab="specialTerms">특약 조건</button>
+                </div>
+
+                <!-- 텍스트 영역 -->
+                <div class="text-area-container">
+                    <textarea class="text-area" id="contentTextArea" placeholder="text area can edit"></textarea>
+                </div>
+
+                <!-- 하단 버튼 -->
+                <div class="button-container">
+                    <button class="action-button reject-button" id="rejectButton">반려</button>
+                    <button class="action-button approve-button" id="approveButton">저장 및 승인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="fact-list.js"></script>
+    <script src="agent-script.js"></script>
 </body>
+
 </html>
