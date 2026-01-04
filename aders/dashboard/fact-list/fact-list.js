@@ -1,5 +1,5 @@
 // domain 변수 정의
-const apiDomain = 'https://www.houberapp.com/';
+const apiDomain = 'https://www.houberapp.com';
 
 // 전역 상태 관리
 let itemsList = []; // 리스트 아이템 배열 저장
