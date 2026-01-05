@@ -71,6 +71,42 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Agent Script Modal -->
+        <div id="agentScriptModal" class="agent-script-modal" style="display: none;" data-producer="" data-agent-id="">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content-wrapper">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="modal-header-left">
+                            <span id="modalManagementName" class="modal-management-name">관리회사명</span>
+                        </div>
+                        <button id="modalCloseButton" class="modal-close-button">×</button>
+                    </div>
+                    
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="script-textareas-container">
+                            <div class="script-textarea-wrapper">
+                                <label class="script-label">초기 상세비용 스크립트</label>
+                                <textarea id="initCostScriptTextarea" class="script-textarea" placeholder="초기 상세비용 스크립트를 입력하세요"></textarea>
+                            </div>
+                            <div class="script-textarea-wrapper">
+                                <label class="script-label">특약 조건 스크립트</label>
+                                <textarea id="specialTermsScriptTextarea" class="script-textarea" placeholder="특약 조건 스크립트를 입력하세요"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button id="modalCancelButton" class="modal-cancel-button">취소</button>
+                        <button id="modalSaveButton" class="modal-save-button">저장하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="fact-list.js"></script>
     <script src="agent-script.js"></script>
