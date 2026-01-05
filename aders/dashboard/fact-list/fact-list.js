@@ -177,6 +177,9 @@ function showDetailView(producer, buildingId) {
     // 현재 상세 데이터 저장
     currentDetailData = { producer, buildingId };
     
+    // 상세 뷰가 표시될 때 이벤트 리스너 다시 등록
+    setupDetailViewEventListeners();
+    
     // 상세 데이터 로드
     loadDetailData(producer, buildingId);
 }
@@ -465,52 +468,66 @@ function moveToNextItem() {
     }
 }
 
-// 이벤트 리스너 설정
-function setupEventListeners() {
-    // 창 닫기 버튼
+// 상세 뷰 이벤트 리스너 설정 (상세 뷰가 표시될 때마다 호출)
+function setupDetailViewEventListeners() {
+    // 기존 이벤트 리스너 제거 (중복 방지)
     const closeButton = document.getElementById('closeDetailButton');
+    const initialCostTab = document.getElementById('initialCostTab');
+    const specialTermsTab = document.getElementById('specialTermsTab');
+    const rejectButton = document.getElementById('rejectButton');
+    const approveButton = document.getElementById('approveButton');
+    const textArea = document.getElementById('contentTextArea');
+    
+    // 새 이벤트 리스너 등록
     if (closeButton) {
-        closeButton.addEventListener('click', () => {
+        // 기존 리스너 제거를 위해 클론 후 재등록
+        const newCloseButton = closeButton.cloneNode(true);
+        closeButton.parentNode.replaceChild(newCloseButton, closeButton);
+        newCloseButton.addEventListener('click', () => {
+            console.log('닫기 버튼 클릭');
             showListView();
         });
     }
     
-    // 탭 버튼
-    const initialCostTab = document.getElementById('initialCostTab');
-    const specialTermsTab = document.getElementById('specialTermsTab');
-
     if (initialCostTab) {
-        initialCostTab.addEventListener('click', (e) => {
+        const newInitialCostTab = initialCostTab.cloneNode(true);
+        initialCostTab.parentNode.replaceChild(newInitialCostTab, initialCostTab);
+        newInitialCostTab.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log('초기 상세비용 탭 클릭');
             switchTab('initialCost');
         });
     }
 
     if (specialTermsTab) {
-        specialTermsTab.addEventListener('click', (e) => {
+        const newSpecialTermsTab = specialTermsTab.cloneNode(true);
+        specialTermsTab.parentNode.replaceChild(newSpecialTermsTab, specialTermsTab);
+        newSpecialTermsTab.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log('특약 조건 탭 클릭');
             switchTab('specialTerms');
         });
     }
 
-    // 반려 버튼
-    const rejectButton = document.getElementById('rejectButton');
     if (rejectButton) {
-        rejectButton.addEventListener('click', () => {
+        const newRejectButton = rejectButton.cloneNode(true);
+        rejectButton.parentNode.replaceChild(newRejectButton, rejectButton);
+        newRejectButton.addEventListener('click', () => {
+            console.log('반려 버튼 클릭');
             handleReject();
         });
     }
 
-    // 승인 버튼
-    const approveButton = document.getElementById('approveButton');
     if (approveButton) {
-        approveButton.addEventListener('click', () => {
+        const newApproveButton = approveButton.cloneNode(true);
+        approveButton.parentNode.replaceChild(newApproveButton, approveButton);
+        newApproveButton.addEventListener('click', () => {
+            console.log('승인 버튼 클릭');
             handleApprove();
         });
     }
 
     // 텍스트 영역 변경 시 데이터 업데이트 (디바운스 적용)
-    const textArea = document.getElementById('contentTextArea');
     if (textArea) {
         let updateTimeout = null;
         textArea.addEventListener('input', () => {
@@ -521,6 +538,12 @@ function setupEventListeners() {
             }, 100);
         });
     }
+}
+
+// 이벤트 리스너 설정 (초기 페이지 로드 시)
+function setupEventListeners() {
+    // 상세 뷰 이벤트 리스너는 showDetailView에서 호출
+    // 여기서는 리스트 관련 이벤트만 설정
 }
 
 // 리스트 로딩 표시

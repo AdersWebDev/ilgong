@@ -12,24 +12,17 @@ let modalData = {
     specialTermsScript: ''
 };
 
-// URL에서 쿼리 파라미터 추출 (fact-list.js와 동일한 패턴)
-function getUrlParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const producer = urlParams.get('producer');
-    const agent = urlParams.get('agent');
-    
-    if (producer && agent) {
-        return { producer, agent };
-    }
-    
-    return null;
-}
+// URL에서 쿼리 파라미터 추출 (fact-list.js의 함수 사용)
+// fact-list.js에 이미 getUrlParams 함수가 있으므로 재사용
 
 // 모달 표시
 function showModal() {
     const modal = document.getElementById('agentScriptModal');
     if (modal) {
         modal.style.display = 'flex';
+        modal.style.visibility = 'visible';
+        modal.style.pointerEvents = 'auto'; // 클릭 이벤트 활성화
+        modal.style.zIndex = '2000'; // 높은 z-index 설정
         document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
     }
 }
@@ -39,6 +32,9 @@ function hideModal() {
     const modal = document.getElementById('agentScriptModal');
     if (modal) {
         modal.style.display = 'none';
+        modal.style.visibility = 'hidden';
+        modal.style.pointerEvents = 'none'; // 클릭 이벤트 차단
+        modal.style.zIndex = '-1'; // 낮은 z-index 설정
         document.body.style.overflow = ''; // 스크롤 복원
     }
 }

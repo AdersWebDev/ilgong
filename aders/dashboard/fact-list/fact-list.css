@@ -44,21 +44,7 @@ body {
     transform: translateY(-1px);
 }
 
-#agent-modal {
-    display: block;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    min-width: 700px;
-    min-height: 500px;
-    height: 80vh;
-}
+/* 오래된 스타일 제거 - agent-script-modal 사용 */
 .text-area-container {
     flex: 1;
     display: flex;
@@ -469,11 +455,19 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 2000;
-    display: flex;
+    z-index: -1; /* 숨겨져 있을 때는 z-index를 낮춤 */
+    display: none; /* 기본적으로 숨김 */
     align-items: center;
     justify-content: center;
     padding: 20px;
+    pointer-events: none !important; /* 숨겨져 있을 때 클릭 이벤트 차단 */
+    visibility: hidden; /* 숨겨져 있을 때 완전히 비활성화 */
+}
+
+.agent-script-modal[style*="flex"] {
+    z-index: 2000; /* 표시될 때만 높은 z-index */
+    pointer-events: auto !important; /* 표시될 때만 클릭 이벤트 활성화 */
+    visibility: visible; /* 표시될 때 활성화 */
 }
 
 .modal-backdrop {
