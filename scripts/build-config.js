@@ -12,18 +12,10 @@ const path = require('path');
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
 if (!apiKey) {
-    console.warn('⚠️  GOOGLE_MAPS_API_KEY 환경 변수가 설정되지 않았습니다.');
-    console.warn('   로컬 개발을 위해 config.example.js를 config.js로 복사하세요.');
-    
-    // 로컬 개발을 위해 example 파일을 복사
-    const examplePath = path.join(__dirname, '../map/static/config.example.js');
-    const configPath = path.join(__dirname, '../map/static/config.js');
-    
-    if (fs.existsSync(examplePath) && !fs.existsSync(configPath)) {
-        fs.copyFileSync(examplePath, configPath);
-        console.log('✅ config.example.js를 config.js로 복사했습니다.');
-    }
-    process.exit(0);
+    console.error('❌ GOOGLE_MAPS_API_KEY 환경 변수가 설정되지 않았습니다.');
+    console.error('   Vercel 대시보드에서 환경 변수를 설정하거나,');
+    console.error('   로컬 개발 시에는 map/static/config.js 파일을 직접 생성하세요.');
+    process.exit(1);
 }
 
 // config.js 파일 내용 생성
