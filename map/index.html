@@ -508,8 +508,6 @@
     </main>
 
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-    <!-- 환경 설정 파일 (API 키 포함) - 먼저 로드 -->
-    <script src="/map/static/config.js"></script>
     <!-- 모듈 로드 순서 중요 -->
     <script src="/map/static/Constants.js"></script>
     <script src="/map/static/Utils.js"></script>
@@ -526,32 +524,43 @@
     <!-- 메인 애플리케이션 -->
     <script src="/map/static/map.js"></script>
     <script>
-        // config.js 로드 후 Google Maps API 동적 로드
-        function loadGoogleMapsAPI() {
-            // 환경 변수에서 API 키 가져오기
-            const apiKey = window.APP_CONFIG?.GOOGLE_MAPS_API_KEY;
-            
-            if (!apiKey) {
-                console.error('Google Maps API 키가 설정되지 않았습니다. config.js 파일을 확인하세요.');
-                const mapStatus = document.getElementById('mapStatus');
-                if (mapStatus) {
-                    mapStatus.textContent = '지도 API 키가 설정되지 않았습니다.';
+        // 서버에서 API 키를 가져와서 Google Maps API 동적 로드
+        async function loadGoogleMapsAPI() {
+            try {
+                // Vercel API Route에서 API 키 가져오기
+                const response = await fetch('/api/maps-key');
+                
+                if (!response.ok) {
+                    throw new Error('API 키를 가져오는데 실패했습니다.');
                 }
-                return;
-            }
+                
+                const data = await response.json();
+                const apiKey = data.apiKey;
+                
+                if (!apiKey) {
+                    throw new Error('API 키가 설정되지 않았습니다.');
+                }
 
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
-            script.async = true;
-            script.defer = true;
-            script.onerror = function() {
-                console.error('Google Maps API 로드 실패');
+                // Google Maps API 로드
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+                script.async = true;
+                script.defer = true;
+                script.onerror = function() {
+                    console.error('Google Maps API 로드 실패');
+                    const mapStatus = document.getElementById('mapStatus');
+                    if (mapStatus) {
+                        mapStatus.textContent = '지도 API 로드 실패';
+                    }
+                };
+                document.head.appendChild(script);
+            } catch (error) {
+                console.error('Google Maps API 키 로드 오류:', error);
                 const mapStatus = document.getElementById('mapStatus');
                 if (mapStatus) {
-                    mapStatus.textContent = '지도 API 로드 실패';
+                    mapStatus.textContent = '지도 API 키를 불러오는데 실패했습니다.';
                 }
-            };
-            document.head.appendChild(script);
+            }
         }
 
         // DOM 로드 후 Google Maps API 로드
