@@ -1,0 +1,13 @@
+{
+  "name": "ilgong",
+  "version": "1.0.0",
+  "description": "일본 부동산 검색 플랫폼",
+  "scripts": {
+    "build": "node scripts/build-config.js",
+    "vercel-build": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
