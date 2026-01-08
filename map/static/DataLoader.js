@@ -66,7 +66,7 @@ class DataLoader {
         }
         
         // 엔드포인트: localhost:40011/map/rent
-        const baseUrl = 'http://localhost:40011/map/rent';
+        const baseUrl = 'https://www.houberapp.com/map/rent';
         
         // bounds 쿼리와 필터 쿼리 스트링 결합
         const queryParts = [query]; // bounds 쿼리
@@ -125,7 +125,7 @@ class DataLoader {
         UIRenderer.setSidebarMessage('상세 정보를 불러오는 중...');
         
         try {
-            const response = await fetch(`http://localhost:40011/big/map/detail/${buildingId}/room/sync`);
+            const response = await fetch(`https://www.houberapp.com/big/map/detail/${buildingId}/room/sync`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
