@@ -1,5 +1,5 @@
-const API_ENDPOINT = 'https://www.houberapp.com';
-
+// const API_ENDPOINT = 'https://www.houberapp.com';
+const API_ENDPOINT = 'http://localhost:40011';
 // 폼 데이터 수집 및 백엔드 전송용 파라미터 생성
 function collectFormData() {
     // #region agent log
@@ -469,35 +469,112 @@ function updateStatusModal(statusData) {
     }
 }
 
+// 에러 표시 제거 함수
+function clearErrors() {
+    const emailInput = document.getElementById('email');
+    const propertyLocationSelect = document.getElementById('propertyLocation');
+    const privacyAgreement = document.getElementById('privacyAgreement');
+
+    if (emailInput) {
+        emailInput.style.borderColor = '';
+    }
+    if (propertyLocationSelect) {
+        propertyLocationSelect.style.borderColor = '';
+    }
+    if (privacyAgreement) {
+        const privacyLabel = privacyAgreement.closest('.privacy-checkbox-label');
+        const checkboxCustom = privacyAgreement.nextElementSibling;
+        if (privacyLabel) {
+            privacyLabel.style.animation = '';
+        }
+        if (checkboxCustom && checkboxCustom.classList.contains('checkbox-custom')) {
+            checkboxCustom.style.borderColor = '';
+        }
+    }
+}
+
+// 필드로 스크롤 이동 및 에러 표시
+function showFieldError(element, message) {
+    if (!element) {
+        console.error('showFieldError: element is null or undefined');
+        return;
+    }
+    
+    // 기존 에러 제거
+    clearErrors();
+    
+    // 직접 border-color를 빨간색으로 설정
+    if (element.id === 'email') {
+        element.style.borderColor = '#dc3545';
+    } else if (element.id === 'propertyLocation') {
+        element.style.borderColor = '#dc3545';
+    } else if (element.id === 'privacyAgreement') {
+        const checkboxCustom = element.nextElementSibling; // checkbox-custom은 체크박스 바로 다음 형제
+        if (checkboxCustom && checkboxCustom.classList.contains('checkbox-custom')) {
+            checkboxCustom.style.borderColor = '#dc3545';
+        }
+    }
+    
+    // 해당 필드로 스크롤 이동
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    // 2초 후 에러 제거
+    setTimeout(() => {
+        clearErrors();
+    }, 3000);
+    
+    // 알림 표시
+    // if (message) {
+    //     alert(message);
+    // }
+}
+
 // 폼 검증
 function validateForm() {
-    const email = document.getElementById('email').value.trim();
-    const propertyLocation = document.getElementById('propertyLocation').value;
+    const emailInput = document.getElementById('email');
+    if (!emailInput) {
+        console.error('Email input not found');
+        return false;
+    }
+    const email = emailInput.value.trim();
+    
+    const propertyLocationSelect = document.getElementById('propertyLocation');
+    if (!propertyLocationSelect) {
+        console.error('Property location select not found');
+        return false;
+    }
+    const propertyLocation = propertyLocationSelect.value;
 
     if (!email) {
-        alert('이메일을 입력해주세요.');
+        showFieldError(emailInput, '이메일을 입력해주세요.');
         return false;
     }
 
     // 이메일 형식 검증
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        alert('올바른 이메일 형식을 입력해주세요.');
+        showFieldError(emailInput, '올바른 이메일 형식을 입력해주세요.');
         return false;
     }
 
-    if (!propertyLocation || propertyLocation === '선택 필수') {
-        alert('비자 종류를 선택해주세요.');
+    if (!propertyLocation || propertyLocation === '') {
+        showFieldError(propertyLocationSelect, '비자 종류를 선택해주세요.');
         return false;
     }
 
     // 개인정보 수집 이용 동의 검증
     const privacyAgreement = document.getElementById('privacyAgreement');
-    if (!privacyAgreement || !privacyAgreement.checked) {
-        alert('개인정보 수집 이용 동의에 체크해주세요.');
+    if (!privacyAgreement) {
+        console.error('Privacy agreement checkbox not found');
+        return false;
+    }
+    if (!privacyAgreement.checked) {
+        showFieldError(privacyAgreement, '개인정보 수집 이용 동의에 체크해주세요.');
         return false;
     }
 
+    // 모든 검증 통과 시 에러 제거
+    clearErrors();
     return true;
 }
 
@@ -523,6 +600,38 @@ async function processSearchRequest() {
 
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', function() {
+    // 필드 입력/변경 시 에러 상태 제거
+    const emailInput = document.getElementById('email');
+    const propertyLocationSelect = document.getElementById('propertyLocation');
+    const privacyAgreement = document.getElementById('privacyAgreement');
+
+    if (emailInput) {
+        emailInput.addEventListener('input', function() {
+            this.style.borderColor = '';
+            this.style.animation = '';
+        });
+    }
+
+    if (propertyLocationSelect) {
+        propertyLocationSelect.addEventListener('change', function() {
+            this.style.borderColor = '';
+            this.style.animation = '';
+        });
+    }
+
+    if (privacyAgreement) {
+        privacyAgreement.addEventListener('change', function() {
+            const privacyLabel = this.closest('.privacy-checkbox-label');
+            const checkboxCustom = this.nextElementSibling;
+            if (privacyLabel) {
+                privacyLabel.style.animation = '';
+            }
+            if (checkboxCustom && checkboxCustom.classList.contains('checkbox-custom')) {
+                checkboxCustom.style.borderColor = '';
+            }
+        });
+    }
+
     // 폼 제출 처리
     const housingForm = document.getElementById('housingForm');
     if (housingForm) {
@@ -964,13 +1073,55 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeToggleAllButtons();
     initializeBuildingAgeFilter();
 
+    // 개인정보 처리방침 모달 열기/닫기 함수
+    function showPrivacyModal() {
+        const privacyModal = document.getElementById('privacyModal');
+        if (privacyModal) {
+            privacyModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function hidePrivacyModal() {
+        const privacyModal = document.getElementById('privacyModal');
+        if (privacyModal) {
+            privacyModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
     // 개인정보 처리방침 상세보기 링크
     const privacyDetailLink = document.getElementById('privacyDetailLink');
     if (privacyDetailLink) {
         privacyDetailLink.addEventListener('click', function(e) {
             e.preventDefault();
-            // TODO: 개인정보 처리방침 모달 또는 페이지로 이동
-            alert('개인정보 처리방침 상세 내용을 표시합니다.');
+            showPrivacyModal();
+        });
+    }
+
+    // 모달 닫기 버튼
+    const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
+    if (privacyModalCloseBtn) {
+        privacyModalCloseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hidePrivacyModal();
+        });
+    }
+
+    // 모달 밖 클릭 시 닫기
+    if (privacyModal) {
+        const modalContent = privacyModal.querySelector('.modal-content');
+        if (modalContent) {
+            // modal-content 클릭 시 이벤트 전파 방지
+            modalContent.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        // 모달 배경(backdrop) 클릭 시 닫기
+        privacyModal.addEventListener('click', function(e) {
+            if (e.target === privacyModal || e.target.classList.contains('modal-backdrop')) {
+                hidePrivacyModal();
+            }
         });
     }
 

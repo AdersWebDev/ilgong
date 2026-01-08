@@ -30,6 +30,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    max-height: 30px;
 }
 
 .logo-ilgong {
@@ -44,7 +45,6 @@ body {
 }
 
 .logo-house {
-    height: 24px;
     width: auto;
     display: inline-block;
     vertical-align: middle;
@@ -128,13 +128,23 @@ select {
     background-color: #ffffff;
     color: #000000;
     transition: border-color 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-select:focus {
+    appearance: none;          /* 표준 */
+    -webkit-appearance: none;  /* Safari/Chrome */
+    -moz-appearance: none;     /* Firefox */
+    cursor: pointer;
     outline: none;
-    border-color: #0074E4;
+}
+.select-wrap {
+    position: relative;
+}
+.select-wrap i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: #666;
 }
 
 input::placeholder {
@@ -377,7 +387,6 @@ input[type="checkbox"] {
 
     .logo-house {
         font-size: 16px;
-        padding: 3px 10px;
     }
 
     .facility-grid {
@@ -454,20 +463,35 @@ input[type="checkbox"] {
     }
 }
 
-/* 접근성 */
-input[type="checkbox"]:focus {
-    outline: 2px solid #0074E4;
-    outline-offset: 2px;
-}
-
-
 /* 폼 검증 스타일 */
 input:invalid:not(:placeholder-shown) {
     border-color: #dc3545;
 }
-
+/* 
 input:valid:not(:placeholder-shown) {
     border-color: #28a745;
+} */
+
+/* 에러 상태 스타일 */
+input.error,
+select.error {
+    border-color: #dc3545 !important;
+    animation: errorShake 0.5s ease-in-out;
+}
+
+.select-wrap.error select {
+    border-color: #dc3545 !important;
+    animation: errorShake 0.5s ease-in-out;
+}
+
+.privacy-checkbox-label.error {
+    animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 /* ========================================
@@ -761,7 +785,7 @@ input:valid:not(:placeholder-shown) {
     width: 18px;
     height: 18px;
     outline-offset: -1px;
-    outline: 2px solid #666;
+    outline: 2px solid #3d8bff;
     border-radius: 50%;
     border: none;
     background-color: #ffffff;
@@ -817,13 +841,13 @@ input:valid:not(:placeholder-shown) {
     }
     
     .walking-time-selector {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        /* align-items: stretch; */
         gap: 10px;
     }
     
     .walking-time-selector .custom-select {
-        width: 100%;
+        /* width: 100%; */
         min-width: auto;
     }
 }
@@ -999,7 +1023,6 @@ input:valid:not(:placeholder-shown) {
 
 .modal-body {
     padding: 24px;
-    text-align: center;
 }
 
 .status-loader {
@@ -1240,7 +1263,11 @@ input:valid:not(:placeholder-shown) {
     display: none;
     width: 0;
 }
-
+@media (max-width: 1023px) {
+    .header-logo {
+        order: unset;
+    }
+}
 /* 반응형 */
 @media (max-width: 768px) {
     .privacy-modal .modal-content {
