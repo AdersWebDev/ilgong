@@ -41,6 +41,3 @@ window.APP_CONFIG = {
 const configPath = path.join(__dirname, '../map/static/config.js');
 fs.writeFileSync(configPath, configContent, 'utf8');
 
-console.log('✅ config.js 파일이 생성되었습니다.');
-console.log(`   API 키: ${apiKey.substring(0, 10)}...`);
-
