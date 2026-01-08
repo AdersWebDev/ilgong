@@ -1,0 +1,442 @@
+/* ========================================
+   Map Page Specific Styles
+   Note: CSS Variables, Reset & Base, Header are in main/style.css
+   Filter Panel styles are in map/filter-panel.css
+======================================== */
+
+/* ========================================
+   Main Container - Map + Property List
+======================================== */
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr var(--property-list-width);
+    height: calc(100vh - var(--header-height) - var(--filter-bar-height));
+    overflow: hidden;
+}
+
+/* ========================================
+   Map Section
+======================================== */
+.map-section {
+    position: relative;
+    background-color: var(--bg-gray);
+    overflow: hidden;
+}
+
+.map-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Floating Recommendation Button */
+.floating-recommendation-btn {
+    position: absolute;
+    bottom: var(--spacing-3xl);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--spacing-lg) var(--spacing-3xl);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: var(--primary-yellow);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-floating);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    transition: all var(--transition-base);
+}
+
+.floating-recommendation-btn:hover {
+    background-color: var(--primary-yellow-dark);
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.floating-recommendation-btn i {
+    font-size: var(--font-size-lg);
+}
+
+/* ========================================
+   Property List Panel
+======================================== */
+.property-list-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-white);
+    border-left: 1px solid var(--border-color);
+    overflow: hidden;
+    width: var(--property-list-width);
+    min-width: var(--property-list-width);
+    max-width: var(--property-list-width);
+}
+
+@media (min-width: 1440px) {
+    :root {
+        --property-list-width: 576px;
+    }
+}
+
+.property-list-header {
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-white);
+}
+
+.list-header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.list-header-title h2 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.property-count {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.sort-selector {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.sort-price-btn {
+    display: flex;
+    align-items: center;
+    min-width: 103px;
+    width: auto;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-m);
+    color: var(--text-primary);
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.sort-price-btn:hover {
+    background-color: var(--primary-yellow-dark);
+}
+
+.sort-price-btn:focus {
+    outline: none;
+    border-color: var(--primary-yellow);
+    box-shadow: 0 0 0 3px var(--primary-yellow-light);
+}
+
+.sort-price-btn.active {
+    border-color: var(--primary-yellow);
+    box-shadow: 0 0 0 3px var(--primary-yellow-light);
+}
+
+.sort-arrow {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    transition: transform var(--transition-base);
+}
+
+.sort-price-btn.active .sort-arrow {
+    transform: rotate(180deg);
+}
+
+.sort-dropdown {
+    position: absolute;
+    top: calc(100% + var(--spacing-xs));
+    left: 0;
+    right: 0;
+    min-width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-dropdown);
+    display: none;
+    list-style: none;
+    padding: var(--spacing-xs) 0;
+    margin: 0;
+}
+
+.sort-dropdown.active {
+    display: block;
+}
+
+.sort-dropdown li {
+    width: 100%;
+    height: 42px;
+    text-align: center;
+    align-content: center;
+    font-size: var(--font-size-m);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.sort-dropdown li:hover {
+    background-color: var(--bg-gray-light);
+}
+
+.sort-dropdown li.selected {
+    background-color: var(--primary-yellow-light);
+    font-weight: 500;
+}
+
+/* Property List Container */
+.property-list-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 260px;
+    gap: var(--spacing-md);
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    justify-content: start;
+}
+
+@media (min-width: 1440px) {
+    .property-list-container {
+        grid-template-columns: repeat(2, 260px);
+    }
+}
+
+.property-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.property-list-container::-webkit-scrollbar-track {
+    background: var(--bg-gray-light);
+}
+
+.property-list-container::-webkit-scrollbar-thumb {
+    background: var(--border-dark);
+    border-radius: var(--radius-sm);
+}
+
+/* Property Card */
+.property-card {
+    width: 260px;
+    height: 230px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.property-card-image {
+    position: relative;
+    width: 100%;
+    padding-bottom: 66.67%;
+    background-color: var(--bg-gray);
+    overflow: hidden;
+}
+
+.property-card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.property-card-carousel {
+    position: absolute;
+    bottom: var(--spacing-sm);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.carousel-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    transition: background-color var(--transition-fast);
+}
+
+.carousel-dot.active {
+    background-color: var(--bg-white);
+}
+
+.property-card-content {
+    padding: var(--spacing-lg);
+}
+
+.property-price {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.property-info {
+    font-size: var(--font-size-2xl);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.property-info-separator {
+    width: 1px;
+    height: 12px;
+    background-color: var(--border-color);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-3xl);
+    gap: var(--spacing-lg);
+}
+
+.loading-spinner.active {
+    display: flex;
+}
+
+.loading-spinner i {
+    font-size: var(--font-size-3xl);
+    color: var(--primary-yellow);
+}
+
+.loading-spinner p {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   Google Maps Custom Styles
+======================================== */
+.map-marker {
+    background-color: var(--text-primary);
+    color: var(--bg-white);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+    white-space: nowrap;
+    position: relative;
+}
+
+.map-marker::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-primary);
+}
+
+/* ========================================
+   Responsive Design - Map & Property List
+======================================== */
+
+/* Tablet - 1023px and below */
+@media (max-width: 1023px) {
+    .main-container {
+        grid-template-columns: 1fr;
+        position: relative;
+    }
+    
+    .property-list-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 400px;
+        max-width: 85vw;
+        z-index: calc(var(--z-modal) - 1);
+        transform: translateX(100%);
+        transition: transform var(--transition-base);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .property-list-panel.active {
+        transform: translateX(0);
+    }
+    
+    .property-list-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile - 767px and below */
+@media (max-width: 767px) {
+    .main-container {
+        height: calc(100vh - var(--header-height) - var(--filter-bar-height));
+    }
+    
+    .property-list-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .property-list-header {
+        padding: var(--spacing-lg);
+    }
+    
+    .property-list-container {
+        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+    
+    .property-card {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .floating-recommendation-btn {
+        bottom: var(--spacing-xl);
+        padding: var(--spacing-md) var(--spacing-xl);
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* Small Mobile - 375px and below */
+@media (max-width: 375px) {
+    .property-list-header {
+        padding: var(--spacing-md);
+    }
+    
+    .list-header-title h2 {
+        font-size: var(--font-size-lg);
+    }
+    
+    .property-price {
+        font-size: var(--font-size-lg);
+    }
+    
+    .floating-recommendation-btn {
+        bottom: var(--spacing-lg);
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: var(--font-size-xs);
+    }
+}

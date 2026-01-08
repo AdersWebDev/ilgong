@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>매물 상세보기 - 일공</title>
+    <meta name="description" content="일본 부동산 매물 상세 정보">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="main/style.css">
+    
+    <!-- Detail Page CSS -->
+    <link rel="stylesheet" href="detail/detail.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <a href="/map" class="logo">
+                    <span class="logo-text">ilgong</span>
+                </a>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="/map" class="nav-link">일대륙 찾기</a>
+                <a href="/list" class="nav-link">일본 공인 <span class="badge">중개사</span></a>
+                <a href="#" class="nav-link">부동산 정보</a>
+            </nav>
+            
+            <div class="header-right">
+                <div class="language-selector">
+                    <button class="lang-btn">KR <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" aria-label="메뉴 열기">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="detail-main">
+        <!-- Photo Gallery Section -->
+        <section class="photo-gallery-section">
+            <div class="gallery-container">
+                <div class="gallery-main">
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800" alt="메인 사진" id="mainImage">
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400" alt="사진 1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400" alt="사진 2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400" alt="사진 3">
+                    </div>
+                    <div class="gallery-item gallery-item-more">
+                        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400" alt="사진 4">
+                    </div>
+                </div>
+                <button class="btn-view-photos" id="btnViewPhotos">
+                    <i class="fas fa-images"></i>
+                    <span>사진 자세히 보기</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Property Info Section -->
+        <section class="property-info-section">
+            <div class="container">
+                <div class="property-content-wrapper">
+                    <!-- Left Content -->
+                    <div class="property-content-main">
+                        <!-- Price Section -->
+                        <div class="price-section">
+                            <div class="price-main">
+                                <span class="price-amount">75,000</span>
+                                <span class="price-currency">엔</span>
+                                <span class="price-badge">월세</span>
+                                <span class="price-divider"></span>
+                                <span class="management-fee-amount">7,000</span>
+                                <span class="management-fee-currency">엔</span>
+                                <span class="management-fee-badge">관리비</span>
+                            </div>
+                            <div class="building-name-row">
+                                <i class="fas fa-home" aria-hidden="true"></i>
+                                <span class="building-label">맨션명</span>
+                                <h1 class="building-name">ホイリー帝塚山プレミアム</h1>
+                            </div>
+                            <address class="building-address">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span class="address-label">주소</span>
+                                <span class="address-text">大阪府大阪市東住吉区南田辺1丁目9-18</span>
+                            </address>
+                        </div>
+
+                        <!-- Building Info Section -->
+                        <article class="building-info-section">
+                            <header class="building-header">
+
+                            <!-- Property Details -->
+                            <div class="property-details-wrapper">
+                                <dl class="property-details-grid">
+                                    <div class="detail-item">
+                                        <dt class="detail-label">건축일</dt>
+                                        <dd class="detail-value">2022년 2월</dd>
+                                    </div>
+                                    <div class="detail-item">
+                                        <dt class="detail-label">구조</dt>
+                                        <dd class="detail-value">철근콘크리트조 / 12층 건물</dd>
+                                    </div>
+                                </dl>
+                                
+                                <!-- Building Options -->
+                                <div class="building-options">
+                                    <span class="building-option-item">오토록</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">방범 카메라</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">엘리베이터</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">인터폰</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">택배함</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">전용 쓰레기장</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">반려동물 발 세척장</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">자전거보관소</span>
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <section class="features-section">
+                                <h2 class="features-title">호실 설비 옵션</h2>
+                                <div class="building-options">
+                                    <span class="building-option-item">주차가능</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">오토록</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">발코니</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">에어컨</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">욕실건조기</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">온수세정변기</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">가스레인지</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">환풍기</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">TV모니터폰</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">신발장</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">창고</span>
+                                    <span class="option-divider"></span>
+                                    <span class="building-option-item">욕실/화장실 분리</span>
+                                </div>
+                            </section>
+                        </article>
+
+                        <!-- Available Rooms Section -->
+                        <section class="rooms-section">
+                            <header class="rooms-header">
+                                <h2 class="rooms-title">이 맨션의 공실을 확인 해보세요!</h2>
+                            </header>
+
+                            <div class="rooms-pagination">
+                                <span class="page-info" aria-live="polite">1 / 5</span>
+                                <div class="pagination-controls">
+                                    <button type="button" class="btn-pagination btn-prev" id="btnPrevRoom" aria-label="이전 페이지">
+                                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn-pagination btn-next" id="btnNextRoom" aria-label="다음 페이지">
+                                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="rooms-list" id="roomsList" role="list">
+                                <!-- Room cards will be rendered here by JavaScript -->
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Right Floating Inquiry Area (Desktop) -->
+                    <aside class="inquiry-sidebar">
+                        <div class="inquiry-card">
+                            <div class="inquiry-card-content">
+                                <button type="button" class="btn-inquiry-full btn-inquiry-primary" style="color: white;">
+                                    부동산 문의
+                                </button>
+                                <button type="button" class="btn-inquiry-full btn-inquiry-outline">
+                                    일본공간에 문의
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile Fixed Bottom Bar -->
+        <div class="mobile-inquiry-bar">
+            <div class="mobile-inquiry-content">
+                <button type="button" class="btn-mobile-inquiry btn-mobile-primary">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    문의하기
+                </button>
+                <button type="button" class="btn-mobile-inquiry btn-mobile-outline">
+                    <i class="fas fa-video" aria-hidden="true"></i>
+                    원격상담
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">법적 고지사항</a>
+                <a href="#" class="footer-link">개인정보 수집 관련</a>
+                <a href="#" class="footer-link">제휴문의</a>
+            </nav>
+            <p class="footer-copyright">©2025, 일본공간 All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Photo Modal -->
+    <div class="photo-modal" id="photoModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-gallery">
+                <button class="modal-nav modal-prev" id="modalPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="modal-image-container">
+                    <img src="" alt="상세 사진" id="modalImage">
+                    <div class="modal-counter">
+                        <span id="modalCurrentIndex">1</span> / <span id="modalTotalImages">10</span>
+                    </div>
+                </div>
+                
+                <button class="modal-nav modal-next" id="modalNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="modal-thumbnails" id="modalThumbnails">
+                <!-- Thumbnails will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="detail/detail.js"></script>
+</body>
+</html>
