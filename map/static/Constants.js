@@ -5,9 +5,12 @@
  */
 class Constants {
     // API 엔드포인트 설정
-    static DETAIL_ENDPOINT = 'http://localhost:40011/big/map/working';
-    static DETAIL_ROUTE_PREFIX = 'http://localhost:40011/big/map/detail';
-    static RENT_DETAIL_ENDPOINT = 'http://localhost:40011/rent/detail'; // 임대 매물 상세 정보 엔드포인트
+    // static DETAIL_ENDPOINT = 'http://localhost:40011/big/map/working';
+    // static DETAIL_ROUTE_PREFIX = 'http://localhost:40011/big/map/detail';
+    // static RENT_DETAIL_ENDPOINT = 'http://localhost:40011/rent/detail';
+    static DETAIL_ENDPOINT = 'https://www.houberapp.com/big/map/working';
+    static DETAIL_ROUTE_PREFIX = 'https://www.houberapp.com/big/map/detail';
+    static RENT_DETAIL_ENDPOINT = 'https://www.houberapp.com/rent/detail';
     
     // 성능 최적화 설정
     static PERFORMANCE_ZOOM_THRESHOLD = 15; // 줌 레벨 15 이하일 때 성능 모드 활성화

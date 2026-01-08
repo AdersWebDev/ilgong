@@ -22,7 +22,7 @@ class DataLoader {
         UIRenderer.setSidebarMessage('상세 정보를 불러오는 중...');
         
         try {
-            const response = await fetch(`http://localhost:40011/big/map/detail/${locationId}`);
+            const response = await fetch(`https://www.houberapp.com/big/map/detail/${locationId}`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
