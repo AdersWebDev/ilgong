@@ -1,5 +1,4 @@
-// const API_ENDPOINT = 'https://www.houberapp.com';
-const API_ENDPOINT = 'http://localhost:40011';
+const API_ENDPOINT = 'https://www.houberapp.com';
 // 폼 데이터 수집 및 백엔드 전송용 파라미터 생성
 function collectFormData() {
     // #region agent log
