@@ -139,9 +139,9 @@ class MarkerManager {
      */
     createIndividualMarker(position, location, onClick) {
         // 가격 정보 가져오기 (location.price 또는 location.property?.price)
-        const price = location.price || (location.property && location.property.price) || 0;
+        const price = location.minRentalFee || 0;
         const priceText = Utils.formatPriceToMan(price);
-        
+
         // 커스텀 마커 아이콘 생성
         const customIcon = this.createCustomMarkerIcon(priceText);
 

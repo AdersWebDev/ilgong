@@ -271,7 +271,7 @@
                     markerClickHandlers.set(key, () => {
                         // 개별 마커 클릭 시 상세 정보 로드
                         if (location.id) {
-                            this.dataLoader.loadLocationDetails(location.id);
+                            this.dataLoader.loadLocationDetails(location.producer,location.id);
                         }
                     });
                 });
