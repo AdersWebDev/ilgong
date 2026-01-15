@@ -1,277 +1,413 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>매물 상세보기 - 일공</title>
-    <meta name="description" content="일본 부동산 매물 상세 정보">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+    <meta name="referrer" content="unsafe-url">
+    <link rel="icon" href="../../assest/favicon.png" type="image/png">
+    <title>맨션 상세 정보 - ilgong</title>
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Base CSS -->
-    <link rel="stylesheet" href="main/style.css">
-    
-    <!-- Detail Page CSS -->
-    <link rel="stylesheet" href="detail/detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Base Stylesheet -->
+    <link rel="stylesheet" href="../../main/style.css">
+    <link rel="stylesheet" href="static/detail.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <a href="/map" class="logo">
-                    <span class="logo-text">ilgong</span>
-                </a>
-            </div>
-            
+        <div class="header-container">
             <nav class="header-nav">
-                <a href="/map" class="nav-link">일대륙 찾기</a>
-                <a href="/list" class="nav-link">일본 공인 <span class="badge">중개사</span></a>
-                <a href="#" class="nav-link">부동산 정보</a>
+                <ul class="nav-menu">
+                    <li class="header-logo-container">
+                        <div class="header-logo">
+                            <a href="/">iloong</a>
+                        </div>
+                    </li>
+                    <li><a href="/map/" class="active">임대매물 찾기</a></li>
+                    <li>
+                        <a href="#">일공 포럼</a>
+                        <span class="nav-badge">준비중</span>
+                    </li>
+                    <li><a href="#">부동산 정보</a></li>
+                </ul>
             </nav>
-            
-            <div class="header-right">
+
+            <div class="header-actions">
                 <div class="language-selector">
-                    <button class="lang-btn">KR <i class="fas fa-chevron-down"></i></button>
+                    <span class="lang-btn active">
+                        KR
+                        <img src="https://flagcdn.com/w20/kr.png" alt="한국" class="lang-flag">
+                        <i class="fas fa-chevron-down lang-chevron"></i>
+                    </span>
                 </div>
+                <button class="mobile-menu-toggle" aria-label="메뉴 열기">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            
-            <button class="mobile-menu-toggle" aria-label="메뉴 열기">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="detail-main">
-        <!-- Photo Gallery Section -->
-        <section class="photo-gallery-section">
-            <div class="gallery-container">
+    <div class="detail-container">
+        <!-- Image Gallery Section -->
+        <section class="gallery-section">
+            <div class="gallery-main-wrapper">
                 <div class="gallery-main">
-                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800" alt="메인 사진" id="mainImage">
+                    <img id="mainGalleryImage" src="https://picsum.photos/400/400?random=1" alt="부동산 메인 이미지">
+                    <button class="gallery-nav-btn prev mobile-only" aria-label="이전 이미지">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <button class="gallery-nav-btn next mobile-only" aria-label="다음 이미지">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gallery-pagination mobile-only">
+                        <span id="galleryPagination">1/5</span>
+                    </div>
+                    <button class="gallery-view-more-btn" id="viewMorePhotosBtn">사진 자세히보기</button>
                 </div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400" alt="사진 1">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400" alt="사진 2">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400" alt="사진 3">
-                    </div>
-                    <div class="gallery-item gallery-item-more">
-                        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400" alt="사진 4">
-                    </div>
+            </div>
+            <div class="gallery-thumbnails-wrapper">
+                <div class="gallery-thumbnails" id="galleryThumbnails">
+                    <!-- Thumbnails will be inserted by JavaScript -->
                 </div>
-                <button class="btn-view-photos" id="btnViewPhotos">
-                    <i class="fas fa-images"></i>
-                    <span>사진 자세히 보기</span>
-                </button>
             </div>
         </section>
 
         <!-- Property Info Section -->
         <section class="property-info-section">
-            <div class="container">
-                <div class="property-content-wrapper">
-                    <!-- Left Content -->
-                    <div class="property-content-main">
-                        <!-- Price Section -->
-                        <div class="price-section">
-                            <div class="price-main">
-                                <span class="price-amount">75,000</span>
-                                <span class="price-currency">엔</span>
-                                <span class="price-badge">월세</span>
-                                <span class="price-divider"></span>
-                                <span class="management-fee-amount">7,000</span>
-                                <span class="management-fee-currency">엔</span>
-                                <span class="management-fee-badge">관리비</span>
-                            </div>
-                            <div class="building-name-row">
-                                <i class="fas fa-home" aria-hidden="true"></i>
-                                <span class="building-label">맨션명</span>
-                                <h1 class="building-name">ホイリー帝塚山プレミアム</h1>
-                            </div>
-                            <address class="building-address">
-                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                                <span class="address-label">주소</span>
-                                <span class="address-text">大阪府大阪市東住吉区南田辺1丁目9-18</span>
-                            </address>
+            <div class="property-info-container">
+                <div class="property-info-main">
+                    <div class="property-stats">
+                        <h2 style="font-size: 36px;">75,000+</h2>
+                        <span style="font-size: 18px;">엔</span>
+                        <span class="feature-tag" style="font-size: 15px;">월세</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label house">
+                            <span class="info-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M8.156 2.55471C8.1117 2.51933 8.05669 2.50006 8 2.50006C7.94331 2.50006 7.8883 2.51933 7.844 2.55471L2.594 6.75471C2.56459 6.77819 2.54086 6.80802 2.52458 6.84195C2.50831 6.87589 2.4999 6.91307 2.5 6.95071V13.9697C2.5 14.1077 2.612 14.2197 2.75 14.2197H5.5V8.96971C5.5 8.77079 5.57902 8.58003 5.71967 8.43938C5.86032 8.29872 6.05109 8.21971 6.25 8.21971H9.75C9.94891 8.21971 10.1397 8.29872 10.2803 8.43938C10.421 8.58003 10.5 8.77079 10.5 8.96971V14.2197H13.25C13.3163 14.2197 13.3799 14.1934 13.4268 14.1465C13.4737 14.0996 13.5 14.036 13.5 13.9697V6.94971C13.4999 6.91224 13.4915 6.87526 13.4752 6.8415C13.4589 6.80775 13.4353 6.77809 13.406 6.75471L8.156 2.55471ZM6.906 1.38371C7.21634 1.13533 7.602 1 7.9995 1C8.397 1 8.78266 1.13533 9.093 1.38371L14.343 5.58371C14.758 5.9157 15 6.41871 15 6.95071V13.9697C15 14.4338 14.8156 14.8789 14.4874 15.2071C14.1592 15.5353 13.7141 15.7197 13.25 15.7197H9.75C9.55109 15.7197 9.36032 15.6407 9.21967 15.5C9.07902 15.3594 9 15.1686 9 14.9697V9.71971H7V14.9697C7 15.1686 6.92098 15.3594 6.78033 15.5C6.63968 15.6407 6.44891 15.7197 6.25 15.7197H2.75C2.28587 15.7197 1.84075 15.5353 1.51256 15.2071C1.18437 14.8789 1 14.4338 1 13.9697V6.94971C1 6.41871 1.242 5.9157 1.657 5.58371L6.907 1.38371H6.906Z"
+                                        fill="#17171B">
+                                </svg>
+                            </span>
+                            <span>맨션명</span>
+                        </span>
+                        <span class="info-value">グランエクラ今宮戎</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">
+                            <span class="info-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M11.422 3.14689C11.9043 3.63979 12.2869 4.22498 12.5479 4.86905C12.809 5.51311 12.9432 6.20344 12.9432 6.90059C12.9432 7.59774 12.809 8.28806 12.5479 8.93213C12.2869 9.57619 11.9043 10.1614 11.422 10.6543L7.75 14.4058L4.078 10.6532C3.59579 10.1603 3.21327 9.57507 2.95231 8.93102C2.69133 8.28695 2.55701 7.59665 2.55701 6.89953C2.55701 6.2024 2.69133 5.5121 2.95231 4.86804C3.21327 4.22398 3.59579 3.63877 4.078 3.14583C4.56022 2.65288 5.13269 2.26187 5.76273 1.99509C6.39277 1.7283 7.06805 1.591 7.75 1.591C8.43196 1.591 9.10722 1.7283 9.73727 1.99509C10.3673 2.26187 10.9397 2.65288 11.422 3.14583V3.14689ZM12.5228 11.7795C13.4668 10.8146 14.1097 9.58507 14.3703 8.24655C14.6307 6.90803 14.4971 5.5206 13.9863 4.25972C13.4753 2.99885 12.6102 1.92116 11.5002 1.16292C10.3901 0.404703 9.08504 0 7.75 0C6.41495 0 5.10989 0.404703 3.99984 1.16292C2.8898 1.92116 2.02464 2.99885 1.51376 4.25972C1.00289 5.5206 0.869247 6.90803 1.12975 8.24655C1.39024 9.58507 2.03318 10.8146 2.97723 11.7795L6.64819 15.5332C6.79285 15.6812 6.96461 15.7986 7.15367 15.8787C7.34272 15.9588 7.54536 16 7.75 16C7.95465 16 8.15728 15.9588 8.34633 15.8787C8.53539 15.7986 8.70715 15.6812 8.85181 15.5332L12.5228 11.7795ZM7.75 9.02372C8.30084 9.02372 8.8291 8.80003 9.21861 8.40187C9.60811 8.00371 9.82692 7.46368 9.82692 6.90059C9.82692 6.33749 9.60811 5.79748 9.21861 5.3993C8.8291 5.00114 8.30084 4.77746 7.75 4.77746C7.19917 4.77746 6.67089 5.00114 6.2814 5.3993C5.8919 5.79748 5.67308 6.33749 5.67308 6.90059C5.67308 7.46368 5.8919 8.00371 6.2814 8.40187C6.67089 8.80003 7.19917 9.02372 7.75 9.02372Z"
+                                        fill="#17171B" />
+                                </svg>
+                            </span>
+                            <span>주소</span>
+                        </span>
+                        <span class="info-value">大阪府大阪市浪速区恵美須西3丁目13-34</span>
+                    </div>
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <span class="info-label">건축일</span>
+                            <span class="info-value">2017年1月</span>
                         </div>
+                        <div class="info-card">
+                            <span class="info-label">구조</span>
+                            <span class="info-value">鉄筋コンクリート / 10階建</span>
+                        </div>
+                    </div>
+                    <div class="facilities" id="buildingFacilities">
 
-                        <!-- Building Info Section -->
-                        <article class="building-info-section">
-                            <header class="building-header">
+                    </div>
+                    <div class="property-room-equipment-title">호실 설비 옵션</div>
+                    <div class="facilities" id="roomEquipment"></div>
 
-                            <!-- Property Details -->
-                            <div class="property-details-wrapper">
-                                <dl class="property-details-grid">
-                                    <div class="detail-item">
-                                        <dt class="detail-label">건축일</dt>
-                                        <dd class="detail-value">2022년 2월</dd>
-                                    </div>
-                                    <div class="detail-item">
-                                        <dt class="detail-label">구조</dt>
-                                        <dd class="detail-value">철근콘크리트조 / 12층 건물</dd>
-                                    </div>
-                                </dl>
-                                
-                                <!-- Building Options -->
-                                <div class="building-options">
-                                    <span class="building-option-item">오토록</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">방범 카메라</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">엘리베이터</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">인터폰</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">택배함</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">전용 쓰레기장</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">반려동물 발 세척장</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">자전거보관소</span>
-                                </div>
-                            </div>
-
-                            <!-- Features -->
-                            <section class="features-section">
-                                <h2 class="features-title">호실 설비 옵션</h2>
-                                <div class="building-options">
-                                    <span class="building-option-item">주차가능</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">오토록</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">발코니</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">에어컨</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">욕실건조기</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">온수세정변기</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">가스레인지</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">환풍기</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">TV모니터폰</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">신발장</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">창고</span>
-                                    <span class="option-divider"></span>
-                                    <span class="building-option-item">욕실/화장실 분리</span>
-                                </div>
-                            </section>
-                        </article>
-
-                        <!-- Available Rooms Section -->
-                        <section class="rooms-section">
-                            <header class="rooms-header">
-                                <h2 class="rooms-title">이 맨션의 공실을 확인 해보세요!</h2>
-                            </header>
-
-                            <div class="rooms-pagination">
-                                <span class="page-info" aria-live="polite">1 / 5</span>
-                                <div class="pagination-controls">
-                                    <button type="button" class="btn-pagination btn-prev" id="btnPrevRoom" aria-label="이전 페이지">
-                                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn-pagination btn-next" id="btnNextRoom" aria-label="다음 페이지">
-                                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="rooms-list" id="roomsList" role="list">
-                                <!-- Room cards will be rendered here by JavaScript -->
-                            </div>
-                        </section>
+                    <div class="property-update-info">
+                        <div>2025-12-05 업데이트</div>
+                        <div>*호실마다 제공되는 옵션이 조금씩 다를 수 있으니 참고 부탁드립니다</div>
                     </div>
 
-                    <!-- Right Floating Inquiry Area (Desktop) -->
-                    <aside class="inquiry-sidebar">
-                        <div class="inquiry-card">
-                            <div class="inquiry-card-content">
-                                <button type="button" class="btn-inquiry-full btn-inquiry-primary" style="color: white;">
-                                    부동산 문의
+                    <div class="section-divider"></div>
+
+                    <!-- <section class="discount-banner">
+                        <div class="discount-timer">
+                            <div>
+                                <div class="discount-timer-text" id="discountTimer">12:18:53</div>
+                                <div class="discount-message">할인 혜택이 곧 종료됩니다!</div>
+                            </div>
+                        </div>
+                        <button class="discount-btn">혜택받고 예약하기</button>
+                    </section> -->
+
+                    <!-- Unit List Section -->
+                    <section class="unit-list-section">
+                        <div class="unit-list-header">
+                            <h2 class="unit-list-title">이 맨션의 공실을 확인 해보세요!</h2>
+                            <div class="unit-list-update-info">
+                                <span id="unitUpdateTime"><span class="clock-svg"></span>34분 전 업데이트</span>
+                                <button class="unit-refresh-btn" id="unitRefreshBtn"><span class="update-svg"></span>
+                                    갱신하기</button>
+                            </div>
+                        </div>
+                        <div class="unit-pagination">
+                            <div class="unit-pagination-info">
+                                <span id="unitPagination">1 / 5</span>
+                            </div>
+                            <div class="unit-pagination-info">
+                                <button class="unit-pagination-btn prev" id="unitPaginationPrev" aria-label="이전 페이지">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </button>
-                                <button type="button" class="btn-inquiry-full btn-inquiry-outline">
-                                    일본공간에 문의
+
+                                <button class="unit-pagination-btn next" id="unitPaginationNext" aria-label="다음 페이지">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </button>
                             </div>
                         </div>
-                    </aside>
+                        <div class="unit-carousel" id="unitCarousel">
+                            <div class="unit-card">
+                                <div class="room left">
+                                    <img src="" alt="평면도" class="unit-floor-plan">
+                                    <div class="unit-number">호실</div>
+                                    <span class="unit-status-tag ${statusClass}">공실</span>
+                                    <div class="unit-photo-info">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M8.5 13C9.88071 13 11 11.8807 11 10.5C11 9.11929 9.88071 8 8.5 8C7.11929 8 6 9.11929 6 10.5C6 11.8807 7.11929 13 8.5 13Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <span>사진 3장</span>
+                                    </div>
+                                </div>
+                                <div class="room middle">
+                                    <div class="unit-basic-info">서향 | 1k | 33.2㎡</div>
+                                    <div class="unit-move-in-date">입주가능일 2022-05-19~</div>
+                                </div>
+                                <div class="room right">
+                                    <div class="unit-price-item">
+                                        <span class="unit-price-label">월세</span>
+                                        <span class="unit-price-value">175,000엔</span>
+                                    </div>
+                                    <div class="unit-price-item">
+                                        <span class="unit-price-label">관리비</span>
+                                        <span class="unit-price-value">175,000엔</span>
+                                    </div>
+                                    <div class="unit-price-item">
+                                        <span class="unit-price-label">시키킹</span>
+                                        <span class="unit-price-value">175,000엔</span>
+                                    </div>
+                                    <div class="unit-price-item">
+                                        <span class="unit-price-label">레이킹</span>
+                                        <span class="unit-price-value">70,000엔</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="property-info-sidebar desktop-only">
+                    <button class="sidebar-inquiry-btn primary">부동산 문의</button>
+                    <button class="sidebar-inquiry-btn secondary">일본공간 문의</button>
                 </div>
             </div>
         </section>
 
-        <!-- Mobile Fixed Bottom Bar -->
-        <div class="mobile-inquiry-bar">
-            <div class="mobile-inquiry-content">
-                <button type="button" class="btn-mobile-inquiry btn-mobile-primary">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>
-                    문의하기
-                </button>
-                <button type="button" class="btn-mobile-inquiry btn-mobile-outline">
-                    <i class="fas fa-video" aria-hidden="true"></i>
-                    원격상담
-                </button>
-            </div>
-        </div>
-    </main>
+        <!-- Discount Banner -->
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <nav class="footer-nav">
-                <a href="#" class="footer-link">법적 고지사항</a>
-                <a href="#" class="footer-link">개인정보 수집 관련</a>
-                <a href="#" class="footer-link">제휴문의</a>
-            </nav>
-            <p class="footer-copyright">©2025, 일본공간 All rights reserved.</p>
-        </div>
-    </footer>
 
-    <!-- Photo Modal -->
-    <div class="photo-modal" id="photoModal">
-        <div class="modal-overlay" id="modalOverlay"></div>
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="modal-gallery">
-                <button class="modal-nav modal-prev" id="modalPrev">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                
-                <div class="modal-image-container">
-                    <img src="" alt="상세 사진" id="modalImage">
-                    <div class="modal-counter">
-                        <span id="modalCurrentIndex">1</span> / <span id="modalTotalImages">10</span>
+
+
+        <!-- Korean Support Section -->
+        <section class="korean-support-section">
+            <h2 class="korean-support-title">한국어 대응 가능한 일본 부동산</h2>
+            <div class="korean-support-card" id="koreanSupportCard">
+                <div class="korean-support-company">
+                    <div class="korean-support-logo"></div>
+                    <div class="korean-support-info">
+                        <div class="korean-support-company-name">하우비(주) | 메이더스</div>
+                        <div class="korean-support-address">도쿄도 신주쿠구 신주쿠 1-1-1</div>
+                        <div class="korean-support-phone">03-1234-5678</div>
                     </div>
                 </div>
-                
-                <button class="modal-nav modal-next" id="modalNext">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
             </div>
+        </section>
 
-            <div class="modal-thumbnails" id="modalThumbnails">
-                <!-- Thumbnails will be rendered here -->
+        <!-- Initial Costs Section -->
+        <section class="initial-costs-section">
+            <h2 class="initial-costs-title">초기 상세비용 *보증금 기준</h2>
+            <div class="total-initial-cost" id="totalInitialCost">¥121,000</div>
+            <div class="cost-items" id="costItems">
+                <!-- Cost items will be inserted by JavaScript -->
+            </div>
+            <div class="estimated-total">
+                <div class="estimated-total-label">초기 예상 총액</div>
+                <div class="estimated-total-value">¥304,800</div>
+            </div>
+            <div class="special-conditions">
+                <div class="special-conditions-title">꼭 확인 해주세요! 특약조건</div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section class="contact-form-section">
+            <h2 class="contact-form-title">부동산이 고민이라면, 문의 품으로 간편하게!</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label class="form-label" for="contactName">이름</label>
+                    <input type="text" id="contactName" class="form-input" placeholder="이름을 입력해주세요" required>
+                    <div class="form-error" id="nameError">이름을 입력해주세요</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="contactMessage">문의내용</label>
+                    <textarea id="contactMessage" class="form-textarea" placeholder="문의내용을 입력해주세요" required></textarea>
+                    <div class="form-error" id="messageError">문의내용을 입력해주세요</div>
+                </div>
+                <div class="form-checkbox-group">
+                    <input type="checkbox" id="privacyAgreement" class="form-checkbox" required>
+                    <label for="privacyAgreement" class="form-checkbox-label">개인정보 수집 및 이용 동의 (필수)</label>
+                    <div class="form-error" id="privacyError">개인정보 수집 및 이용에 동의해주세요</div>
+                </div>
+                <button type="submit" class="form-submit-btn">문의하기</button>
+            </form>
+        </section>
+
+        <!-- Recommended Properties Section -->
+        <section class="recommended-section">
+            <h2 class="recommended-title">추천 맨션</h2>
+            <div class="recommended-carousel" id="recommendedCarousel">
+                <!-- Recommended cards will be inserted by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer-section">
+            <div class="footer-links">
+                <a href="#" class="footer-link">입력 고려사항</a>
+                <a href="#" class="footer-link">개인정보 수집 관련</a>
+                <a href="#" class="footer-link">대응 문의</a>
+            </div>
+            <div class="station-info">
+                <div class="station-item">
+                    <div class="station-icon" style="background: #4CAF50;">T</div>
+                    <div class="station-info-text">신주쿠역 도보 5분</div>
+                </div>
+                <div class="station-item">
+                    <div class="station-icon" style="background: #E91E63;">K</div>
+                    <div class="station-info-text">신주쿠3초메역 도보 3분</div>
+                </div>
+                <div class="station-item">
+                    <div class="station-icon" style="background: #009688;">N</div>
+                    <div class="station-info-text">신주쿠산초메역 도보 7분</div>
+                </div>
+            </div>
+            <div class="coming-soon-box">준비 중입니다</div>
+            <div class="occupancy-conditions">
+                <div class="occupancy-item">
+                    <svg class="occupancy-check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2" />
+                        <path d="M8 12L11 15L16 9" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span class="occupancy-text">입주 가능</span>
+                </div>
+                <div class="occupancy-item">
+                    <svg class="occupancy-check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2" />
+                        <path d="M8 12L11 15L16 9" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span class="occupancy-text">외국인 가능</span>
+                </div>
+                <div class="occupancy-item">
+                    <svg class="occupancy-check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2" />
+                        <path d="M8 12L11 15L16 9" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span class="occupancy-text">2인 입주 가능</span>
+                </div>
+                <div class="occupancy-item">
+                    <svg class="occupancy-check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2" />
+                        <path d="M8 12L11 15L16 9" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span class="occupancy-text">법인 계약 가능</span>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                Copyright © 2024 ilgong. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal">
+        <button class="gallery-modal-close" aria-label="닫기">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
+        <div class="gallery-modal-content">
+            <div class="gallery-modal-main">
+                <img class="gallery-modal-img" id="modalMainImage" src="" alt="갤러리 이미지">
+                <button class="gallery-modal-nav prev" aria-label="이전 이미지">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <button class="gallery-modal-nav next" aria-label="다음 이미지">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div class="gallery-modal-pagination" id="modalPagination">1/5</div>
             </div>
         </div>
     </div>
 
-    <!-- Custom JavaScript -->
-    <script src="detail/detail.js"></script>
+    <!-- JavaScript Modules -->
+    <script src="../../main/main.js"></script>
+    <script src="static/api.js"></script>
+    <script src="static/timer.js"></script>
+    <script src="static/gallery.js"></script>
+    <script src="static/carousel.js"></script>
+    <script src="static/form.js"></script>
+    <script src="static/detail.js"></script>
 </body>
+
 </html>

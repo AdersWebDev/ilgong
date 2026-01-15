@@ -22,20 +22,13 @@ class DataLoader {
         UIRenderer.setSidebarMessage('상세 정보를 불러오는 중...');
         
         try {
-            const response = await fetch(`https://www.houberapp.com/big/map/detail/${locationId}`);
-            // const response = await fetch(`http://localhost:40011/rent/detail/${producer}/${locationId}`);
+            const response = await fetch(`${API_BASE_URL}/big/map/detail/${locationId}`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
             const data = await response.json();
-            // const details = Array.isArray(data) ? data : (data.details || []);
-            
-            // if (!details.length) {
-            //     UIRenderer.setSidebarMessage('상세 정보가 없습니다.');
-            //     return [];
-            // }
             
             UIRenderer.renderDetailItems(data);
             this.loadSyncRoomData(data.buildingId);
@@ -66,9 +59,8 @@ class DataLoader {
             throw new Error('쿼리 생성 실패');
         }
         
-        // 엔드포인트: localhost:40011/map/rent
-        const baseUrl = 'https://www.houberapp.com/map/rent';
-        // const baseUrl = 'http://localhost:40011/map/rent';
+        // API 베이스 URL에서 엔드포인트 구성
+        const baseUrl = `${API_BASE_URL}/map/rent`;
         
         // bounds 쿼리와 필터 쿼리 스트링 결합
         const queryParts = [query]; // bounds 쿼리
@@ -103,11 +95,12 @@ class DataLoader {
      * @param {string|number} propertyId - 매물 ID
      * @returns {Promise<Object|null>} 상세 정보 객체
      */
-    async loadRentDetail(propertyId) {
+    async loadRentDetail(producer,propertyId) {
+        console.log(producer,propertyId);
         if (!propertyId) return null;
         
         try {
-            const response = await fetch(`${Constants.RENT_DETAIL_ENDPOINT}/${propertyId}`);
+            const response = await fetch(`${Constants.RENT_DETAIL_ENDPOINT}/${producer}/${propertyId}`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -127,7 +120,7 @@ class DataLoader {
         UIRenderer.setSidebarMessage('상세 정보를 불러오는 중...');
         
         try {
-            const response = await fetch(`https://www.houberapp.com/big/map/detail/${buildingId}/room/sync`);
+            const response = await fetch(`${API_BASE_URL}/big/map/detail/${buildingId}/room/sync`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

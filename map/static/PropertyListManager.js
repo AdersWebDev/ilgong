@@ -69,9 +69,9 @@ class PropertyListManager {
         }
         
         container.innerHTML = propertiesToShow.map(property => `
-            <div class="property-card" data-id="${property.id}">
+            <div class="property-card" data-producer="${property.producer}" data-id="${property.id}">
                 <div class="property-card-image">
-                    <img src="${property.image || property.thumbnail || ''}" alt="${property.name || property.buildingName || ''}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22160%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22260%22 height=%22160%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';">
+                    <img src="${property.thumbnail || ''}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22160%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22260%22 height=%22160%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';">
                     <div class="property-card-carousel">
                         <span class="carousel-dot active"></span>
                         <span class="carousel-dot"></span>
@@ -79,9 +79,8 @@ class PropertyListManager {
                     </div>
                 </div>
                 <div class="property-card-content">
-                    <div class="property-info">
-                        <span>${property.buildingName || ''}</span>
-                    </div>
+                    <div class="property-price">¥ ${property.minRentalFee.toLocaleString()} +</div>
+                    <div class="property-info"> ${property.address || ''}</div>
                 </div>
             </div>
         `).join('');
@@ -89,6 +88,7 @@ class PropertyListManager {
         // Add click events
         container.querySelectorAll('.property-card').forEach(card => {
             card.addEventListener('click', async () => {
+                const producer = card.dataset.producer;
                 const id = card.dataset.id;
                 if (!id) return;
 
@@ -96,7 +96,7 @@ class PropertyListManager {
                     // DataLoader를 통해 상세 정보 가져오기
                     let data;
                     if (this.dataLoader && typeof this.dataLoader.loadRentDetail === 'function') {
-                        data = await this.dataLoader.loadRentDetail(id);
+                        data = await this.dataLoader.loadRentDetail(producer,id);
                     } else {
                         // DataLoader가 없는 경우 직접 호출 (fallback)
                         const response = await fetch(`${Constants.RENT_DETAIL_ENDPOINT}/${id}`);
@@ -109,15 +109,10 @@ class PropertyListManager {
                     // 데이터를 sessionStorage에 저장 (detail 페이지에서 사용하기 위해)
                     const storageKey = `property_detail_${id}`;
                     sessionStorage.setItem(storageKey, JSON.stringify(data));
+                     
+                    // 라우터가 없는 경우 fallback
+                    window.location.href = `/map/detail?propertyId=${id}`;
                     
-                    // 라우터를 사용하여 detail 페이지로 이동
-                    if (window.router) {
-                        // 쿼리 파라미터와 함께 detail 페이지로 이동
-                        window.router.navigate(`/detail?propertyId=${id}`);
-                    } else {
-                        // 라우터가 없는 경우 fallback
-                        window.location.href = `detail.html?propertyId=${id}`;
-                    }
                 } catch (error) {
                     console.error('데이터 로드 오류:', error);
                     alert('데이터를 불러오는데 실패했습니다.');

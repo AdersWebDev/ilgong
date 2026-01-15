@@ -3,14 +3,24 @@
  * 
  * 모든 설정값과 상수를 중앙에서 관리
  */
+
+// API 베이스 URL (전역 변수)
+// const API_BASE_URL = 'https://www.houberapp.com';
+const API_BASE_URL = 'http://localhost:40011';
+
 class Constants {
     // API 엔드포인트 설정
-    // static DETAIL_ENDPOINT = 'http://localhost:40011/big/map/working';
-    // static DETAIL_ROUTE_PREFIX = 'http://localhost:40011/big/map/detail';
-    // static RENT_DETAIL_ENDPOINT = 'http://localhost:40011/rent/detail';
-    static DETAIL_ENDPOINT = 'https://www.houberapp.com/big/map/working';
-    static DETAIL_ROUTE_PREFIX = 'https://www.houberapp.com/big/map/detail';
-    static RENT_DETAIL_ENDPOINT = 'https://www.houberapp.com/rent/detail';
+    static get DETAIL_ENDPOINT() {
+        return `${API_BASE_URL}/big/map/working`;
+    }
+    
+    static get DETAIL_ROUTE_PREFIX() {
+        return `${API_BASE_URL}/big/map/detail`;
+    }
+    
+    static get RENT_DETAIL_ENDPOINT() {
+        return `${API_BASE_URL}/rent/detail`;
+    }
     
     // 성능 최적화 설정
     static PERFORMANCE_ZOOM_THRESHOLD = 15; // 줌 레벨 15 이하일 때 성능 모드 활성화

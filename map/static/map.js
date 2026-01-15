@@ -280,9 +280,8 @@
                 this.markerManager.displayLocations(uniqueLocations, {
                     performanceMode: false,
                     onMarkerClick: (marker, location) => {
-                        const key = `${location.lat}_${location.lng}`;
-                        const handler = markerClickHandlers.get(key);
-                        if (handler) handler();
+                        // InfoWindow만 표시 (상세 정보 로드는 InfoWindow 클릭 시)
+                        this.markerManager.showInfoWindow(marker, location);
                     }
                 });
                 
@@ -356,18 +355,14 @@
                 // 프로퍼티 데이터 업데이트 (API에서 받은 데이터를 프로퍼티 형식으로 변환)
                 // 백엔드 DTO: id, lat, lng, thumbnail, buildingName
                 this.propertyData = locations.map(loc => ({
+                    producer: loc.producer,
                     id: loc.id,
-                    name: loc.buildingName || '',
-                    buildingName: loc.buildingName || '',
                     lat: Number(loc.lat),
                     lng: Number(loc.lng),
-                    image: loc.thumbnail || '',
                     thumbnail: loc.thumbnail || '',
-                    // 기본값 설정 (상세 정보는 나중에 로드)
-                    price: 0,
+                    minRentalFee: loc.minRentalFee || 0,
+                    address: loc.address || '',
                     type: '',
-                    rooms: '',
-                    location: '',
                     buildingType: '',
                     options: []
                 }));
