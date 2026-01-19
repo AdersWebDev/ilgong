@@ -160,7 +160,7 @@
 .agent-banner-svg {
     width: 140px;
     height: 140px;
-    content: url('../assest/agent-svg.svg');
+    content: url('/assest/agent-svg.svg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -215,7 +215,7 @@
     height: 330px;
     background-color: var(--bg-white);
     padding: var(--spacing-4xl) 0;
-    background-image: url('../assest/how-it-works-back.png');
+    background-image: url('/assest/how-it-works-back.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -255,7 +255,7 @@
     max-width: 400px;
     height: 400px;
     max-height: 400px;
-    background: url('../assest/outro.png') no-repeat center center;
+    background: url('/assest/outro.png') no-repeat center center;
 }
 
 .outro-right {
