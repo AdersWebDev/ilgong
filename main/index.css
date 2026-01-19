@@ -2,39 +2,41 @@
    Container
    ======================================== */
 .container {
-    max-width: 920px;
+    max-width: 541px;
     margin: 0 auto;
-    padding: 0 var(--container-padding);
 }
 
 /* ========================================
    Hero Section
    ======================================== */
 .hero {
-    /* background-image: url('../assest/hero-back.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat; */
+    background: linear-gradient(43deg, white 0%, #D0E3FF 100%);
     width: 100%;
-    margin: 100px 0;
     padding: var(--spacing-4xl) 0;
     position: relative;
     overflow: hidden;
+   
+    
 }
 
 .hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     align-items: flex-start;
-    gap: 100px;
     position: relative;
-
     z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .hero-text {
     display: flex;
+    text-align: left;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: var(--spacing-lg);
 }
 
@@ -153,7 +155,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
+}
+.agent-banner-svg {
+    width: 140px;
+    height: 140px;
+    content: url('../assest/agent-svg.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .agent-banner-content {
@@ -172,12 +182,28 @@
     text-align: flex-start;
 }
 
-.agent-banner h3 {
+.agent-banner p {
     display: block;
     font-size: 20px;
     color: var(--text-white);
     margin-bottom: 9px;
     text-align: flex-start;
+}
+
+.agent-banner button {
+    color: #225CDD;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2px 14px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
 }
 
 .how-it-works {
@@ -196,12 +222,11 @@
 }
 
 .how-it-works-title {
-
     font-size: 34px;
     font-weight: var(--font-weight-normal);
     color: var(--text-white);
-    margin: 0;
-
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .how-it-works-description {
@@ -209,11 +234,45 @@
     font-weight: var(--font-weight-normal);
     color: var(--text-white);
     margin: 0;
+    text-align: center;
 }
 
-.outro {}
+.outro {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 40px;
+}
 
+.outro-left {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    max-height: 400px;
+    background: url('../assest/outro.png') no-repeat center center;
+}
 
+.outro-right {
+    padding: 0 20px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.outro-logo svg{
+    width: 88px;
+    height: auto;
+    /* background-size: fill;
+    background-position: center;
+    background-repeat: no-repeat; */
+}
 /* ========================================
    Buttons
    ======================================== */
@@ -357,67 +416,19 @@
     display: none;
     width: 0;
 }
-
+.footer {
+    border-top: 1px solid #E5E5E5;
+    max-width: 100% !important;
+}
+.footer-content {
+    max-width: 1440px !important;
+    border-top: none !important;
+    margin: 0 auto;
+}
 /* ========================================
    Footer
    ======================================== */
-/* .footer {
-    background-color: var(--color-gray-800);
-    color: var(--color-white);
-    padding: var(--spacing-xl) 0;
-}
 
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-md);
-    text-align: center;
-}
-
-.footer-logo a {
-    content: url('../assest/logo.svg');
-    width: 79px;
-    height: 44px;
-    object-fit: contain;
-    object-position: center;
-    display: block;
-    margin: 0 auto;
-    padding: 0;
-    border: none;
-}
-
-.footer-links {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.footer-links a {
-    font-size: var(--font-size-sm);
-    color: var(--color-gray-300);
-}
-
-.footer-links a:hover {
-    color: var(--color-primary);
-}
-
-.footer-links .divider {
-    color: var(--color-gray-600);
-}
-
-.footer-info {
-    font-size: var(--font-size-sm);
-    color: var(--color-gray-400);
-} */
-
-/* ========================================
-   Responsive Design
-   ======================================== */
-
-/* Tablet - 1023px and below */
 @media (max-width: 1023px) {
     :root {
         --container-padding: 1.5rem;
@@ -430,11 +441,6 @@
     .hero-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-2xl);
-    }
-
-    .hero-text {
-        align-items: center;
-        text-align: center;
     }
 
     .hero-features {
@@ -461,6 +467,21 @@
 
     .how-it-works-description {
         font-size: 16px;
+    }
+    .outro {
+        flex-direction: column;
+    }
+
+}
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+    }
+    .hero-text {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
     }
 }
 
