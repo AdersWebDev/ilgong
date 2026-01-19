@@ -1,8 +1,7 @@
-
 /* ========================================
    Container
    ======================================== */
-   .container {
+.container {
     max-width: 920px;
     margin: 0 auto;
     padding: 0 var(--container-padding);
@@ -16,7 +15,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat; */
-    width: 100vw;
+    width: 100%;
     margin: 100px 0;
     padding: var(--spacing-4xl) 0;
     position: relative;
@@ -29,7 +28,7 @@
     align-items: flex-start;
     gap: 100px;
     position: relative;
-    
+
     z-index: 1;
 }
 
@@ -116,12 +115,15 @@
 .hero-feature-icon .icon-1 {
     content: url('../assest/hero-1.svg');
 }
+
 .hero-feature-icon .icon-2 {
     content: url('../assest/hero-2.svg');
 }
+
 .hero-feature-icon .icon-3 {
     content: url('../assest/hero-3.svg');
 }
+
 /* .hero-feature-icon .hero-icon-overlay {
     position: absolute;
     font-size: var(--font-size-base);
@@ -141,6 +143,43 @@
 /* ========================================
    How It Works Section
    ======================================== */
+.agent-banner {
+    width: 100%;
+    max-width: 100%;
+    height: 160px;
+    background: linear-gradient(54deg, #0123B4 0%, #3D8BFF 100%);
+    overflow: hidden;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.agent-banner-content {
+    display: flex;
+    width: 400px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.agent-banner h2 {
+    display: block;
+    font-size: 26px;
+    color: var(--text-white);
+    margin: 0;
+    text-align: flex-start;
+}
+
+.agent-banner h3 {
+    display: block;
+    font-size: 20px;
+    color: var(--text-white);
+    margin-bottom: 9px;
+    text-align: flex-start;
+}
+
 .how-it-works {
     display: flex;
     flex-direction: column;
@@ -164,12 +203,17 @@
     margin: 0;
 
 }
+
 .how-it-works-description {
     font-size: 20px;
     font-weight: var(--font-weight-normal);
     color: var(--text-white);
     margin: 0;
 }
+
+.outro {}
+
+
 /* ========================================
    Buttons
    ======================================== */
@@ -210,12 +254,114 @@
     font-size: 18px;
 }
 
+/* ========================================
+   Privacy Modal
+======================================== */
+.privacy-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
 
+.privacy-modal.active {
+    display: flex;
+}
+
+.privacy-modal .modal-content {
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    width: 500px;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.privacy-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.privacy-modal .modal-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+}
+
+.privacy-modal .modal-header .modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+}
+
+.privacy-modal .modal-header .modal-close-btn:hover {
+    color: #000;
+}
+
+.privacy-modal .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.privacy-content {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.privacy-content p {
+    margin-bottom: 20px;
+}
+
+.privacy-content strong {
+    color: #000;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* 스크롤바 숨기기 (스크롤 기능은 유지) */
+.privacy-modal .modal-body {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.privacy-modal .modal-body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+}
 
 /* ========================================
    Footer
    ======================================== */
-.footer {
+/* .footer {
     background-color: var(--color-gray-800);
     color: var(--color-white);
     padding: var(--spacing-xl) 0;
@@ -265,7 +411,7 @@
 .footer-info {
     font-size: var(--font-size-sm);
     color: var(--color-gray-400);
-}
+} */
 
 /* ========================================
    Responsive Design
@@ -276,39 +422,43 @@
     :root {
         --container-padding: 1.5rem;
     }
+
     .hero {
         margin: 0;
     }
+
     .hero-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-2xl);
     }
-    
+
     .hero-text {
         align-items: center;
         text-align: center;
     }
-    
+
     .hero-features {
         max-width: 500px;
         margin: 0 auto;
     }
-    
+
     .hero-feature-card {
         margin-left: 0 !important;
         margin-right: 0 !important;
     }
-    
+
     .hero-title {
         font-size: 28px;
     }
-    
+
     .hero-subtitle {
         font-size: var(--font-size-3xl);
     }
+
     .how-it-works-title {
         font-size: 28px;
     }
+
     .how-it-works-description {
         font-size: 16px;
     }
@@ -321,5 +471,5 @@
         --font-size-4xl: 1.75rem;
         --font-size-3xl: 1.5rem;
     }
-    
+
 }

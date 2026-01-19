@@ -391,6 +391,60 @@ input, select, textarea {
     box-shadow: var(--shadow-md);
 }
 
+/* ========================================
+   Footer
+   ======================================== */
+.footer {
+    display: block;
+    background-color: #FFFFFF;
+    color: var(--color-white);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border-top : 1px solid #E5E5E5;
+    flex-wrap: wrap;
+    padding: 0 var(--container-padding);
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 60px;
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--text-primary);
+    min-width: 10px;
+}
+
+.footer-links a:hover {
+    color: var(--color-primary);
+}
+
+.footer-links .divider {
+    color: var(--color-gray-600);
+}
+
+.footer-info {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-400);
+}
+
 @media (max-width: 1023px) {
     /* 데스크탑: nav-menu의 로고 숨김, 모바일: header-actions의 로고 표시 */
     .header-nav .header-logo {

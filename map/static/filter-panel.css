@@ -57,9 +57,7 @@
 
 .search-input:focus {
     outline: none;
-    border-color: var(--primary-yellow);
-    background-color: var(--bg-white);
-    border: 1px solid var(--primary-yellow);
+    border-color: #3D8BFF;
 }
 
 .search-input::placeholder {
@@ -98,6 +96,18 @@
 .autocomplete-item:hover,
 .autocomplete-item.selected {
     background-color: var(--bg-gray-light);
+}
+
+.autocomplete-item.autocomplete-no-results,
+.autocomplete-item.autocomplete-error {
+    color: var(--text-secondary);
+    cursor: default;
+    font-style: italic;
+}
+
+.autocomplete-item.autocomplete-no-results:hover,
+.autocomplete-item.autocomplete-error:hover {
+    background-color: transparent;
 }
 
 /* Filter Buttons */
@@ -149,13 +159,19 @@
     height: 16px;
 }
 .filter-btn:hover {
-    background-color: var(--primary-yellow-dark);
+    background-color: #D8E8FF;
 }
 
 .filter-btn.active {
-    background-color: var(--primary-yellow);
-    border-color: var(--primary-yellow);
+    background-color: #3D8BFF;
+    border: 1px solid #3D8BFF;
+    color: #FFFFFF;
     font-weight: 600;
+    .icon path {
+        fill: #FFFFFF !important;
+        stroke: #FFFFFF !important;
+    }
+    
 }
 
 .filter-btn i:last-child {
@@ -607,7 +623,6 @@
 @media (max-width: 1023px) {
     .filter-bar-container {
         flex-wrap: wrap;
-        gap: var(--spacing-md);
     }
     
     .filter-search {

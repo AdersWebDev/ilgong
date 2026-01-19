@@ -7,6 +7,9 @@
 /* ========================================
    Main Container - Map + Property List
 ======================================== */
+body {
+    overflow: hidden;
+}
 .main-container {
     display: grid;
     grid-template-columns: 1fr var(--property-list-width);
@@ -31,25 +34,28 @@
 /* Floating Recommendation Button */
 .floating-recommendation-btn {
     position: absolute;
-    bottom: var(--spacing-3xl);
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
+    width: 200px;
+    height: 50px;
     padding: var(--spacing-lg) var(--spacing-3xl);
-    font-size: var(--font-size-base);
+    font-size: 18px;
     font-weight: 600;
-    color: var(--text-primary);
-    background-color: var(--primary-yellow);
-    border-radius: var(--radius-xl);
+    color: #ffffff;
+    background-color: #3D8BFF;
+    border-radius: 10px;
     box-shadow: var(--shadow-lg);
     z-index: var(--z-floating);
-    display: flex;
+    display: none;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     transition: all var(--transition-base);
 }
 
 .floating-recommendation-btn:hover {
-    background-color: var(--primary-yellow-dark);
+    background-color: #1266E5;
     transform: translateX(-50%) translateY(-2px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
@@ -240,7 +246,9 @@
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
 }
-
+.property-card.history {
+    filter: grayscale(80%);
+}
 .property-card-image {
     position: relative;
     width: 100%;
@@ -284,16 +292,14 @@
 }
 
 .property-price {
-    font-size: var(--font-size-xl);
+    font-size: 18px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--spacing-sm);
 }
 
 .property-info {
-    font-size: var(--font-size-2xl);
+    font-size: 14px;
     color: var(--text-primary);
-    /* display: flex; */
     align-items: center;
     gap: var(--spacing-sm);
 }
@@ -361,6 +367,7 @@
 /* Tablet - 1023px and below */
 @media (max-width: 1023px) {
     .main-container {
+        height: calc(100vh - var(--header-height) - var(--filter-bar-height));
         grid-template-columns: 1fr;
         position: relative;
     }
@@ -384,6 +391,13 @@
     
     .property-list-container {
         grid-template-columns: 1fr;
+    }
+    
+    .floating-recommendation-btn {
+        display: flex;
+        bottom: 50px;
+        padding: var(--spacing-md) var(--spacing-xl);
+        font-size: var(--font-size-sm);
     }
 }
 
@@ -411,12 +425,6 @@
         width: 100%;
         max-width: 100%;
     }
-    
-    .floating-recommendation-btn {
-        bottom: var(--spacing-xl);
-        padding: var(--spacing-md) var(--spacing-xl);
-        font-size: var(--font-size-sm);
-    }
 }
 
 /* Small Mobile - 375px and below */
@@ -434,7 +442,7 @@
     }
     
     .floating-recommendation-btn {
-        bottom: var(--spacing-lg);
+        bottom: 50px;
         padding: var(--spacing-sm) var(--spacing-lg);
         font-size: var(--font-size-xs);
     }

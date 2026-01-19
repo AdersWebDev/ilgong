@@ -87,36 +87,19 @@ class PropertyListManager {
         
         // Add click events
         container.querySelectorAll('.property-card').forEach(card => {
-            card.addEventListener('click', async () => {
+            card.addEventListener('click', () => {
+                card.classList.add('history');
                 const producer = card.dataset.producer;
                 const id = card.dataset.id;
-                if (!id) return;
-
-                try {
-                    // DataLoader를 통해 상세 정보 가져오기
-                    let data;
-                    if (this.dataLoader && typeof this.dataLoader.loadRentDetail === 'function') {
-                        data = await this.dataLoader.loadRentDetail(producer,id);
-                    } else {
-                        // DataLoader가 없는 경우 직접 호출 (fallback)
-                        const response = await fetch(`${Constants.RENT_DETAIL_ENDPOINT}/${id}`);
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        data = await response.json();
-                    }
-                    
-                    // 데이터를 sessionStorage에 저장 (detail 페이지에서 사용하기 위해)
-                    const storageKey = `property_detail_${id}`;
-                    sessionStorage.setItem(storageKey, JSON.stringify(data));
-                     
-                    // 라우터가 없는 경우 fallback
-                    window.location.href = `/map/detail?propertyId=${id}`;
-                    
-                } catch (error) {
-                    console.error('데이터 로드 오류:', error);
-                    alert('데이터를 불러오는데 실패했습니다.');
+                
+                // producer와 id가 모두 있어야 detail 페이지로 이동
+                if (!id || !producer) {
+                    console.warn('Producer or ID is missing:', { producer, id });
+                    return;
                 }
+
+                // detail 페이지를 새 창으로 열기 (query parameter 형식 - 테스트용: /rent/detail?producer={producer}&id={id})
+                window.open(`/map/detail/index.html?producer=${producer}&id=${id}`, '_blank');
             });
         });
     }

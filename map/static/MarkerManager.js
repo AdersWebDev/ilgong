@@ -14,6 +14,9 @@ class MarkerManager {
         this.markers = [];
         this.infoWindow = null; // 현재 열려있는 InfoWindow
         this.mapClickListener = null; // 지도 클릭 리스너
+        this.clickedMarker = null; // 현재 클릭된 마커 (grayscale 적용된 마커)
+        this.markerOriginalIcons = new Map(); // 마커의 원본 아이콘 저장
+        this.displayedMarkerKeys = new Set(); // 이미 표시된 마커 키 (producer_id 조합)
         this.setupMapClickListener();
     }
     
@@ -82,6 +85,11 @@ class MarkerManager {
         
         // 마커 배열 초기화
         this.markers = [];
+        // 클릭된 마커 및 원본 아이콘 맵 초기화
+        this.clickedMarker = null;
+        this.markerOriginalIcons.clear();
+        // 표시된 마커 키 초기화
+        this.displayedMarkerKeys.clear();
     }
 
     /**
@@ -119,35 +127,40 @@ class MarkerManager {
 
         return marker;
     }
-//     <svg xmlns="http://www.w3.org/2000/svg" width="66" height="46" viewBox="0 0 66 46" fill="none">
-//     <g filter="url(#filter0_d_3438_13735)">
-//         <path d="M46.623 0C55.6677 0 63 7.33228 63 16.377C62.9999 25.4216 55.6677 32.7539 46.623 32.7539H40.0264L34.1279 39.4766C33.5305 40.1575 32.4695 40.1575 31.8721 39.4766L25.9736 32.7539H19.377C10.3323 32.7539 3.00007 25.4216 3 16.377C3 7.33228 10.3323 0 19.377 0H46.623Z" fill="#3D8BFF"/>
-//         <text x="33" y="15" font-family="'Noto Sans KR', sans-serif" font-size="15" font-weight="600" fill="white" text-anchor="middle" dominant-baseline="central">${priceText}</text>
-//     </g>
-//     <defs>
-//         <filter id="filter0_d_3438_13735" x="0" y="0" width="66" height="50" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-//             <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-//             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-//             <feOffset dy="3"/>
-//             <feGaussianBlur stdDeviation="1.5"/>
-//             <feComposite in2="hardAlpha" operator="out"/>
-//             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-//             <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3438_13735"/>
-//             <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3438_13735" result="shape"/>
-//         </filter>
-//     </defs>
-// </svg>
     /**
      * 커스텀 마커 아이콘 생성 (Union.svg 스타일)
      * @param {string} priceText - 표시할 가격 텍스트 (예: "5.0만")
+     * @param {boolean} applyGrayscale - grayscale 필터 적용 여부 (기본값: false)
      * @returns {Object} Google Maps 마커 아이콘 설정 객체
      */
-    createCustomMarkerIcon(priceText) {
+    createCustomMarkerIcon(priceText, applyGrayscale = false) {
         // SVG 생성 (배경 먼저, 텍스트 나중에 그려서 텍스트가 위에 표시되도록)
+        // grayscale(80%) = 80% grayscale + 20% 원본
+        // 이를 위해 saturate를 0.2 (20% 채도 유지)로 설정
+        const filterDef = applyGrayscale ? `
+            <defs>
+                <filter id="grayscale-${Math.random().toString(36).substr(2, 9)}">
+                    <feColorMatrix type="saturate" values="0.2"/>
+                </filter>
+            </defs>
+        ` : '';
+        
+        // 고유한 filter ID를 위해 랜덤 ID 생성
+        let filterId = '';
+        if (applyGrayscale) {
+            const match = filterDef.match(/id="([^"]+)"/);
+            if (match) filterId = match[1];
+        }
+        
+        const filterAttr = applyGrayscale && filterId ? `filter="url(#${filterId})"` : '';
+        
         const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="30" viewBox="0 0 60 30" fill="none">
-            <rect width="60" height="30" rx="10" fill="#3D8BFF"/>
-            <text x="30" y="15" font-family="'Noto Sans KR', sans-serif" font-size="14" font-weight="500" fill="white" text-anchor="middle" dominant-baseline="central">${priceText}</text>
+            ${filterDef}
+            <g ${filterAttr}>
+                <rect width="60" height="30" rx="10" fill="#3D8BFF"/>
+                <text x="30" y="15" font-family="'Noto Sans KR', sans-serif" font-size="14" font-weight="500" fill="white" text-anchor="middle" dominant-baseline="central">${priceText}</text>
+            </g>
         </svg>
         `;
 
@@ -175,11 +188,13 @@ class MarkerManager {
         // 썸네일 이미지 (있는 경우)
         const thumbnail = location.thumbnail || null;
         
-        // 상세 페이지 URL 생성
-        const detailUrl = location.id ? `${API_BASE_URL}/big/map/detail/${location.producer}/${location.id}` : '#';
+        // 상세 페이지 URL 생성 (query parameter 형식 - 테스트용)
+        const detailUrl = location.id && location.producer ? `/map/detail/index.html?producer=${location.producer}&id=${location.id}` : '#';
         
         return `
-            <div id="info-window-content-${location.producer}_${location.id || 'default'}" style="padding: 0; min-width: 220px; max-width: 280px; font-family: 'Noto Sans KR', sans-serif; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer;" onclick="window.location.href='${detailUrl}'">
+            <div id="info-window-content-${location.producer}_${location.id || 'default'}" style="padding: 0; min-width: 220px; max-width: 280px; font-family: 'Noto Sans KR', sans-serif; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer;"
+            onclick="window.open('${detailUrl}', '_blank');"
+            ">
                 ${thumbnail ? `
                 <div style="width: 100%; height: 120px; overflow: hidden; background: #f5f5f5;">
                     <img src="${thumbnail}" alt="${address}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none';">
@@ -210,25 +225,25 @@ class MarkerManager {
             this.infoWindow.close();
         }
 
-        // 상세 페이지 URL 생성
-        const detailUrl = location.id ? `${API_BASE_URL}/big/map/detail/${location.producer}/${location.id}` : '#';
+        // 이전에 클릭된 마커가 있으면 원본 아이콘으로 복원
+        if (this.clickedMarker && this.clickedMarker !== marker) {
+            this.removeGrayscaleFromMarker(this.clickedMarker);
+        }
+        
+        // 현재 클릭된 마커에 grayscale 적용 (클러스터 마커 제외)
+        if (marker.locationData) {
+            this.applyGrayscaleToMarker(marker);
+            this.clickedMarker = marker;
+        }
+
+        // 상세 페이지 URL 생성 (query parameter 형식 - 테스트용)
+        const detailUrl = location.id && location.producer ? `/map/detail/index.html?producer=${location.producer}&id=${location.id}` : '#';
         
         // 새 InfoWindow 생성 및 표시
         const content = this.createInfoWindowContent(location);
         this.infoWindow = new google.maps.InfoWindow({
             content: content,
             pixelOffset: new google.maps.Size(0, -10) // 마커 위에 표시
-        });
-        
-        // InfoWindow가 열린 후 클릭 이벤트 리스너 추가
-        this.infoWindow.addListener('domready', () => {
-            const contentElement = document.getElementById(`info-window-content-${location.producer}_${location.id || 'default'}`);
-            if (contentElement && location.id) {
-                contentElement.style.cursor = 'pointer';
-                contentElement.addEventListener('click', () => {
-                    window.location.href = detailUrl;
-                });
-            }
         });
         
         this.infoWindow.open(this.map, marker);
@@ -256,12 +271,45 @@ class MarkerManager {
             zIndex: google.maps.Marker.MAX_ZINDEX
         });
 
+        // 원본 아이콘 저장 (나중에 grayscale을 제거할 때 사용)
+        this.markerOriginalIcons.set(marker, customIcon);
+        
+        // location 정보를 마커에 저장 (grayscale 아이콘 생성 시 필요)
+        marker.locationData = location;
+
         // 마커 클릭 이벤트
         if (onClick) {
             marker.addListener('click', onClick);
         }
 
         return marker;
+    }
+    
+    /**
+     * 마커에 grayscale 필터 적용
+     * @param {google.maps.Marker} marker - 적용할 마커
+     */
+    applyGrayscaleToMarker(marker) {
+        // 클러스터 마커는 제외 (개별 마커만)
+        if (!marker.locationData) return;
+        
+        const price = marker.locationData.minRentalFee || 0;
+        const priceText = Utils.formatPriceToMan(price);
+        
+        // grayscale이 적용된 아이콘 생성
+        const grayscaleIcon = this.createCustomMarkerIcon(priceText, true);
+        marker.setIcon(grayscaleIcon);
+    }
+    
+    /**
+     * 마커의 grayscale 필터 제거 (원본 아이콘으로 복원)
+     * @param {google.maps.Marker} marker - 복원할 마커
+     */
+    removeGrayscaleFromMarker(marker) {
+        const originalIcon = this.markerOriginalIcons.get(marker);
+        if (originalIcon) {
+            marker.setIcon(originalIcon);
+        }
     }
 
     /**
@@ -272,13 +320,15 @@ class MarkerManager {
      * @param {boolean} options.performanceMode - 성능 모드 여부 (그룹화된 마커 표시)
      * @param {Function} options.onGroupClick - 그룹 마커 클릭 핸들러
      * @param {Function} options.onMarkerClick - 개별 마커 클릭 핸들러
+     * @param {boolean} options.appendMode - 추가 모드 여부 (기존 마커 유지하고 새로운 것만 추가)
      * @returns {google.maps.LatLngBounds} 모든 마커를 포함하는 bounds
      */
     displayLocations(locations, options = {}) {
         const { 
             performanceMode = false,
             onGroupClick = null,
-            onMarkerClick = null
+            onMarkerClick = null,
+            appendMode = false
         } = options;
 
         const bounds = new google.maps.LatLngBounds();
@@ -291,6 +341,14 @@ class MarkerManager {
             // 유효하지 않은 좌표는 제외
             if (!Utils.isFiniteNumber(lat) || !Utils.isFiniteNumber(lng)) {
                 return;
+            }
+
+            // appendMode일 때 이미 표시된 마커는 건너뛰기
+            if (appendMode && location.producer && location.id) {
+                const markerKey = `${location.producer}_${location.id}`;
+                if (this.displayedMarkerKeys.has(markerKey)) {
+                    return; // 이미 표시된 마커는 건너뛰기
+                }
             }
 
             const position = { lat, lng };
@@ -314,6 +372,13 @@ class MarkerManager {
                 }
                 newMarkers.push(marker);
                 this.markers.push(marker);
+                
+                // 표시된 마커 키 저장 (producer_id 조합)
+                if (location.producer && location.id) {
+                    const markerKey = `${location.producer}_${location.id}`;
+                    this.displayedMarkerKeys.add(markerKey);
+                }
+                
                 bounds.extend(position);
             }
         });
