@@ -1,97 +1,101 @@
 /**
  * Timer Module
- * 할인 타이머 관리 (랜덤 시간 생성)
+ * 업데이트 시간 표시 및 상대 시간 계산
  */
 
 const DiscountTimer = {
-    timerElement: null,
-    timerInterval: null,
+    updateTimeElement: null,
+    updateInterval: null,
+    updatedAt: null,
     
     /**
      * 초기화
+     * @param {string} updatedAt - ISO 8601 형식의 업데이트 시간
      */
-    init() {
-        this.timerElement = document.getElementById('discountTimer');
-        if (!this.timerElement) return;
+    init(updatedAt = null) {
+        this.updateTimeElement = document.getElementById('unitUpdateTime');
+        this.updatedAt = updatedAt;
         
-        // 랜덤 시간 생성 (12:00:00 ~ 23:59:59)
-        const randomHours = Math.floor(Math.random() * 12) + 12;
-        const randomMinutes = Math.floor(Math.random() * 60);
-        const randomSeconds = Math.floor(Math.random() * 60);
+        if (!this.updateTimeElement) return;
         
-        this.startTimer(randomHours, randomMinutes, randomSeconds);
+        // 초기 업데이트 시간 표시
+        this.updateRelativeTime();
+        
+        // 1분마다 상대 시간 업데이트
+        this.updateInterval = setInterval(() => {
+            this.updateRelativeTime();
+        }, 60000); // 1분마다 업데이트
     },
     
     /**
-     * 타이머 시작
-     * @param {number} hours - 시간
-     * @param {number} minutes - 분
-     * @param {number} seconds - 초
+     * 상대 시간 계산 및 표시
      */
-    startTimer(hours, minutes, seconds) {
-        let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    updateRelativeTime() {
+        if (!this.updateTimeElement || !this.updatedAt) {
+            // updatedAt이 없으면 기본 메시지 표시
+            if (this.updateTimeElement) {
+                this.updateTimeElement.innerHTML = '<span class="clock-svg"></span>업데이트 시간 정보 없음';
+            }
+            return;
+        }
         
-        const updateTimer = () => {
-            if (totalSeconds <= 0) {
-                // 시간이 끝나면 새로운 랜덤 시간으로 재시작
-                this.restartWithRandomTime();
+        try {
+            const updateDate = new Date(this.updatedAt);
+            const now = new Date();
+            const diffMs = now - updateDate;
+            
+            if (isNaN(diffMs) || diffMs < 0) {
+                this.updateTimeElement.innerHTML = '<span class="clock-svg"></span>업데이트 시간 정보 없음';
                 return;
             }
             
-            const h = Math.floor(totalSeconds / 3600);
-            const m = Math.floor((totalSeconds % 3600) / 60);
-            const s = totalSeconds % 60;
+            const diffMinutes = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
             
-            this.displayTime(h, m, s);
+            let relativeTime = '';
             
-            totalSeconds--;
-        };
-        
-        // 즉시 한 번 실행
-        updateTimer();
-        
-        // 1초마다 업데이트
-        this.timerInterval = setInterval(updateTimer, 1000);
-    },
-    
-    /**
-     * 시간 표시
-     * @param {number} hours - 시간
-     * @param {number} minutes - 분
-     * @param {number} seconds - 초
-     */
-    displayTime(hours, minutes, seconds) {
-        if (!this.timerElement) return;
-        
-        const h = String(hours).padStart(2, '0');
-        const m = String(minutes).padStart(2, '0');
-        const s = String(seconds).padStart(2, '0');
-        
-        this.timerElement.textContent = `${h}:${m}:${s}`;
-    },
-    
-    /**
-     * 새로운 랜덤 시간으로 재시작
-     */
-    restartWithRandomTime() {
-        if (this.timerInterval) {
-            clearInterval(this.timerInterval);
+            if (diffMinutes < 1) {
+                relativeTime = '방금 전';
+            } else if (diffMinutes < 60) {
+                relativeTime = `${diffMinutes}분 전`;
+            } else if (diffHours < 24) {
+                relativeTime = `${diffHours}시간 전`;
+            } else if (diffDays < 7) {
+                relativeTime = `${diffDays}일 전`;
+            } else {
+                // 7일 이상이면 날짜 표시
+                const year = updateDate.getFullYear();
+                const month = String(updateDate.getMonth() + 1).padStart(2, '0');
+                const day = String(updateDate.getDate()).padStart(2, '0');
+                relativeTime = `${year}-${month}-${day}`;
+            }
+            
+            this.updateTimeElement.innerHTML = `<span class="clock-svg"></span>${relativeTime} 업데이트`;
+        } catch (error) {
+            console.error('시간 계산 오류:', error);
+            if (this.updateTimeElement) {
+                this.updateTimeElement.innerHTML = '<span class="clock-svg"></span>업데이트 시간 정보 없음';
+            }
         }
-        
-        const randomHours = Math.floor(Math.random() * 12) + 12;
-        const randomMinutes = Math.floor(Math.random() * 60);
-        const randomSeconds = Math.floor(Math.random() * 60);
-        
-        this.startTimer(randomHours, randomMinutes, randomSeconds);
+    },
+    
+    /**
+     * 업데이트 시간 설정
+     * @param {string} updatedAt - ISO 8601 형식의 업데이트 시간
+     */
+    setUpdatedAt(updatedAt) {
+        this.updatedAt = updatedAt;
+        this.updateRelativeTime();
     },
     
     /**
      * 타이머 정지
      */
     destroy() {
-        if (this.timerInterval) {
-            clearInterval(this.timerInterval);
-            this.timerInterval = null;
+        if (this.updateInterval) {
+            clearInterval(this.updateInterval);
+            this.updateInterval = null;
         }
     }
 };

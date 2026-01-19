@@ -5,6 +5,7 @@
 
 const PropertyGallery = {
     images: [],
+    buildingImages: [], // 건물 사진 저장 (호실 갤러리 후 복원용)
     currentIndex: 0,
     mainImage: null,
     thumbnailContainer: null,
@@ -17,48 +18,123 @@ const PropertyGallery = {
     /**
      * 초기화
      * @param {Array} images - 이미지 배열
+     * @param {boolean} isBuilding - 건물 사진인지 여부 (true면 buildingImages에 저장)
      */
-    init(images = []) {
+    init(images = [], isBuilding = false) {
         this.images = images.length > 0 ? images : [];
+        
+        // 건물 사진이면 저장 (호실 갤러리 후 복원용)
+        if (isBuilding) {
+            this.buildingImages = [...this.images];
+        }
+        
         this.mainImage = document.getElementById('mainGalleryImage');
         this.thumbnailContainer = document.getElementById('galleryThumbnails');
         this.modal = document.getElementById('galleryModal');
         this.modalMainImage = document.getElementById('modalMainImage');
         
-        if (this.images.length === 0) return;
+        if (this.images.length === 0) {
+            // 이미지가 없을 때 기본 이미지 또는 플레이스홀더 표시
+            if (this.mainImage) {
+                this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';
+            }
+            return;
+        }
+        
+        // 첫 번째 이미지를 메인 이미지로 설정
+        if (this.mainImage && this.images.length > 0) {
+            this.mainImage.src = this.images[0];
+            this.mainImage.onerror = () => {
+                this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';
+            };
+            this.mainImage.addEventListener('click', (e) => {
+                // 네비게이션 버튼이나 다른 버튼 클릭 시 무시
+                const clickedElement = e.target;
+                
+                // 버튼이나 버튼 내부 요소 클릭 시 무시
+                if (clickedElement.closest('.gallery-nav-btn') || 
+                    clickedElement.closest('.gallery-view-more-btn') ||
+                    clickedElement.closest('.gallery-pagination') ||
+                    clickedElement.tagName === 'BUTTON') {
+                    return;
+                }
+                
+                // 이미지 자체를 클릭한 경우에만 모달 열기
+                if (clickedElement === this.mainImage) {
+                    this.currentIndex = 0;
+                    this.openModal();
+                }
+            });
+        }
         
         this.currentIndex = 0;
         this.renderThumbnails();
         this.bindEvents();
-        this.updateMainImage();
+        this.updatePagination();
     },
     
     /**
-     * 썸네일 렌더링
+     * 건물 사진으로 복원 (건물 갤러리 열 때 사용)
+     */
+    restoreBuildingImages() {
+        if (this.buildingImages.length > 0) {
+            this.images = [...this.buildingImages];
+            this.currentIndex = 0;
+            
+            // 첫 번째 이미지를 메인 이미지로 설정
+            if (this.mainImage && this.images.length > 0) {
+                this.mainImage.src = this.images[0];
+                this.mainImage.onerror = () => {
+                    this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';
+                };
+            }
+            
+            this.renderThumbnails();
+            this.updatePagination();
+        }
+    },
+    
+    /**
+     * 썸네일 렌더링 (첫 번째 이미지 제외하고 나머지만 표시)
      */
     renderThumbnails() {
         if (!this.thumbnailContainer) return;
         
         this.thumbnailContainer.innerHTML = '';
         
+        // 첫 번째 이미지(인덱스 0)를 제외하고 나머지만 썸네일로 표시
         this.images.forEach((image, index) => {
+            // 첫 번째 이미지는 썸네일에 표시하지 않음
+            if (index === 0) return;
+            
             const thumbnail = document.createElement('div');
-            thumbnail.className = `gallery-thumbnail ${index === this.currentIndex ? 'active' : ''}`;
-            thumbnail.innerHTML = `<img src="${image}" alt="썸네일 ${index + 1}">`;
-            thumbnail.addEventListener('click', () => this.goToImage(index));
+            thumbnail.className = 'gallery-thumbnail';
+            thumbnail.innerHTML = `<img src="${image}" alt="썸네일 ${index}">`;
+            // 썸네일 클릭 시 모달로 해당 이미지 보기 (메인 이미지는 변경하지 않음)
+            thumbnail.addEventListener('click', () => {
+                this.currentIndex = index;
+                this.openModal();
+            });
             this.thumbnailContainer.appendChild(thumbnail);
         });
     },
     
     /**
-     * 메인 이미지 업데이트
+     * 메인 이미지 업데이트 (네비게이션 버튼용 - 첫 번째 이미지로 고정)
      */
     updateMainImage() {
         if (!this.mainImage || this.images.length === 0) return;
         
-        this.mainImage.src = this.images[this.currentIndex];
+        // 메인 이미지는 항상 첫 번째 이미지로 유지
+        const imageUrl = this.images[0];
+        this.mainImage.src = imageUrl;
+        
+        // 이미지 로드 에러 처리
+        this.mainImage.onerror = () => {
+            this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';
+        };
+        
         this.updatePagination();
-        this.updateThumbnailActive();
     },
     
     /**
@@ -77,14 +153,16 @@ const PropertyGallery = {
     },
     
     /**
-     * 썸네일 활성 상태 업데이트
+     * 썸네일 활성 상태 업데이트 (모달에서 사용)
      */
     updateThumbnailActive() {
         const thumbnails = this.thumbnailContainer?.querySelectorAll('.gallery-thumbnail');
         if (!thumbnails) return;
         
-        thumbnails.forEach((thumb, index) => {
-            if (index === this.currentIndex) {
+        // 썸네일 인덱스는 원본 배열에서 1부터 시작 (0번은 메인 이미지)
+        thumbnails.forEach((thumb, thumbIndex) => {
+            const actualIndex = thumbIndex + 1; // 썸네일 인덱스는 원본 배열에서 +1
+            if (actualIndex === this.currentIndex) {
                 thumb.classList.add('active');
             } else {
                 thumb.classList.remove('active');
@@ -93,18 +171,18 @@ const PropertyGallery = {
     },
     
     /**
-     * 특정 이미지로 이동
+     * 특정 이미지로 이동 (모달 내부 네비게이션용)
      * @param {number} index - 이미지 인덱스
      */
     goToImage(index) {
         if (index < 0 || index >= this.images.length) return;
         
         this.currentIndex = index;
-        this.updateMainImage();
         
-        // 모달이 열려있으면 모달 이미지도 업데이트
+        // 모달이 열려있으면 모달 이미지만 업데이트 (메인 이미지는 변경하지 않음)
         if (this.modal?.classList.contains('active')) {
             this.updateModalImage();
+            this.updateThumbnailActive();
         }
     },
     
@@ -130,12 +208,19 @@ const PropertyGallery = {
     updateModalImage() {
         if (!this.modalMainImage || this.images.length === 0) return;
         
-        this.modalMainImage.src = this.images[this.currentIndex];
+        const imageUrl = this.images[this.currentIndex];
+        this.modalMainImage.src = imageUrl;
+        
+        // 이미지 로드 에러 처리
+        this.modalMainImage.onerror = () => {
+            this.modalMainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';
+        };
+        
         this.updatePagination();
     },
     
     /**
-     * 모달 열기
+     * 모달 열기 (현재 images 사용)
      */
     openModal() {
         if (!this.modal || this.images.length === 0) return;
@@ -151,6 +236,70 @@ const PropertyGallery = {
             }
         };
         document.addEventListener('keydown', this.handleEscapeKey);
+    },
+    
+    /**
+     * 특정 이미지로 모달 열기 (호실 갤러리용 - 메인 갤러리는 변경하지 않음)
+     * @param {Array} images - 표시할 이미지 배열
+     */
+    openModalWithImages(images) {
+        if (!this.modal || !images || images.length === 0) return;
+        
+        // 임시로 images를 저장하고 모달에만 표시
+        const originalImages = this.images;
+        const originalIndex = this.currentIndex;
+        
+        this.images = images;
+        this.currentIndex = 0;
+        this.updateModalImage();
+        this.updatePagination();
+        
+        this.modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // 모달 닫을 때 원래 images로 복원
+        const restoreOnClose = () => {
+            this.images = originalImages;
+            this.currentIndex = originalIndex;
+            this.updateMainImage();
+            this.updateThumbnailActive();
+        };
+        
+        // ESC 키로 닫기
+        this.handleEscapeKey = (e) => {
+            if (e.key === 'Escape') {
+                this.closeModal();
+                restoreOnClose();
+            }
+        };
+        document.addEventListener('keydown', this.handleEscapeKey);
+        
+        // 모달 닫기 버튼 클릭 시 복원
+        const modalCloseBtn = this.modal?.querySelector('.gallery-modal-close');
+        if (modalCloseBtn) {
+            const originalCloseHandler = modalCloseBtn.onclick;
+            modalCloseBtn.onclick = () => {
+                this.closeModal();
+                restoreOnClose();
+                if (originalCloseHandler) {
+                    modalCloseBtn.onclick = originalCloseHandler;
+                }
+            };
+        }
+        
+        // 모달 배경 클릭 시 복원
+        if (this.modal) {
+            const originalModalClick = this.modal.onclick;
+            this.modal.onclick = (e) => {
+                if (e.target === this.modal) {
+                    this.closeModal();
+                    restoreOnClose();
+                    if (originalModalClick) {
+                        this.modal.onclick = originalModalClick;
+                    }
+                }
+            };
+        }
     },
     
     /**
@@ -172,34 +321,52 @@ const PropertyGallery = {
      * 이벤트 바인딩
      */
     bindEvents() {
-        // 메인 이미지 네비게이션 버튼
+        // 메인 이미지 네비게이션 버튼 (모바일 전용 - 모달 열기)
         const prevBtn = document.querySelector('.gallery-main .prev');
         const nextBtn = document.querySelector('.gallery-main .next');
         
         if (prevBtn) {
             prevBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.prevImage();
+                // 모달 열고 이전 이미지로 이동
+                if (this.images.length > 0) {
+                    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+                    this.openModal();
+                }
             });
         }
         
         if (nextBtn) {
             nextBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.nextImage();
+                // 모달 열고 다음 이미지로 이동
+                if (this.images.length > 0) {
+                    this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                    this.openModal();
+                }
             });
         }
         
-        // 모달 열기 버튼 (모바일)
+        // 모달 열기 버튼 (모바일) - 건물 갤러리
         const viewMoreBtn = document.getElementById('viewMorePhotosBtn');
         if (viewMoreBtn) {
-            viewMoreBtn.addEventListener('click', () => this.openModal());
+            viewMoreBtn.addEventListener('click', () => {
+                // 건물 사진으로 복원 후 모달 열기 (첫 번째 이미지부터 시작)
+                this.restoreBuildingImages();
+                this.currentIndex = 0;
+                this.openModal();
+            });
         }
         
-        // 모달 열기 버튼 (데스크탑)
+        // 모달 열기 버튼 (데스크탑) - 건물 갤러리
         const viewMoreBtnDesktop = document.getElementById('viewMorePhotosBtnDesktop');
         if (viewMoreBtnDesktop) {
-            viewMoreBtnDesktop.addEventListener('click', () => this.openModal());
+            viewMoreBtnDesktop.addEventListener('click', () => {
+                // 건물 사진으로 복원 후 모달 열기 (첫 번째 이미지부터 시작)
+                this.restoreBuildingImages();
+                this.currentIndex = 0;
+                this.openModal();
+            });
         }
         
         // 모달 닫기 버튼
@@ -215,16 +382,26 @@ const PropertyGallery = {
         if (modalPrevBtn) {
             modalPrevBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.prevImage();
-                this.updateModalImage();
+                // 모달이 열려있으면 모달 내에서만 네비게이션
+                if (this.modal?.classList.contains('active')) {
+                    this.prevImage();
+                    this.updateModalImage();
+                } else {
+                    this.prevImage();
+                }
             });
         }
         
         if (modalNextBtn) {
             modalNextBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                this.nextImage();
-                this.updateModalImage();
+                // 모달이 열려있으면 모달 내에서만 네비게이션
+                if (this.modal?.classList.contains('active')) {
+                    this.nextImage();
+                    this.updateModalImage();
+                } else {
+                    this.nextImage();
+                }
             });
         }
         
@@ -240,7 +417,7 @@ const PropertyGallery = {
             });
         }
         
-        // 터치 스와이프 이벤트
+        // 터치 스와이프 이벤트 (메인 이미지 스와이프 시 모달 열기)
         if (this.mainImage) {
             this.bindSwipeEvents(this.mainImage, false);
         }
@@ -277,16 +454,28 @@ const PropertyGallery = {
             return;
         }
         
-        if (swipeDistance > 0) {
-            // 오른쪽으로 스와이프 (다음 이미지)
-            this.nextImage();
-        } else {
-            // 왼쪽으로 스와이프 (이전 이미지)
-            this.prevImage();
-        }
-        
         if (isModal) {
+            // 모달 내부에서는 이미지 네비게이션
+            if (swipeDistance > 0) {
+                // 오른쪽으로 스와이프 (다음 이미지)
+                this.nextImage();
+            } else {
+                // 왼쪽으로 스와이프 (이전 이미지)
+                this.prevImage();
+            }
             this.updateModalImage();
+        } else {
+            // 메인 이미지 스와이프 시 모달 열고 해당 방향으로 이동
+            if (this.images.length > 0) {
+                if (swipeDistance > 0) {
+                    // 오른쪽으로 스와이프 (다음 이미지)
+                    this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                } else {
+                    // 왼쪽으로 스와이프 (이전 이미지)
+                    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+                }
+                this.openModal();
+            }
         }
     }
 };
