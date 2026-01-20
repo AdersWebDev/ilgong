@@ -288,10 +288,9 @@ const PropertyCarousel = {
             `;
             
             // 평면도 이미지 클릭 시 해당 방의 사진 갤러리 열기
-            const floorPlanImg = card.querySelector('.unit-floor-plan');
-            if (floorPlanImg && unit.photos && unit.photos.length > 0) {
-                floorPlanImg.style.cursor = 'pointer';
-                floorPlanImg.addEventListener('click', () => {
+            if (card && unit.photos && unit.photos.length > 0) {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', () => {
                     this.openUnitGallery(unit);
                 });
             }

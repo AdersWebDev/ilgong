@@ -18,7 +18,7 @@ const PropertyDetail = {
             this.showError('잘못된 URL입니다. producer와 id가 필요합니다.');
             return;
         }
-        
+
         this.producer = urlParams.producer;
         this.propertyId = urlParams.id;
 
@@ -52,7 +52,7 @@ const PropertyDetail = {
     async loadData() {
         // 단일 API 호출로 모든 데이터 가져오기
         const data = await PropertyAPI.getPropertyDetailWithUnits(this.producer, this.propertyId);
-        
+
         // 초기 비용과 추천 맨션은 API에 없으므로 null로 설정 (기존 placeholder 유지)
         this.propertyData = {
             listPhoto: data.property.listPhoto,
@@ -62,6 +62,7 @@ const PropertyDetail = {
             recommended: null,
             initCostDocument: null // 페이지 로딩 완료 후 로드
         };
+        console.log('로드된 부동산 데이터:', this.propertyData);
     },
 
     /**
@@ -74,7 +75,7 @@ const PropertyDetail = {
 
             // 초기 비용 문서 데이터 가져오기 (건물 단위)
             const initCostDocument = await PropertyAPI.getInitCostDocument(this.producer, this.propertyId);
-            
+
             // 데이터 저장
             if (this.propertyData) {
                 this.propertyData.initCostDocument = initCostDocument;
@@ -125,6 +126,7 @@ const PropertyDetail = {
         // 부동산 정보 렌더링
         this.renderPropertyInfo(property);
 
+        property.images = this.fillPropertyImages(property.images || [], units, 11);
         // 이미지 갤러리 초기화 (건물 사진으로 저장)
         PropertyGallery.init(property.images || [], listPhoto, true);
 
@@ -142,7 +144,35 @@ const PropertyDetail = {
         // 문의 폼 초기화
         ContactForm.init();
     },
+    fillPropertyImages(baseImages = [], units = [], targetCount = 11) {
+        const result = [];
+        const seen = new Set();
 
+        const pushIfNew = (url) => {
+            if (!url) return false;
+            if (seen.has(url)) return false;
+            seen.add(url);
+            result.push(url);
+            return result.length >= targetCount;
+        };
+
+        // 1) 기존 property.images
+        for (const url of baseImages) {
+            if (pushIfNew(url)) return result;
+        }
+
+        // 2) 부족하면 units.photos에서 채움
+        for (const unit of (units || [])) {
+            for (const url of (unit?.photos || [])) {
+                // 옵션) 레이아웃(평면도) 빼고 싶으면 아래 한 줄 켜
+                if (url.includes('/layout/')) continue;
+
+                if (pushIfNew(url)) return result;
+            }
+        }
+
+        return result;
+    },
     /**
      * 부동산 정보 렌더링
      * @param {Object} property - 부동산 정보
@@ -154,7 +184,7 @@ const PropertyDetail = {
             const priceElement = propertyStats.querySelector('h2');
             const priceUnit = propertyStats.querySelector('span[style*="font-size: 18px"]');
             const priceTag = propertyStats.querySelector('.feature-tag');
-            
+
             if (priceElement && property.rent) {
                 priceElement.textContent = `${property.rent.toLocaleString('ko-KR')}+`;
             }
@@ -169,8 +199,8 @@ const PropertyDetail = {
         // 부동산명
         const infoRows = document.querySelectorAll('.info-row');
         if (infoRows.length > 0 && property.name) {
-            const nameRow = Array.from(infoRows).find(row => 
-                row.querySelector('.info-label.house') || 
+            const nameRow = Array.from(infoRows).find(row =>
+                row.querySelector('.info-label.house') ||
                 row.textContent.includes('맨션명')
             );
             if (nameRow) {
@@ -183,7 +213,7 @@ const PropertyDetail = {
 
         // 주소
         if (infoRows.length > 1 && property.address) {
-            const addressRow = Array.from(infoRows).find(row => 
+            const addressRow = Array.from(infoRows).find(row =>
                 row.textContent.includes('주소')
             );
             if (addressRow) {
@@ -212,7 +242,7 @@ const PropertyDetail = {
                     }
                 }
             }
-            
+
             if (property.structure) {
                 const structureCard = infoCards[1];
                 const structureValue = structureCard?.querySelector('.info-value');
@@ -283,7 +313,7 @@ const PropertyDetail = {
         if (subwayList) {
             // 기존 하드코딩된 항목 제거
             subwayList.innerHTML = '';
-            
+
             // trans1, trans2, trans3 필터링 (null/empty 제거)
             const transList = [];
             if (property.trans1 && typeof property.trans1 === 'string' && property.trans1.trim() !== '') {
@@ -295,7 +325,7 @@ const PropertyDetail = {
             if (property.trans3 && typeof property.trans3 === 'string' && property.trans3.trim() !== '') {
                 transList.push(property.trans3.trim());
             }
-            
+
             // 각 trans 문자열에 대해 리스트 아이템 생성
             transList.forEach(trans => {
                 const subwayClass = PropertyAPI.getSubwayClass(trans);
@@ -319,7 +349,7 @@ const PropertyDetail = {
 
         // init-num spans 찾기
         const initNumSpans = document.querySelectorAll('.init-num');
-        
+
         // initCostRow 컨테이너
         const initCostRowContainer = document.getElementById('initCostRowContainer');
         // specialTerms 컨테이너
@@ -355,7 +385,7 @@ const PropertyDetail = {
                 if (placeholderDiv) {
                     placeholderDiv.remove();
                 }
-                
+
                 // 기존 textarea 찾기 또는 생성
                 let textarea = specialTermsContainer.querySelector('textarea.init-cost-textarea.data');
                 if (!textarea) {
@@ -364,7 +394,7 @@ const PropertyDetail = {
                     textarea.readOnly = true;
                     specialTermsContainer.appendChild(textarea);
                 }
-                
+
                 textarea.value = initCostData.specialTerms || '';
                 textarea.style.display = 'block';
                 // textarea 높이 자동 조정
@@ -554,7 +584,7 @@ const PropertyDetail = {
             alert(message);
         }
     },
-    
+
     /**
      * 호실 갱신 로딩 오버레이 표시
      */
@@ -564,7 +594,7 @@ const PropertyDetail = {
             overlay.classList.add('active');
         }
     },
-    
+
     /**
      * 호실 갱신 로딩 오버레이 숨김
      */
@@ -574,7 +604,7 @@ const PropertyDetail = {
             overlay.classList.remove('active');
         }
     },
-    
+
     /**
      * 페이지 로드 완료 시 호실 자동 갱신
      * unitUpdateTime을 확인하여 30분 이상 차이나면 갱신, 그렇지 않으면 갱신하지 않음
@@ -591,13 +621,13 @@ const PropertyDetail = {
                 }
                 return;
             }
-            
+
             // 현재 시간과 초기 업데이트 시간 비교
             const initialUpdateDate = new Date(initialUpdatedAt);
             const now = new Date();
             const diffMs = now - initialUpdateDate;
             const diffMinutes = diffMs / (1000 * 60);
-            
+
             // 30분 미만이면 갱신하지 않음
             if (diffMinutes < 30) {
                 // 갱신 버튼 비활성화
@@ -607,50 +637,50 @@ const PropertyDetail = {
                 }
                 return;
             }
-            
+
             // 30분 이상 차이나면 갱신 실행
             const urlParams = PropertyAPI.extractUrlParams();
             if (!urlParams) {
                 console.warn('URL 파라미터를 찾을 수 없어 자동 갱신을 건너뜁니다.');
                 return;
             }
-            
+
             // 로딩바 표시
             this.showUnitRefreshLoading();
-            
+
             // 최대 7초 타임아웃 설정
             const timeoutPromise = new Promise((_, reject) => {
                 setTimeout(() => reject(new Error('갱신 시간 초과')), 15000);
             });
-            
+
             // refresh API 호출
             const refreshPromise = PropertyAPI.refreshProperty(urlParams.producer, urlParams.id);
-            
+
             // 타임아웃과 API 호출 중 먼저 완료되는 것 사용
             const refreshData = await Promise.race([refreshPromise, timeoutPromise]);
-            
+
             // 호실 목록 갱신
             if (PropertyCarousel && PropertyCarousel.units !== undefined) {
                 PropertyCarousel.units = refreshData.units;
                 PropertyCarousel.currentUnitPage = 0; // 자동 갱신 시 첫 페이지로 리셋
                 PropertyCarousel.renderUnits();
-                
+
                 // 마지막 업데이트 시간 저장
                 PropertyCarousel.setLastUpdatedAt(refreshData.updatedAt);
-                
+
                 // 갱신 버튼 상태 업데이트
                 PropertyCarousel.updateRefreshButtonState();
             }
-            
+
             // PropertyDetail 데이터도 업데이트
             if (this.propertyData) {
                 this.propertyData.units = refreshData.units;
                 this.propertyData.property.updatedAt = refreshData.updatedAt;
             }
-            
+
             // 업데이트 시간 갱신
             DiscountTimer.setUpdatedAt(refreshData.updatedAt);
-            
+
         } catch (error) {
             // 자동 갱신 실패는 조용히 처리 (사용자에게 알림하지 않음)
             // 실패 시에도 초기 시간으로 갱신 버튼 상태 설정
@@ -670,7 +700,7 @@ const PropertyDetail = {
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', async () => {
     await PropertyDetail.init();
-    
+
     // 초기화 완료 후 호실 자동 갱신 (최대 15초)
     PropertyDetail.autoRefreshUnits();
 });

@@ -608,6 +608,10 @@
     border-radius: 10px;
     border: 1px solid #D9D9D9;
 }
+.unit-card:hover {
+    box-shadow: 0px 2px 14px rgba(0, 0, 0, 0.14);
+    transition: box-shadow var(--transition-fast);
+}
 .unit-card.closed {
     background-color: #F8F8F8;
 }
