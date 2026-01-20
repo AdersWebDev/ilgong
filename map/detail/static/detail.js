@@ -125,7 +125,10 @@ const PropertyDetail = {
 
         // 부동산 정보 렌더링
         this.renderPropertyInfo(property);
-
+        
+        if (!property.images || property.images.length === 0) {
+            property.images = [listPhoto];
+        }
         property.images = this.fillPropertyImages(property.images || [], units, 11);
         // 이미지 갤러리 초기화 (건물 사진으로 저장)
         PropertyGallery.init(property.images || [], listPhoto, true);
