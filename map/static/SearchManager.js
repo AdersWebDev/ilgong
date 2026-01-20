@@ -108,6 +108,9 @@ class SearchManager {
         
         dropdown.classList.add('active');
         
+        // 모바일에서 autocomplete 위치 조정
+        this.adjustAutocompletePosition(dropdown);
+        
         dropdown.querySelectorAll('.autocomplete-item').forEach((item, index) => {
             item.addEventListener('click', () => {
                 const result = results[index];
@@ -122,6 +125,26 @@ class SearchManager {
             });
         });
     }
+    
+    adjustAutocompletePosition(dropdown) {
+        const isMobile = window.innerWidth <= 838;
+        if (!isMobile) return;
+        
+        const searchInput = document.getElementById('searchInput');
+        const filterSearch = searchInput?.closest('.filter-search');
+        
+        if (searchInput && filterSearch) {
+            const inputRect = searchInput.getBoundingClientRect();
+            const filterBarRect = document.querySelector('.filter-bar')?.getBoundingClientRect();
+            const padding = 16; // spacing-lg
+            
+            dropdown.style.position = 'fixed';
+            dropdown.style.top = `${inputRect.bottom + 4}px`;
+            dropdown.style.left = `${Math.max(padding, inputRect.left)}px`;
+            dropdown.style.width = `${Math.min(inputRect.width, window.innerWidth - padding * 2)}px`;
+            dropdown.style.maxWidth = `${Math.min(inputRect.width, window.innerWidth - padding * 2)}px`;
+        }
+    }
 
     showNoResults(dropdown) {
         dropdown.innerHTML = `
@@ -130,6 +153,8 @@ class SearchManager {
             </div>
         `;
         dropdown.classList.add('active');
+        // 모바일에서 autocomplete 위치 조정
+        this.adjustAutocompletePosition(dropdown);
     }
 
     showSearchError(dropdown) {
@@ -139,6 +164,8 @@ class SearchManager {
             </div>
         `;
         dropdown.classList.add('active');
+        // 모바일에서 autocomplete 위치 조정
+        this.adjustAutocompletePosition(dropdown);
     }
 
     hideAutocompleteSuggestions(dropdown) {

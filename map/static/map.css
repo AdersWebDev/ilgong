@@ -34,7 +34,7 @@ body {
 /* Floating Recommendation Button */
 .floating-recommendation-btn {
     position: absolute;
-    bottom: 50px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
@@ -46,7 +46,7 @@ body {
     background-color: #3D8BFF;
     border-radius: 10px;
     box-shadow: var(--shadow-lg);
-    z-index: var(--z-floating);
+    z-index: 1000;
     display: none;
     align-items: center;
     justify-content: center;
@@ -76,36 +76,36 @@ body {
     width: var(--property-list-width);
     min-width: var(--property-list-width);
     max-width: var(--property-list-width);
+    padding: 20px 20px 0 20px
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1280px) {
     :root {
         --property-list-width: 576px;
     }
 }
 
+
 .property-list-header {
-    padding: var(--spacing-xl);
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 10px;
     background-color: var(--bg-white);
 }
 
 .list-header-title {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: var(--spacing-md);
 }
 
 .list-header-title h2 {
-    font-size: var(--font-size-xl);
-    font-weight: 700;
+    font-size: 24px;
 }
 
 .property-count {
     font-size: var(--font-size-base);
-    color: var(--text-secondary);
-    font-weight: 400;
+    color: var(--text-primary);
+    font-weight: bold;
 }
 
 .sort-selector {
@@ -205,15 +205,18 @@ body {
     grid-template-columns: 260px;
     gap: var(--spacing-md);
     overflow-y: auto;
-    padding: var(--spacing-lg);
     justify-content: start;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.property-list-container::-webkit-scrollbar {
+    display: none;
 }
 
-@media (min-width: 1440px) {
-    .property-list-container {
-        grid-template-columns: repeat(2, 260px);
-    }
+.property-list-container {
+    grid-template-columns: repeat(2, 260px);
 }
+
 
 .property-list-container::-webkit-scrollbar {
     width: 8px;
@@ -230,8 +233,8 @@ body {
 
 /* Property Card */
 .property-card {
-    width: 260px;
-    height: 260px;
+    width: 258px;
+    height: 258px;
     background-color: var(--bg-white);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -245,6 +248,17 @@ body {
 .property-card:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
+}
+.property-card.pin {
+    width: 260px;
+    height: 260px;
+    background-color: none;
+    border: none;
+    border-radius: none;
+}
+.property-card.pin:hover {
+    box-shadow: unset;
+    transform: unset;
 }
 .property-card.history {
     filter: grayscale(80%);
@@ -304,6 +318,7 @@ body {
     gap: var(--spacing-sm);
 }
 
+
 .property-info-separator {
     width: 1px;
     height: 12px;
@@ -359,15 +374,87 @@ body {
     height: 8px;
     background-color: var(--text-primary);
 }
+.gm-style .gm-style-iw-c {
+    width: 260px !important;
+    max-width: 260px !important;
+    height: 260px !important;
+    max-height: 260px !important;
+    padding: 0;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
 
+
+.gm-style-iw-chr {
+    display: none;
+}
+.gm-style-iw-d {
+    overflow: hidden;
+    height: 260px;
+    max-height: 260px;
+}
+.gm-style-iw-d::-webkit-scrollbar {
+    display: none;
+}
+.info-window-content {
+    min-width: 260px;
+    width: 260px;
+    max-width: 260px;
+    border-radius: 10px;
+    min-height: 260px;
+    height: 260px;
+    max-height: 260px;
+}
+.info-window-content .img-box {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+.info-window-content .img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.info-window-content .text-box {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    overflow: hidden;
+}
+.info-window-content .text-box div {
+    color: #17171B; margin-bottom: 2px; line-height: 1.4; word-break: keep-all;
+}
+
+/* .gm-style-iw-d div div div {
+    height: 180px;
+} */
 /* ========================================
    Responsive Design - Map & Property List
 ======================================== */
+@media (max-width: 1279px) {
+    :root {
+        --property-list-width: 300px;
+    }
+    .property-list-container {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 260px;
+        gap: var(--spacing-md);
+        overflow-y: auto;
+        justify-content: start;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
 
+}
 /* Tablet - 1023px and below */
-@media (max-width: 1023px) {
+@media (max-width: 838px) {
     .main-container {
-        height: calc(100vh - var(--header-height) - var(--filter-bar-height));
         grid-template-columns: 1fr;
         position: relative;
     }
@@ -377,9 +464,10 @@ body {
         top: 0;
         right: 0;
         bottom: 0;
-        width: 400px;
-        max-width: 85vw;
-        z-index: calc(var(--z-modal) - 1);
+        width: 300px;
+        min-width: 300px;
+        max-width: 300px;
+        z-index: 100;
         transform: translateX(100%);
         transition: transform var(--transition-base);
         box-shadow: var(--shadow-lg);
@@ -395,55 +483,5 @@ body {
     
     .floating-recommendation-btn {
         display: flex;
-        bottom: 50px;
-        padding: var(--spacing-md) var(--spacing-xl);
-        font-size: var(--font-size-sm);
-    }
-}
-
-/* Mobile - 767px and below */
-@media (max-width: 767px) {
-    .main-container {
-        height: calc(100vh - var(--header-height) - var(--filter-bar-height));
-    }
-    
-    .property-list-panel {
-        width: 100%;
-        max-width: 100%;
-    }
-    
-    .property-list-header {
-        padding: var(--spacing-lg);
-    }
-    
-    .property-list-container {
-        padding: var(--spacing-md);
-        gap: var(--spacing-sm);
-    }
-    
-    .property-card {
-        width: 100%;
-        max-width: 100%;
-    }
-}
-
-/* Small Mobile - 375px and below */
-@media (max-width: 375px) {
-    .property-list-header {
-        padding: var(--spacing-md);
-    }
-    
-    .list-header-title h2 {
-        font-size: var(--font-size-lg);
-    }
-    
-    .property-price {
-        font-size: var(--font-size-lg);
-    }
-    
-    .floating-recommendation-btn {
-        bottom: 50px;
-        padding: var(--spacing-sm) var(--spacing-lg);
-        font-size: var(--font-size-xs);
     }
 }

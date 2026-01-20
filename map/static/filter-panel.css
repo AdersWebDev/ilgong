@@ -5,30 +5,35 @@
 
 .filter-bar {
     position: sticky;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     top: var(--header-height);
     left: 0;
     right: 0;
     background-color: var(--bg-white);
     border-bottom: 1px solid var(--border-color);
     z-index: var(--z-filter-bar);
-    padding: var(--spacing-lg) 0;
+    padding: 10px var(--spacing-xl);
+    gap: 10px;
 }
 
 .filter-bar-container {
     position: relative;
-    max-width: 1920px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-xl);
     display: flex;
-    gap: var(--spacing-lg);
+    gap: 10px;
     align-items: center;
+    min-width: 538px;
+}
+.filter-bar-container:-webkit-scrollbar {
+    display: none;
 }
 
 /* Search Bar */
 .filter-search {
     position: relative;
     flex: 1;
-    max-width: 400px;
+    width: 400px;
 }
 
 .search-wrapper {
@@ -47,8 +52,8 @@
 
 .search-input {
     width: 100%;
-    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-md) 42px;
-    font-size: var(--font-size-base);
+    padding: 9px 14px 9px 48px;
+    font-size: 15px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     background-color: var(--bg-white);
@@ -81,6 +86,14 @@
     display: none;
 }
 
+@media (max-width: 767px) {
+    .autocomplete-dropdown {
+        position: fixed !important;
+        z-index: calc(var(--z-modal) + 1) !important;
+        max-height: 250px;
+    }
+}
+
 .autocomplete-dropdown.active {
     display: block;
 }
@@ -110,26 +123,20 @@
     background-color: transparent;
 }
 
-/* Filter Buttons */
-.filter-buttons {
-    display: flex;
-    gap: var(--spacing-sm);
-    flex-wrap: wrap;
-}
 
 .filter-btn {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    padding: var(--spacing-md) var(--spacing-lg);
-    font-size: var(--font-size-base);
-    font-weight: 500;
+    padding: 9px 14px;
+    font-size: 15px;
     color: var(--text-primary);
     background-color: var(--bg-white);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    border-radius: 10px;
     transition: all var(--transition-base);
 }
+
 .icon {
     object-fit: contain;
     object-position: center;
@@ -158,6 +165,19 @@
     width: 16px;
     height: 16px;
 }
+.filter-refresh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+.filter-refresh-btn:hover,
 .filter-btn:hover {
     background-color: #D8E8FF;
 }
@@ -217,7 +237,8 @@
     position: relative;
     display: flex;
     gap: var(--spacing-sm);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    min-width: 488px;
 }
 
 .filter-modal-content {
@@ -619,90 +640,127 @@
    Responsive Design - Filter Panel
 ======================================== */
 
-/* Tablet - 1023px and below */
-@media (max-width: 1023px) {
-    .filter-bar-container {
-        flex-wrap: wrap;
-    }
-    
-    .filter-search {
-        flex: 1 1 100%;
-        max-width: 100%;
-        order: 1;
-    }
-    
-    .filter-buttons {
-        flex: 1 1 100%;
-        order: 2;
-        justify-content: flex-start;
-    }
-    
-    .filter-modal {
-        width: 95%;
-        max-width: 95%;
-    }
-    
-    .checkbox-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Mobile - 767px and below */
-@media (max-width: 767px) {
+@media (max-width: 838px) {
     .filter-bar {
-        padding: var(--spacing-md) 0;
+        justify-content: flex-start;
+        gap: 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
     }
     
     .filter-bar-container {
-        padding: 0 var(--spacing-lg);
-        gap: var(--spacing-sm);
-    }
-    
-    .filter-search {
-        order: 1;
-    }
-    
-    .search-input {
-        padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 36px;
-        font-size: var(--font-size-sm);
-    }
-    
-    .search-icon {
-        left: var(--spacing-md);
-        font-size: var(--font-size-sm);
-    }
-    
-    .filter-buttons {
-        order: 2;
         overflow-x: auto;
+        overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: var(--spacing-xs);
+        scroll-behavior: smooth;
+        /* 스크롤바 숨기기 (선택사항) */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+    .filter-bar::-webkit-scrollbar,
+    .filter-bar-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
     }
     
-    .filter-buttons::-webkit-scrollbar {
-        display: none;
+    /* 모바일에서 필터 모달이 보이도록 */
+    .filter-modal {
+        position: fixed !important;
+        z-index: var(--z-modal) !important;
+    }
+    
+    /* Autocomplete도 모바일에서 보이도록 */
+    .autocomplete-dropdown {
+        z-index: calc(var(--z-modal) + 1) !important;
+        position: fixed !important;
+    }
+
+
+    .filter-search {
+        min-width: 40px;
+        max-width: 40px;
+        overflow: visible;
+        transition: width var(--transition-base), max-width var(--transition-base);
+        z-index: 1;
+    }
+    /* 부모(div)는 focus를 못 받으니, 내부 input에 포커스가 오면 같이 확장 */
+    .filter-search:focus-within {
+        min-width: 200px;
+        max-width: 200px;
+        z-index: 10;
+
+        .search-icon {
+            top: unset;
+            left: var(--spacing-lg);
+            transform: unset
+        }
+        .search-input {
+            padding: 9px 14px 9px 44px
+        }
+    }
+    
+    /* filter-btn이 검색창 위에 올라오지 않도록 z-index 조정 */
+    .filter-buttons {
+        position: relative;
+        z-index: 2;
     }
     
     .filter-btn {
-        padding: var(--spacing-sm) var(--spacing-md);
-        font-size: var(--font-size-sm);
-        white-space: nowrap;
-        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
     }
+
+    .search-input {
+        color: transparent;
+        width: 40px;
+        max-width: 40px;
+    }
+    .search-input::placeholder {
+        color: transparent;
+    }
+    .search-input:focus::placeholder {
+        color: var(--text-secondary);
+    }
+    .search-input:focus {
+        width: 100%;
+        max-width: 100%;
+        color: var(--text-primary);
+        transition: width var(--transition-base), max-width var(--transition-base);
+    }
+    .search-icon {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .search-input {
+        padding: 9px 0 9px 0;
+    }
+
     
+}
+
+/* Mobile - 838px and below */
+@media (max-width: 838px) {
     .filter-modal {
         width: calc(100vw - 2 * var(--spacing-lg));
         max-width: calc(100vw - 2 * var(--spacing-lg));
-        left: 0 !important;
-        top: calc(100% + var(--spacing-xs)) !important;
+        /* left, top, width는 JavaScript에서 동적으로 설정 */
         border-radius: var(--radius-lg);
+        z-index: var(--z-modal);
+        position: fixed;
     }
     
-    .filter-modal-content {
+    .filter-modal.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    /* .filter-modal-content {
         padding: var(--spacing-lg);
         max-height: calc(100vh - var(--header-height) - var(--filter-bar-height) - 60px);
-    }
+    } */
     
     .checkbox-grid {
         grid-template-columns: 1fr;
@@ -726,10 +784,20 @@
     .btn-confirm {
         width: 100%;
     }
+    
+    /* Autocomplete dropdown 모바일 스타일 */
+    .autocomplete-dropdown {
+        z-index: calc(var(--z-modal) + 1) !important;
+        max-height: 250px;
+        position: fixed !important;
+        left: var(--spacing-lg) !important;
+        right: var(--spacing-lg) !important;
+        width: calc(100vw - 2 * var(--spacing-lg)) !important;
+    }
 }
 
 /* Small Mobile - 375px and below */
-@media (max-width: 375px) {
+/* @media (max-width: 375px) {
     .filter-bar-container {
         padding: 0 var(--spacing-md);
     }
@@ -742,4 +810,4 @@
     .filter-modal-content {
         padding: var(--spacing-md);
     }
-}
+} */
