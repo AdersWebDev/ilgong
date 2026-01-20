@@ -433,6 +433,7 @@ const PropertyAPI = {
         return {
             property: {
                 id: apiResponse.originalId,
+                listPhoto: apiResponse.photo,
                 producer: apiResponse.producer,
                 name: apiResponse.buildingName || ' - ',
                 address: apiResponse.address || ' - ',

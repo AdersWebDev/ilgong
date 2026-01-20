@@ -41,7 +41,6 @@ const PropertyDetail = {
                 });
             }
         } catch (error) {
-            console.error('Initialization error:', error);
             this.showError('데이터를 불러오는 중 오류가 발생했습니다.');
             this.hideLoadingOverlay();
         }
@@ -56,6 +55,7 @@ const PropertyDetail = {
         
         // 초기 비용과 추천 맨션은 API에 없으므로 null로 설정 (기존 placeholder 유지)
         this.propertyData = {
+            listPhoto: data.property.listPhoto,
             property: data.property,
             units: data.units,
             initialCosts: null,
@@ -120,13 +120,13 @@ const PropertyDetail = {
      * 모듈 초기화
      */
     initModules() {
-        const { property, units, initialCosts, recommended } = this.propertyData;
+        const { property, listPhoto, units, initialCosts, recommended } = this.propertyData;
 
         // 부동산 정보 렌더링
         this.renderPropertyInfo(property);
 
         // 이미지 갤러리 초기화 (건물 사진으로 저장)
-        PropertyGallery.init(property.images || [], true);
+        PropertyGallery.init(property.images || [], listPhoto, true);
 
         // 공실 목록 및 추천 맨션 카로셀 초기화
         PropertyCarousel.init(units || [], recommended || [], property.updatedAt);

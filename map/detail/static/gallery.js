@@ -20,7 +20,7 @@ const PropertyGallery = {
      * @param {Array} images - 이미지 배열
      * @param {boolean} isBuilding - 건물 사진인지 여부 (true면 buildingImages에 저장)
      */
-    init(images = [], isBuilding = false) {
+    init(images = [], listPhoto, isBuilding = false) {
         this.images = images.length > 0 ? images : [];
 
         // 건물 사진이면 원본 저장(호실 갤러리 후 복원용)
@@ -63,7 +63,7 @@ const PropertyGallery = {
 
         if (this.images.length === 0) {
             if (this.mainImage) {
-                this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';
+                this.mainImage.src = listPhoto;
             }
             return;
         }
