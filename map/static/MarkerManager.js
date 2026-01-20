@@ -19,7 +19,7 @@ class MarkerManager {
         this.displayedMarkerKeys = new Set(); // 이미 표시된 마커 키 (producer_id 조합)
         this.setupMapClickListener();
     }
-    
+
     /**
      * 지도 클릭 시 InfoWindow 닫기 리스너 설정
      */
@@ -28,7 +28,7 @@ class MarkerManager {
         if (this.mapClickListener) {
             google.maps.event.removeListener(this.mapClickListener);
         }
-        
+
         // 지도 클릭 시 InfoWindow 닫기
         this.mapClickListener = this.map.addListener('click', () => {
             this.closeInfoWindow();
@@ -59,7 +59,7 @@ class MarkerManager {
                 marker.setMap(null);
             }
         });
-        
+
         // MarkerClusterer가 있으면 클러스터러의 마커도 제거
         if (this.markerClusterer) {
             if (typeof this.markerClusterer.clearMarkers === 'function') {
@@ -82,7 +82,7 @@ class MarkerManager {
                 }
             }
         }
-        
+
         // 마커 배열 초기화
         this.markers = [];
         // 클릭된 마커 및 원본 아이콘 맵 초기화
@@ -144,16 +144,16 @@ class MarkerManager {
                 </filter>
             </defs>
         ` : '';
-        
+
         // 고유한 filter ID를 위해 랜덤 ID 생성
         let filterId = '';
         if (applyGrayscale) {
             const match = filterDef.match(/id="([^"]+)"/);
             if (match) filterId = match[1];
         }
-        
+
         const filterAttr = applyGrayscale && filterId ? `filter="url(#${filterId})"` : '';
-        
+
         const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="30" viewBox="0 0 60 30" fill="none">
             ${filterDef}
@@ -184,28 +184,33 @@ class MarkerManager {
     createInfoWindowContent(location) {
         const address = location.address || location.fullAddress || '';
         const price = location.minRentalFee || 0;
-        
+
         // 썸네일 이미지 (있는 경우)
         const thumbnail = location.thumbnail || null;
-        
+
         // 상세 페이지 URL 생성 (query parameter 형식 - 테스트용)
         const detailUrl = location.id && location.producer ? `/map/detail/index.html?producer=${location.producer}&id=${location.id}` : '#';
-        
+
         return `
-            <div id="info-window-content-${location.producer}_${location.id || 'default'}" style="padding: 0; min-width: 220px; max-width: 280px; font-family: 'Noto Sans KR', sans-serif; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer;"
+            <div id="info-window-content-${location.producer}_${location.id || 'default'}" class="property-card pin" 
             onclick="window.open('${detailUrl}', '_blank');"
             ">
                 ${thumbnail ? `
-                <div style="width: 100%; height: 120px; overflow: hidden; background: #f5f5f5;">
-                    <img src="${thumbnail}" alt="${address}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none';">
+                <div class="property-card-image">
+                    <img src="${thumbnail}" alt="${address}" onerror="this.style.display='none';">
+                    <div class="property-card-carousel">
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot active"></span>
+                    </div>
                 </div>
                 ` : ''}
-                <div style="padding: 12px 14px;">
-                    <div style="font-weight: 600; font-size: 15px; color: #17171B; margin-bottom: 6px; line-height: 1.4; word-break: keep-all;">
-                        ¥ ${price.toLocaleString()}
+                <div class="property-card-content">
+                    <div class="property-price">
+                        ¥ ${price.toLocaleString()} +
                     </div>
                     ${address ? `
-                    <div style="font-size: 12px; color: #666; margin-bottom: 8px; line-height: 1.4; word-break: keep-all;">
+                    <div class="property-info">
                         ${address}
                     </div>
                     ` : ''}
@@ -213,6 +218,8 @@ class MarkerManager {
             </div>
         `;
     }
+
+
 
     /**
      * InfoWindow 표시
@@ -229,7 +236,7 @@ class MarkerManager {
         if (this.clickedMarker && this.clickedMarker !== marker) {
             this.removeGrayscaleFromMarker(this.clickedMarker);
         }
-        
+
         // 현재 클릭된 마커에 grayscale 적용 (클러스터 마커 제외)
         if (marker.locationData) {
             this.applyGrayscaleToMarker(marker);
@@ -238,14 +245,14 @@ class MarkerManager {
 
         // 상세 페이지 URL 생성 (query parameter 형식 - 테스트용)
         const detailUrl = location.id && location.producer ? `/map/detail/index.html?producer=${location.producer}&id=${location.id}` : '#';
-        
+
         // 새 InfoWindow 생성 및 표시
         const content = this.createInfoWindowContent(location);
         this.infoWindow = new google.maps.InfoWindow({
             content: content,
             pixelOffset: new google.maps.Size(0, -10) // 마커 위에 표시
         });
-        
+
         this.infoWindow.open(this.map, marker);
     }
 
@@ -273,7 +280,7 @@ class MarkerManager {
 
         // 원본 아이콘 저장 (나중에 grayscale을 제거할 때 사용)
         this.markerOriginalIcons.set(marker, customIcon);
-        
+
         // location 정보를 마커에 저장 (grayscale 아이콘 생성 시 필요)
         marker.locationData = location;
 
@@ -284,7 +291,7 @@ class MarkerManager {
 
         return marker;
     }
-    
+
     /**
      * 마커에 grayscale 필터 적용
      * @param {google.maps.Marker} marker - 적용할 마커
@@ -292,15 +299,15 @@ class MarkerManager {
     applyGrayscaleToMarker(marker) {
         // 클러스터 마커는 제외 (개별 마커만)
         if (!marker.locationData) return;
-        
+
         const price = marker.locationData.minRentalFee || 0;
         const priceText = Utils.formatPriceToMan(price);
-        
+
         // grayscale이 적용된 아이콘 생성
         const grayscaleIcon = this.createCustomMarkerIcon(priceText, true);
         marker.setIcon(grayscaleIcon);
     }
-    
+
     /**
      * 마커의 grayscale 필터 제거 (원본 아이콘으로 복원)
      * @param {google.maps.Marker} marker - 복원할 마커
@@ -324,7 +331,7 @@ class MarkerManager {
      * @returns {google.maps.LatLngBounds} 모든 마커를 포함하는 bounds
      */
     displayLocations(locations, options = {}) {
-        const { 
+        const {
             performanceMode = false,
             onGroupClick = null,
             onMarkerClick = null,
@@ -372,13 +379,13 @@ class MarkerManager {
                 }
                 newMarkers.push(marker);
                 this.markers.push(marker);
-                
+
                 // 표시된 마커 키 저장 (producer_id 조합)
                 if (location.producer && location.id) {
                     const markerKey = `${location.producer}_${location.id}`;
                     this.displayedMarkerKeys.add(markerKey);
                 }
-                
+
                 bounds.extend(position);
             }
         });

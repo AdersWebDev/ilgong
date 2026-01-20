@@ -60,6 +60,14 @@ class FilterManager {
             
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                
+                // 모바일에서 검색창이 열려있으면 닫기
+                const searchInput = document.getElementById('searchInput');
+                const filterSearch = searchInput?.closest('.filter-search');
+                if (searchInput && filterSearch && document.activeElement === searchInput) {
+                    searchInput.blur();
+                }
+                
                 const filterType = btn.dataset.filter;
                 console.log(`Filter button clicked: ${filterType}`);
                 
@@ -166,6 +174,23 @@ class FilterManager {
         const resetBtn = document.getElementById('resetFilters');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetFilters());
+        }
+        
+        // Filter refresh button (새로고침 버튼)
+        const filterRefreshBtn = document.getElementById('filter-refresh');
+        if (filterRefreshBtn) {
+            filterRefreshBtn.addEventListener('click', () => {
+                // 모든 모달 닫기
+                this.closeAllModals();
+                // 모든 필터 초기화
+                this.resetFilters();
+                // 검색 입력창도 초기화
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.value = '';
+                    searchInput.blur();
+                }
+            });
         }
         
         // Apply filters button
@@ -304,42 +329,68 @@ class FilterManager {
             return;
         }
         
+        // 모바일 감지 (838px 이하) - CSS 미디어쿼리와 일치
+        const isMobile = window.innerWidth <= 838;
+        
         // 필터 바 컨테이너를 기준으로 위치 계산
         const filterBarContainer = filterBtn.closest('.filter-bar-container');
         const buttonRect = filterBtn.getBoundingClientRect();
         const containerRect = filterBarContainer?.getBoundingClientRect();
         
         if (filterBarContainer) {
-            // 모달을 filter-bar-container에 추가 (이미 있으면 이동)
-            if (modal.parentElement !== filterBarContainer) {
+            // 모바일이 아닐 때만 filter-bar-container에 추가
+            if (!isMobile && modal.parentElement !== filterBarContainer) {
                 filterBarContainer.appendChild(modal);
             }
             
-            // 버튼의 상대적 위치 계산
-            const buttonLeft = buttonRect.left - containerRect.left;
-            const buttonBottom = buttonRect.bottom - containerRect.top;
-            
-            // 모달 위치 설정
-            modal.style.left = `${buttonLeft}px`;
-            modal.style.top = `${buttonBottom + 4}px`;
-            
-            // 화면 경계 체크 및 조정
-            setTimeout(() => {
-                const modalRect = modal.getBoundingClientRect();
-                const viewportWidth = window.innerWidth;
-                const padding = 20; // spacing-xl 값
+            if (isMobile) {
+                // 모바일: position fixed로 화면 기준 위치 계산
+                const filterBarRect = document.querySelector('.filter-bar')?.getBoundingClientRect();
+                const padding = 16; // spacing-lg 값
                 
-                // 오른쪽 경계 체크
-                if (modalRect.right > viewportWidth - padding) {
-                    const overflow = modalRect.right - (viewportWidth - padding);
-                    modal.style.left = `${buttonLeft - overflow}px`;
+                // 모달을 body에 추가 (모바일에서만)
+                if (modal.parentElement !== document.body) {
+                    document.body.appendChild(modal);
                 }
                 
-                // 왼쪽 경계 체크
-                if (modalRect.left < padding) {
-                    modal.style.left = `${padding}px`;
-                }
-            }, 0);
+                // 버튼의 화면 기준 위치
+                const buttonBottom = buttonRect.bottom;
+                
+                // 모달 위치 설정 (화면 기준) - 인라인 스타일로 설정
+                modal.style.position = 'fixed';
+                modal.style.top = `${buttonBottom + 4}px`;
+                modal.style.left = `${padding}px`;
+                modal.style.width = `calc(100vw - ${padding * 2}px)`;
+                modal.style.maxWidth = `calc(100vw - ${padding * 2}px)`;
+                modal.style.zIndex = '2000'; // var(--z-modal) 값
+            } else {
+                // 데스크탑: 기존 로직 유지
+                // 버튼의 상대적 위치 계산
+                const buttonLeft = buttonRect.left - containerRect.left;
+                const buttonBottom = buttonRect.bottom - containerRect.top;
+                
+                // 모달 위치 설정
+                modal.style.left = `${buttonLeft}px`;
+                modal.style.top = `${buttonBottom + 4}px`;
+                
+                // 화면 경계 체크 및 조정
+                setTimeout(() => {
+                    const modalRect = modal.getBoundingClientRect();
+                    const viewportWidth = window.innerWidth;
+                    const padding = 20; // spacing-xl 값
+                    
+                    // 오른쪽 경계 체크
+                    if (modalRect.right > viewportWidth - padding) {
+                        const overflow = modalRect.right - (viewportWidth - padding);
+                        modal.style.left = `${buttonLeft - overflow}px`;
+                    }
+                    
+                    // 왼쪽 경계 체크
+                    if (modalRect.left < padding) {
+                        modal.style.left = `${padding}px`;
+                    }
+                }, 0);
+            }
         }
         
         // 모달 활성화
@@ -347,6 +398,21 @@ class FilterManager {
         
         // 필터 버튼 활성화
         filterBtn.classList.add('active');
+        
+        // 디버깅: 모달 상태 확인
+        console.log('Modal opened:', {
+            modalId,
+            isMobile,
+            hasActiveClass: modal.classList.contains('active'),
+            computedStyle: {
+                display: window.getComputedStyle(modal).display,
+                visibility: window.getComputedStyle(modal).visibility,
+                opacity: window.getComputedStyle(modal).opacity,
+                position: window.getComputedStyle(modal).position,
+                top: window.getComputedStyle(modal).top,
+                left: window.getComputedStyle(modal).left
+            }
+        });
     }
 
     /**
@@ -449,9 +515,21 @@ class FilterManager {
         // Reset price selectors
         document.querySelectorAll('.custom-select').forEach(select => {
             const button = select.querySelector('.select-button');
-            const text = button.querySelector('.select-text');
+            const text = button?.querySelector('.select-text');
             if (text) {
                 text.textContent = '제한 없음';
+            }
+            // 드롭다운의 선택된 항목도 초기화
+            const dropdown = select.querySelector('.select-dropdown');
+            if (dropdown) {
+                dropdown.querySelectorAll('li').forEach(li => {
+                    li.classList.remove('selected');
+                });
+                // 첫 번째 항목(제한 없음)을 선택 상태로
+                const firstItem = dropdown.querySelector('li[data-value=""]');
+                if (firstItem) {
+                    firstItem.classList.add('selected');
+                }
             }
         });
         
