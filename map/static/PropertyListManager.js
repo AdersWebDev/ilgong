@@ -9,10 +9,11 @@ class PropertyListManager {
      * @param {Function} onPropertyClick - 프로퍼티 클릭 시 호출될 콜백 함수
      * @param {DataLoader} dataLoader - 데이터 로더 인스턴스 (선택사항)
      */
-    constructor(propertiesPerPage = 10, onPropertyClick = null, dataLoader = null) {
+    constructor(propertiesPerPage = 10, onPropertyClick = null, dataLoader = null, onResultClick = null) {
         this.propertiesPerPage = propertiesPerPage;
         this.onPropertyClick = onPropertyClick;
         this.dataLoader = dataLoader;
+        this.onResultClick = onResultClick;
         this.currentPage = 1;
         this.filteredProperties = [];
     }
@@ -69,7 +70,7 @@ class PropertyListManager {
         }
         
         container.innerHTML = propertiesToShow.map(property => `
-            <div class="property-card" data-producer="${property.producer}" data-id="${property.id}">
+            <div class="property-card" data-lat="${property.lat}" data-lng="${property.lng}">
                 <div class="property-card-image">
                     <img src="${property.thumbnail || ''}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22160%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22260%22 height=%22160%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';">
                     <div class="property-card-carousel">
@@ -88,18 +89,7 @@ class PropertyListManager {
         // Add click events
         container.querySelectorAll('.property-card').forEach(card => {
             card.addEventListener('click', () => {
-                card.classList.add('history');
-                const producer = card.dataset.producer;
-                const id = card.dataset.id;
-                
-                // producer와 id가 모두 있어야 detail 페이지로 이동
-                if (!id || !producer) {
-                    console.warn('Producer or ID is missing:', { producer, id });
-                    return;
-                }
-
-                // detail 페이지를 새 창으로 열기 (query parameter 형식 - 테스트용: /rent/detail?producer={producer}&id={id})
-                window.open(`/map/detail/index.html?producer=${producer}&id=${id}`, '_blank');
+                this.onResultClick(Number(card.dataset.lat), Number(card.dataset.lng));
             });
         });
     }
