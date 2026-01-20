@@ -129,7 +129,7 @@ const PropertyDetail = {
         PropertyGallery.init(property.images || [], true);
 
         // 공실 목록 및 추천 맨션 카로셀 초기화
-        PropertyCarousel.init(units || [], recommended || []);
+        PropertyCarousel.init(units || [], recommended || [], property.updatedAt);
 
         // 초기 비용 렌더링
         this.renderInitialCosts(initialCosts);
@@ -600,7 +600,6 @@ const PropertyDetail = {
             
             // 30분 미만이면 갱신하지 않음
             if (diffMinutes < 30) {
-                console.log(`자동 갱신 건너뜀: 마지막 업데이트로부터 ${Math.ceil(diffMinutes)}분 경과 (30분 미만)`);
                 // 갱신 버튼 비활성화
                 if (PropertyCarousel) {
                     PropertyCarousel.setLastUpdatedAt(initialUpdatedAt);
@@ -653,10 +652,11 @@ const PropertyDetail = {
             DiscountTimer.setUpdatedAt(refreshData.updatedAt);
             
         } catch (error) {
-            console.error('자동 갱신 실패:', error);
             // 자동 갱신 실패는 조용히 처리 (사용자에게 알림하지 않음)
             // 실패 시에도 초기 시간으로 갱신 버튼 상태 설정
+            console.warn('호실 자동 갱신에 실패했습니다:', error);
             if (PropertyCarousel && this.propertyData?.property?.updatedAt) {
+                console.log('자동 갱신 실패, 기존 업데이트 시간으로 갱신 버튼 상태 설정:', this.propertyData.property.updatedAt);
                 PropertyCarousel.setLastUpdatedAt(this.propertyData.property.updatedAt);
                 PropertyCarousel.updateRefreshButtonState();
             }

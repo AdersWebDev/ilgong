@@ -58,7 +58,13 @@
             this.searchManager.init();
             this.propertyListManager = new PropertyListManager(10, (property) => {
                 this.onPropertyClick(property);
-            }, this.dataLoader);
+            }, this.dataLoader, (lat, lng) => {
+                const map = this.mapManager.getMap();
+                if (map) {
+                    map.setCenter({ lat: lat, lng: lng });
+                    map.setZoom(20);
+                }
+            });
             this.propertyListManager.init();
             this.mobileManager = new MobileManager();
             this.mobileManager.init();

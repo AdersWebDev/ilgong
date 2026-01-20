@@ -11,18 +11,22 @@ const PropertyCarousel = {
     currentUnitPage: 0,
     lastUpdatedAt: null, // 마지막 업데이트 시간 저장
     isMobile: false, // 모바일 여부
+    updatedAt: null, // 초기화 시 받은 updatedAt 저장
     
     /**
      * 초기화
      * @param {Array} units - 공실 목록
      * @param {Array} recommended - 추천 맨션 목록
      */
-    init(units = [], recommended = []) {
+    init(units = [], recommended = [], updatedAt = null) {
         this.units = units;
         this.recommended = recommended;
         this.unitCarousel = document.getElementById('unitCarousel');
         this.recommendedCarousel = document.getElementById('recommendedCarousel');
+        this.unitUpdateTime = document.getElementById('unitUpdateTime');
+        this.updatedAt = updatedAt ? updatedAt : null;
         
+
         // 현재 페이지를 0으로 초기화
         this.currentUnitPage = 0;
         
@@ -30,7 +34,7 @@ const PropertyCarousel = {
         this.checkMobile();
         
         // 초기 마지막 업데이트 시간 설정 (초기화 시 받은 updatedAt)
-        this.setLastUpdatedAt();
+        this.setLastUpdatedAt(updatedAt);
         
         this.renderUnits();
         this.renderRecommended();
@@ -483,9 +487,10 @@ const PropertyCarousel = {
         if (!refreshBtn) return;
         
         // 마지막 업데이트 시간이 없으면 설정 시도
-        if (!this.lastUpdatedAt) {
-            this.setLastUpdatedAt();
-        }
+        // if (!this.lastUpdatedAt) {
+        //     this.setLastUpdatedAt();
+        // }
+
         
         // 현재 시간과 마지막 업데이트 시간 비교
         if (this.canRefresh()) {

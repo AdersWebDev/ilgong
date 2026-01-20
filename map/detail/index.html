@@ -227,110 +227,92 @@
                             </div>
                             <h2>초기 상세비용 <span class="init-num">*203호실 기준</span></h2>
                             <div class="section-note" style="margin-bottom: 20px;"></div>
-                            <div id="initCostRowContainer">
-                            <div class="init-cost-textarea null" readonly>
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="24" viewBox="0 0 28 24"
-                                        fill="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M22.9517 4.70737C23.6309 3.99858 24.7321 3.99858 25.4114 4.70737L26.4906 5.83347C27.1698 6.54225 27.1698 7.69143 26.4906 8.40022L17.9334 17.3295C17.7243 17.5476 17.4655 17.7065 17.1813 17.7912L13.9502 18.7545C13.6899 18.8322 13.4098 18.7564 13.2184 18.5566C13.0269 18.3569 12.9543 18.0646 13.0287 17.793L13.9519 14.4214C14.0331 14.1249 14.1854 13.8547 14.3944 13.6366L22.9517 4.70737ZM24.3572 5.80741C24.2601 5.70615 24.1028 5.70615 24.0058 5.80741L22.7509 7.11684L24.1815 8.60961L25.4364 7.30018C25.5334 7.19893 25.5334 7.03476 25.4364 6.93351L24.3572 5.80741ZM23.1273 9.70964L21.6967 8.21687L15.4486 14.7367C15.4187 14.7678 15.397 14.8064 15.3854 14.8488L14.8308 16.8741L16.7717 16.2954C16.8123 16.2833 16.8493 16.2606 16.8792 16.2294L23.1273 9.70964Z"
-                                            fill="#17171B" stroke="#17171B" stroke-width="0.5" />
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M6.25 1C5.55965 1 5 1.55166 5 2.23214V7.16071C5 7.8412 5.55965 8.39286 6.25 8.39286H13.75C14.4403 8.39286 15 7.8412 15 7.16071V2.23214C15 1.55166 14.4403 1 13.75 1H6.25ZM7.5 5.92857V3.46429H12.5V5.92857H7.5Z"
-                                            fill="#17171B" />
-                                        <path
-                                            d="M3.16533 3.47867C3.51102 4.0677 3.30682 4.82144 2.70923 5.16218C2.58143 5.23504 2.5 5.36823 2.5 5.5187V21.1258C2.5 21.3527 2.68655 21.5365 2.91667 21.5365H17.0833C17.3135 21.5365 17.5 21.3527 17.5 21.1258V20.2508C17.5 19.5605 18.0596 19.0008 18.75 19.0008C19.4404 19.0008 20 19.5605 20 20.2508V21.1258C20 22.7136 18.6942 24.0008 17.0833 24.0008H2.91667C1.30583 24.0008 0 22.7136 0 21.1258V5.5187C0 4.453 0.5889 3.52432 1.45743 3.02908C2.055 2.68834 2.81967 2.88962 3.16533 3.47867Z"
-                                            fill="#17171B" />
-                                        <path
-                                            d="M18.5425 3.02908C19.4112 3.52432 20 4.453 20 5.5187V6.50083L17.5 9.00083V8.00083V5.5187C17.5 5.36823 17.4185 5.23504 17.2908 5.16218C16.6932 4.82144 16.489 4.0677 16.8347 3.47867C17.1803 2.88962 17.945 2.68834 18.5425 3.02908Z"
-                                            fill="#17171B" />
-                                    </svg>
-                                </div>
-                                <h3>준비 중인 정보입니다.</h3>
-                                <p>해당 건물은 작성 중이며 곧 업데이트 될 예정입니다.<br>
-                                    자세한 내용이 필요하시다면 <b>부동산</b> 또는 <b>일본공간</b>에 문의해주세요!</p>
-                            </div>
-                        </div>
+                            <div id="initCostRowContainer"></div>
                         </section>
-                        
+                        <div class="section-divider"></div>
+                        <section class="thanks-to-agent-section">
+                            <div class="unit-pagination">
+                                <h3 class="thanks-to-agent-title">한국어 대응가능한 일본 부동산</h3>
+                                <div class="unit-pagination-info" id="thanks-pagenation">
+                                    <button class="unit-pagination-btn prev" id="agent-prev" aria-label="이전 페이지">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+
+                                    <button class="unit-pagination-btn next" id="agent-next" aria-label="다음 페이지">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="thanks-to-agent-content">
+                                <a class="agent" href="http://pf.kakao.com/_qTEPj" target="_blank">
+                                    <div class="agent-logo">
+                                        <img src="https://houber-japanlife.com/asset/logo.png" alt="하우버 부동산 공식 커뮤니티">
+                                    </div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">Houber<br>(株)エイダス</h4>
+                                        <p class="agent-license">택지건물거래업 면허번호</p>
+                                        <p class="agent-license-number">大阪府知事(2)第62361号</p>
+                                    </div>
+                                </a>
+                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-103452hfncBj3wbmcY/" target="_blank">
+                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">大阪ハウスコム株式会社 ミニミニFC天満橋店</h4>
+                                    </div>
+                                </a>
+                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-152621h1nqX7y0JsQY/" target="_blank">
+                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">株式会社アッフェル ホームメイトFC梅田中崎町店</h4>
+                                    </div>
+                                </a>
+                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-130156h7mYaxpv0eB4/" target="_blank">
+                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">センチュリー21株式会社フロンティア不動産販売 本店</h4>
+                                    </div>
+                                </a>
+                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-121469hD5-OgJlwUhs/" target="_blank">
+                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">株式会社ラックハウジング 本店</h4>
+                                    </div>
+                                </a>
+                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-154990hY5rlNeUzjzI/" target="_blank">
+                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">株式会社エリアリサーチ ハウスモ都島店</h4>
+                                    </div>
+                                </a>
+                                <a class="agent" href="https://www.athome.co.jp/ahki/arearesearch.html" target="_blank">
+                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">(株)エリアリサーチハウスモ不動産西長堀・堀江店</h4>
+                                    </div>
+                                </a>
+                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-3104202hOCdTSlLZ8YI/" target="_blank">
+                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                    <div class="agent-info">
+                                        <h4 class="agent-name">アパマンショップ上本町店 株式会社タカラコスモス</h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+
                         <div class="section-divider"></div>
                         <section class="init-cost-section" id="specialTermsSection">
-                        <h2>꼭 확인 해주세요! 특약조건 <span class="init-num">*203호실 기준</span></h2>
-                        <div class="section-note" style="margin-bottom: 20px;"></div>
-                        <div id="specialTermsContainer">
-                            <div class="init-cost-textarea null" readonly>
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="24" viewBox="0 0 28 24"
-                                        fill="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M22.9517 4.70737C23.6309 3.99858 24.7321 3.99858 25.4114 4.70737L26.4906 5.83347C27.1698 6.54225 27.1698 7.69143 26.4906 8.40022L17.9334 17.3295C17.7243 17.5476 17.4655 17.7065 17.1813 17.7912L13.9502 18.7545C13.6899 18.8322 13.4098 18.7564 13.2184 18.5566C13.0269 18.3569 12.9543 18.0646 13.0287 17.793L13.9519 14.4214C14.0331 14.1249 14.1854 13.8547 14.3944 13.6366L22.9517 4.70737ZM24.3572 5.80741C24.2601 5.70615 24.1028 5.70615 24.0058 5.80741L22.7509 7.11684L24.1815 8.60961L25.4364 7.30018C25.5334 7.19893 25.5334 7.03476 25.4364 6.93351L24.3572 5.80741ZM23.1273 9.70964L21.6967 8.21687L15.4486 14.7367C15.4187 14.7678 15.397 14.8064 15.3854 14.8488L14.8308 16.8741L16.7717 16.2954C16.8123 16.2833 16.8493 16.2606 16.8792 16.2294L23.1273 9.70964Z"
-                                            fill="#17171B" stroke="#17171B" stroke-width="0.5" />
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M6.25 1C5.55965 1 5 1.55166 5 2.23214V7.16071C5 7.8412 5.55965 8.39286 6.25 8.39286H13.75C14.4403 8.39286 15 7.8412 15 7.16071V2.23214C15 1.55166 14.4403 1 13.75 1H6.25ZM7.5 5.92857V3.46429H12.5V5.92857H7.5Z"
-                                            fill="#17171B" />
-                                        <path
-                                            d="M3.16533 3.47867C3.51102 4.0677 3.30682 4.82144 2.70923 5.16218C2.58143 5.23504 2.5 5.36823 2.5 5.5187V21.1258C2.5 21.3527 2.68655 21.5365 2.91667 21.5365H17.0833C17.3135 21.5365 17.5 21.3527 17.5 21.1258V20.2508C17.5 19.5605 18.0596 19.0008 18.75 19.0008C19.4404 19.0008 20 19.5605 20 20.2508V21.1258C20 22.7136 18.6942 24.0008 17.0833 24.0008H2.91667C1.30583 24.0008 0 22.7136 0 21.1258V5.5187C0 4.453 0.5889 3.52432 1.45743 3.02908C2.055 2.68834 2.81967 2.88962 3.16533 3.47867Z"
-                                            fill="#17171B" />
-                                        <path
-                                            d="M18.5425 3.02908C19.4112 3.52432 20 4.453 20 5.5187V6.50083L17.5 9.00083V8.00083V5.5187C17.5 5.36823 17.4185 5.23504 17.2908 5.16218C16.6932 4.82144 16.489 4.0677 16.8347 3.47867C17.1803 2.88962 17.945 2.68834 18.5425 3.02908Z"
-                                            fill="#17171B" />
-                                    </svg>
-                                </div>
-                                <h3>준비 중인 정보입니다.</h3>
-                                <p>해당 건물은 작성 중이며 곧 업데이트 될 예정입니다.<br>
-                                    자세한 내용이 필요하시다면 <b>부동산</b> 또는 <b>일본공간</b>에 문의해주세요!</p>
+                            <h2>꼭 확인 해주세요! 특약조건 <span class="init-num">*203호실 기준</span></h2>
+                            <div class="section-note" style="margin-bottom: 20px;"></div>
+                            <div id="specialTermsContainer">
                             </div>
-                            <textarea class="init-cost-textarea data" readonly style="display: none;">
-🔴 단기 해약 위약금
-계약 기간 내 중도 해약 시 아래 위약금이 발생합니다:
-1년 미만: 한달고정비용의 3개월분
-2년 미만: 한달고정비용의 2개월분
-3년 미만: 한달고정비용의 1개월분
-→ 신청 전 중개회사에게 위약금 조건을 반드시 확인하시기 바랍니다.
-
-💵 퇴실 비용
-하우스클리닝비:
-1K (본 물건 해당): ¥55,000 (세금 포함)
-50㎡ 미만: ¥77,000 (세금 포함)
-75㎡ 미만: ¥88,000 (세금 포함)
-퇴실 시 납부
-
-원상복구비용: 실비 청구 - 고의·과실 손상 시
-
-원상복구비용 안내:
-통상 마모는 청구 대상이 아니나, 고의·과실에 의한 손상은 별도 실비 청구됩니다
-하우스클리닝비는 일반 청소 비용일 뿐, 손상 복구 비용이 아닙니다
-
-청구 대상 예시:
-벽에 뚫린 구멍 수리
-바닥 심한 긁힘, 얼룩, 파손
-담배 냄새 특별 제거 작업
-설비(에어컨, 주방기기 등) 파손 수리
-과도한 오염으로 인한 추가 청소 비용
-※ 퇴실 시 손상 정도에 따라 추가 원상복구 비용이 청구될 수 있으니 주의하시기 바랍니다.
-
-📅 해약 조건
-해약 예고: 사전 서면 통지 필수 (기간은 중개회사에 확인 필요)
-퇴실 월 일할 계산: 불가 (퇴실일과 관계없이 해당 월 전체 ¥76,200 청구됨)
-예시: 5월 15일 퇴실 시 → 5월 1일~5월 31일 전체 월 고정비 ¥76,200 청구 → 15일분 일할 계산 불가
-
-🔄 갱신 조건
-계약 갱신: 필수
-보증회사 갱신: 필수
-화재보험 갱신: 필수
-→ 신청 전 갱신 비용 및 조건을 반드시 확인하시기 바랍니다.
-
-✅ 입주 가능 조건
-외국인: 가능
-인원: 1명까지 가능
-법인 계약: 가능
-애완동물: 가능 (소형 개 또는 고양이 2마리까지, 1마리당 추가 야칭 ¥6,000/월)
-
-⚠️ 특별 주의사항
-생활보호자 입주: 가능
-무상 대여 설비: 실내에 온수세정변좌(1K 제외), 조명, 가스레인지(1LDK만 해당), 에어컨(1K 제외)이 설치되어 있을 경우 무상 대여 (고장 시 수리 의무)
-(*현장 확인 필요)
-                        </textarea>
                         </section>
                     </div>
 
@@ -465,12 +447,11 @@
                 </div>
                 <div class="property-info-sidebar desktop-only">
                     <button class="sidebar-inquiry-btn primary">부동산 문의</button>
-                    <button class="sidebar-inquiry-btn secondary">일본공간 문의</button>
                 </div>
             </div>
         </section>
 
-        
+
     </div>
 
     <!-- Gallery Modal -->
@@ -543,112 +524,90 @@
 
     </script>
 </body>
-<!-- Contact Form Section -->
-<!-- <section class="contact-form-section">
-                        <h2 class="contact-form-title">부동산이 고민이라면, 문의 폼으로 간편하게!</h2>
-                        <p style="margin-bottom: 20px;"><b>상담양식을 작성</b>해주시면 <b>일본공간</b>에서 연락드리겠습니다 (*은 <b>필수입력</b>
-                            항목입니다.)</p>
-                        <form class="contact-form" id="contactForm">
-                            <div class="form-flex">
-                                <div class="form-group">
-                                    <label class="form-label" for="contactName">성함</label>
-                                    <input type="text" id="contactName" class="form-input" placeholder="성함을 입력해주세요"
-                                        required>
-                                    <div class="form-error" id="nameError">성함을 입력해주세요</div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="contactName">카카오아이디 또는 전화번호</label>
-                                    <input type="text" id="contactName" class="form-input" placeholder="카카오아이디 / 전화번호"
-                                        required>
-                                    <div class="form-error" id="nameError">성함을 입력해주세요</div>
-                                </div>
-                            </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
 
-                            <div class="form-group">
-                                <label class="form-label" for="contactMessage">문의내용</label>
-                                <textarea id="contactMessage" class="form-textarea" placeholder="문의내용을 편하게 입력해주세요"
-                                    required></textarea>
-                                <div class="form-error" id="messageError">제출 오류 발생</div>
-                            </div>
-                            <div class="form-checkbox-group">
-                                <input type="checkbox" id="privacyAgreement" class="form-checkbox" required>
-                                <label for="privacyAgreement" class="form-checkbox-label">개인정보 수집 및 이용 동의 (필수)</label>
-                                <div class="form-error" id="privacyError">개인정보 수집 및 이용에 동의해주세요</div>
-                            </div>
-                            <button type="submit" class="form-submit-btn">문의하기</button>
-                        </form>
-                    </section> -->
-<!-- Recommended Properties Section -->
-<!-- <section class="recommended-section">
-            <h2 class="recommended-title">추천 맨션</h2>
-            <div class="recommended-carousel" id="recommendedCarousel">
-            </div>
-        </section> -->
+    const track = document.querySelector('.thanks-to-agent-content');
+    const prevBtn = document.getElementById('agent-prev');
+    const nextBtn = document.getElementById('agent-next');
+    if (!track) { return;}
 
-<!-- Footer Section -->
-<!-- <div class="section-divider"></div>
-                    <section class="thanks-to-agent-section">
-                        <div class="unit-pagination">
-                            <h3 class="thanks-to-agent-title">한국어 대응가능한 일본 부동산</h3>
-                            <div class="unit-pagination-info">
-                                <button class="unit-pagination-btn prev" id="" aria-label="이전 페이지">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </button>
+    // agent 1장의 실제 이동거리(너비 + margin + gap)를 계산
+    function getStep() {
+      const first = track.querySelector('.agent');
+      if (!first) return track.clientWidth;
 
-                                <button class="unit-pagination-btn next" id="" aria-label="다음 페이지">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="thanks-to-agent-content">
-                            <a class="agent" href="https://blog.naver.com/houber" target="_blank">
-                                <div class="agent-logo">
-                                    <img src="https://houber-japanlife.com/asset/logo.png" alt="하우버 부동산 공식 커뮤니티">
-                                </div>
-                                <div class="agent-info">
-                                    <h4 class="agent-name">하우버 (주) 에이더스</h4>
-                                    <p class="agent-license">택지건물거래업 면허번호</p>
-                                    <p class="agent-license-number">大阪府知事(2)第62361号</p>
-                                </div>
-                            </a>
-                            <a class="agent" href="https://blog.naver.com/houber" target="_blank">
-                                <div class="agent-logo">
-                                    <img src="https://houber-japanlife.com/asset/logo.png" alt="하우버 부동산 공식 커뮤니티">
-                                </div>
-                                <div class="agent-info">
-                                    <h4 class="agent-name">하우버 (주) 에이더스</h4>
-                                    <p class="agent-license">택지건물거래업 면허번호</p>
-                                    <p class="agent-license-number">大阪府知事(2)第62361号</p>
-                                </div>
-                            </a>
-                            <a class="agent" href="https://blog.naver.com/houber" target="_blank">
-                                <div class="agent-logo">
-                                    <img src="https://houber-japanlife.com/asset/logo.png" alt="하우버 부동산 공식 커뮤니티">
-                                </div>
-                                <div class="agent-info">
-                                    <h4 class="agent-name">하우버 (주) 에이더스</h4>
-                                    <p class="agent-license">택지건물거래업 면허번호</p>
-                                    <p class="agent-license-number">大阪府知事(2)第62361号</p>
-                                </div>
-                            </a>
-                            <a class="agent" href="https://blog.naver.com/houber" target="_blank">
-                                <div class="agent-logo">
-                                    <img src="https://houber-japanlife.com/asset/logo.png" alt="하우버 부동산 공식 커뮤니티">
-                                </div>
-                                <div class="agent-info">
-                                    <h4 class="agent-name">하우버 (주) 에이더스</h4>
-                                    <p class="agent-license">택지건물거래업 면허번호</p>
-                                    <p class="agent-license-number">大阪府知事(2)第62361号</p>
-                                </div>
-                            </a>
-                        </div>
-                    </section> -->
+      const firstRect = first.getBoundingClientRect();
+      const styles = getComputedStyle(first);
+
+      const marginLeft = parseFloat(styles.marginLeft) || 0;
+      const marginRight = parseFloat(styles.marginRight) || 0;
+
+      // gap은 flex 컨테이너에 걸려있음
+      const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
+
+      return firstRect.width + marginLeft + marginRight + gap;
+    }
+
+    function scrollByCard(direction) {
+        console.log('scrollByCard', direction);
+      const step = getStep();
+      track.scrollBy({ left: step * direction, behavior: 'smooth' });
+    }
+
+    prevBtn && prevBtn.addEventListener('click', () => scrollByCard(-1));
+    nextBtn && nextBtn.addEventListener('click', () => scrollByCard(1));
+
+    // --------- 모바일/터치 드래그 스와이프 ----------
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let moved = 0;
+
+    // 터치/마우스 공통으로 쓰려고 pointer 사용
+    track.addEventListener('pointerdown', (e) => {
+      // 마우스 우클릭/보조키 등 무시
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+        console.log('pointerdown');
+      isDown = true;
+      moved = 0;
+      startX = e.clientX;
+      startScrollLeft = track.scrollLeft;
+
+      track.classList.add('is-dragging');
+      track.setPointerCapture(e.pointerId);
+    });
+
+    track.addEventListener('pointermove', (e) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      moved = dx;
+      track.scrollLeft = startScrollLeft - dx;
+    });
+
+    function endDrag() {
+      if (!isDown) return;
+      isDown = false;
+      track.classList.remove('is-dragging');
+
+      // 드래그가 좀 있었으면 "카드 단위"로 스냅 이동
+      const threshold = 40; // 이 이상 움직이면 넘김
+      if (Math.abs(moved) > threshold) {
+        scrollByCard(moved < 0 ? 1 : -1); // 왼쪽으로 끌면 다음(+)로 이동
+      }
+    }
+
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+
+    // 드래그 후 링크 클릭 방지(의도치 않은 클릭 방지)
+    track.addEventListener('click', (e) => {
+      if (Math.abs(moved) > 5) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+  });
+</script>
 </html>

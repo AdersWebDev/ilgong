@@ -203,6 +203,7 @@ body {
     flex: 1;
     display: grid;
     grid-template-columns: 260px;
+    grid-template-rows: min-content;
     gap: var(--spacing-md);
     overflow-y: auto;
     justify-content: start;
