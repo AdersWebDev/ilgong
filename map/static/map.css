@@ -253,9 +253,9 @@ body {
 .property-card.pin {
     width: 260px;
     height: 260px;
-    background-color: none;
+    background-color: unset;
     border: none;
-    border-radius: none;
+    border-radius: unset;
 }
 .property-card.pin:hover {
     box-shadow: unset;

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자료 확인</title>
     <link rel="stylesheet" href="/main/style.css">
-    <link rel="icon" href="../../../assest/favicon.png" type="image/png"/>
+    <link rel="icon" href="../../../assest/favicon.png" type="image/png" />
     <style>
         body {
             background-color: #f5f5f5;
         }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -18,12 +20,14 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
+
         .managemant-container {
             width: 700px;
             margin: 0 auto;
             height: auto;
             padding: 20px 20px 200px 20px;
         }
+
         .button-container {
             display: flex;
             justify-content: flex-start;
@@ -33,51 +37,90 @@
             gap: 10px;
             flex-direction: column;
         }
+
         .button-container a {
+            display: block;
             padding: 10px 20px;
             border: 1px solid var(--primary-blue);
             border-radius: 10px;
             cursor: pointer;
         }
+
         .button-container a:hover {
             background-color: #f2f2f2;
         }
+
+        /* 성공 애니메이션 */
+        .button-container a.is-success {
+            position: relative;
+            border-radius: 12px;
+        }
+        .is-success::after {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            content: '✓';
+            position: absolute;
+            color: rgb(99, 167, 32);
+            top: 0%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            transform: translate(-50%, -100%);
+
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
-    <section class="managemant-container">
-        <div class="button-container">
-            <h2>realpro</h2>
-            <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=11208">フェニックス管理</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=17773">みなもと管理</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=21874">ゴールドファステート</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=32314">リアルエステート</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=35175">LFET（エルフェット）</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=41096">エヌ・ケー興産</a>
-            <hr style="width: 100%;">
-            <h2>itandi</h2>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=247">株式会社RENOSY ASSET MANAGEMENT 大阪支社</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=4455">株式会社ネクサスエージェント</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3114">大成トラスト 株式会社</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3835">株式会社富士ホールディングス</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=51548">株式会社レーベン</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3422">株式会社サンプロシード</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3637">株式会社リアールライフ</a>
-            <!-- <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=51481">株式会社ゴールドファステート</a> -->
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=2580">株式会社セオリーファクトリー</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3843">株式会社ベネフィットリンク</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3390">株式会社TAPP 大阪営業所</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=35877">株式会社OneLife</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=50804">株式会社エムスタイル</a><!--4719-->
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=1027">パナソニックホームズ不動産株式会社　大阪営業所</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=4317">株式会社ピカソ</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=4371">株式会社Robot Home 大阪支店</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3347">東亜リース株式会社</a>
-            <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=13974">株式会社ラナップ管理サービス</a>
-            <!-- <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3231">株式会社リアルエステート</a> -->
-        </div>
-    </section>
+        <section class="managemant-container">
+            <div class="button-container">
+                <h2>realpro</h2>
+                <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=11208">フェニックス管理</a>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=re&agent=17773">みなもと管理</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=re&agent=21874">ゴールドファステート</a>
+                <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=32314">リアルエステート</a>
+                <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=35175">LFET（エルフェット）</a>
+                <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=41096">エヌ・ケー興産</a>
+                <hr style="width: 100%;">
+                <h2>itandi</h2>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=it&agent=247">株式会社RENOSY
+                    ASSET MANAGEMENT
+                    大阪支社</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=4455">株式会社ネクサスエージェント</a>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=it&agent=3114">大成トラスト
+                    株式会社</a>
+                <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3835">株式会社富士ホールディングス</a>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=it&agent=51548">株式会社レーベン</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=3422">株式会社サンプロシード</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=3637">株式会社リアールライフ</a>
+                <!-- <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=51481">株式会社ゴールドファステート</a> -->
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=2580">株式会社セオリーファクトリー</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=3843">株式会社ベネフィットリンク</a>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=it&agent=3390">株式会社TAPP
+                    大阪営業所</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=35877">株式会社OneLife</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=50804">株式会社エムスタイル</a><!--4719-->
+                <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=1027">パナソニックホームズ不動産株式会社　大阪営業所</a>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=it&agent=4317">株式会社ピカソ</a>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=it&agent=4371">株式会社Robot Home
+                    大阪支店</a>
+                <a class="is-success" href="/aders/dashboard/fact-list/index.html?producer=it&agent=3347">東亜リース株式会社</a>
+                <a class="is-success"
+                    href="/aders/dashboard/fact-list/index.html?producer=it&agent=13974">株式会社ラナップ管理サービス</a>
+                <!-- <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3231">株式会社リアルエステート</a> -->
+            </div>
+        </section>
     </div>
 </body>
 
