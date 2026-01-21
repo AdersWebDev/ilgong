@@ -65,7 +65,7 @@
     --spacing-4xl: 40px;
     
     /* Layout */
-    --header-height: 64px;
+    --header-height: 60px;
     --filter-panel-width: 320px;
     --property-list-width: 400px;
     --filter-bar-height: 80px;
@@ -170,7 +170,6 @@ input, select, textarea {
     align-items: flex-start;
     justify-content: space-between;
     height: 100%;
-    padding: 0 40px;
     gap: var(--spacing-3xl);
     max-width: 1300px;
     margin: 0 auto;
@@ -198,6 +197,7 @@ input, select, textarea {
     align-items: center;
     justify-content: space-between;
     height: 100%;
+    padding: 0 20px;
 }
 
 .nav-menu {
@@ -206,7 +206,7 @@ input, select, textarea {
     height: 100%;
     justify-content: space-between;
     width: 100%;
-    max-width: 781px;
+    max-width: 800px;
 }
 .nav-menu ul {
     width: 100%;
@@ -251,16 +251,22 @@ input, select, textarea {
 .nav-badge {
     display: inline-flex;
     align-items: center;
-    padding: 2px 6px;
-    background-color: var(--primary-blue);
+    padding: 3px 10px;
+    
     border-radius: 10px;
-    font-size: var(--font-size-xs);
+    font-size: 12px;
     font-weight: var(--font-weight-medium);
-    color: #fff;
     line-height: 1.2;
     white-space: nowrap;
 }
-
+.nav-badge.wait {
+    background-color: #909090;
+    color: #fff;
+}
+.nav-badge.new {
+    background-color: var(--primary-blue);
+    color: #fff;
+}
 .header-actions {
     position: absolute;
     right: 20px;
@@ -455,7 +461,7 @@ input, select, textarea {
     color: var(--color-gray-400);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 940px) {
     /* 데스크탑: nav-menu의 로고 숨김, 모바일: header-actions의 로고 표시 */
     /* 모바일에서도 네비게이션 컨테이너는 보이게 두고,
        실제 열고 닫기는 .nav-menu의 active 클래스로 제어합니다. */
