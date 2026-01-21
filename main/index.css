@@ -70,7 +70,7 @@
 }
 
 .hero-feature-card {
-    width: 100%;
+    width: 320px;
     height: 90px;
     background-color: var(--bg-white);
     border-radius: var(--radius-lg);

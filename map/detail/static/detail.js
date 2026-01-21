@@ -62,7 +62,6 @@ const PropertyDetail = {
             recommended: null,
             initCostDocument: null // 페이지 로딩 완료 후 로드
         };
-        console.log('로드된 부동산 데이터:', this.propertyData);
     },
 
     /**
@@ -449,7 +448,7 @@ const PropertyDetail = {
                                     fill="#17171B" />
                             </svg>
                         </div>
-                        <h3>준비 중인 정보입니다.</h3>
+                        <h3>준비 중인 정보입니다...(;-;)</h3>
                         <p>해당 건물은 작성 중이며 곧 업데이트 될 예정입니다.<br>
                             자세한 내용이 필요하시다면 <b>부동산</b> 또는 <b>일본공간</b>에 문의해주세요!</p>
                     </div>
@@ -483,7 +482,7 @@ const PropertyDetail = {
                                         fill="#17171B" />
                                 </svg>
                             </div>
-                            <h3>준비 중인 정보입니다.</h3>
+                            <h3>준비 중인 정보입니다...(;-;)</h3>
                             <p>해당 건물은 작성 중이며 곧 업데이트 될 예정입니다.<br>
                                 자세한 내용이 필요하시다면 <b>부동산</b> 또는 <b>일본공간</b>에 문의해주세요!</p>
                         </div>
@@ -720,9 +719,17 @@ const PropertyDetail = {
 
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', async () => {
-    await PropertyDetail.init();
+    // 모바일 네비게이션 초기화가 완료될 때까지 약간의 지연
+    setTimeout(async () => {
+        await PropertyDetail.init();
 
-    // 초기화 완료 후 호실 자동 갱신 (최대 15초)
-    PropertyDetail.autoRefreshUnits();
+        // 초기화 완료 후 호실 자동 갱신 (최대 15초)
+        PropertyDetail.autoRefreshUnits();
+        
+        // 모바일 네비게이션 재초기화 (detail 페이지에서 햄버거 메뉴가 보이도록)
+        if (typeof initMobileNav === 'function') {
+            initMobileNav();
+        }
+    }, 100);
 });
 
