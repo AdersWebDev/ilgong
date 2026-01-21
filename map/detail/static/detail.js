@@ -379,6 +379,15 @@ const PropertyDetail = {
                 // textarea 높이 자동 조정
                 textarea.style.height = 'auto';
                 textarea.style.height = textarea.scrollHeight + 'px';
+
+                const warningText = document.createElement('p');
+                warningText.style.fontSize = '16px';
+                warningText.style.color = '#F06265';
+                warningText.style.margin = '20px 0 30px 0';
+                warningText.style.textAlign = 'left';
+                warningText.style.fontWeight = 'bold';
+                warningText.textContent = '*자료를 보고 판단한 예상치이며, 정확한 내용은 반드시 중개회사 확인이 필요합니다.';
+                initCostRowContainer.appendChild(warningText);
             }
 
             // specialTerms 렌더링
@@ -403,6 +412,15 @@ const PropertyDetail = {
                 // textarea 높이 자동 조정
                 textarea.style.height = 'auto';
                 textarea.style.height = textarea.scrollHeight + 'px';
+
+                const warningText = document.createElement('p');
+                warningText.style.fontSize = '16px';
+                warningText.style.color = '#F06265';
+                warningText.style.margin = '20px 0 30px 0';
+                warningText.style.textAlign = 'left';
+                warningText.style.fontWeight = 'bold';
+                warningText.textContent = '*자료를 보고 판단한 예상치이며, 정확한 내용은 반드시 중개회사 확인이 필요합니다.';
+                specialTermsContainer.appendChild(warningText);
             }
         } else {
             // Case 2/3: null 데이터 - placeholder 표시
