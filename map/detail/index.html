@@ -113,8 +113,8 @@
             <div class="property-info-container">
                 <div class="property-info-main">
                     <div class="property-stats">
-                        <h2 style="font-size: 36px;">75,000+</h2>
-                        <span style="font-size: 18px;">엔</span>
+                        <h2 style="font-size: 36px;"></h2>
+                        <span style="font-size: 18px;"></span>
                         <span class="feature-tag" style="font-size: 15px;">월세</span>
                     </div>
                     <div class="info-row-wrapper">
@@ -168,6 +168,10 @@
 
                     <div class="section-divider"></div>
 
+                    <section class="time-deal-section" id="time-deal-section">
+                        
+                    </section>
+
                     <!-- Unit List Section -->
                     <section class="unit-list-section" id="roomSection">
                         <!-- Unit Refresh Loading Overlay (룸 섹션 내부) -->
@@ -217,7 +221,7 @@
                         <div id="initCostLoadingOverlay" class="loading-overlay init-cost-loading">
                             <div class="loading-spinner">
                                 <div class="spinner"></div>
-                                <p class="loading-text">초기 비용 정보를 불러오는 중...</p>
+                                <p class="loading-text">불러오는 중...</p>
                             </div>
                         </div>
                         <section class="init-cost-section" id="initCostSection">
@@ -232,7 +236,7 @@
                             <div id="initCostRowContainer"></div>
                         </section>
                         <div class="section-divider"></div>
-                        <section class="thanks-to-agent-section">
+                        <section class="thanks-to-agent-section" id="agent-section">
                             <div class="unit-pagination">
                                 <h3 class="thanks-to-agent-title">한국어 대응가능한 일본 부동산</h3>
                                 <div class="unit-pagination-info" id="thanks-pagenation">
@@ -448,7 +452,7 @@
                     </section> -->
                 </div>
                 <div class="property-info-sidebar desktop-only">
-                    <button class="sidebar-inquiry-btn primary">부동산 문의</button>
+                    <a href="#agent-section" class="sidebar-inquiry-btn primary">부동산 문의</a>
                 </div>
             </div>
         </section>
