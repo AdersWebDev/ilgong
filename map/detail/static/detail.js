@@ -385,7 +385,10 @@ const PropertyDetail = {
                 warningText.style.margin = '20px 0 30px 0';
                 warningText.style.textAlign = 'left';
                 warningText.style.fontWeight = 'bold';
-                warningText.textContent = '*자료를 보고 판단한 예상치이며, 정확한 내용은 반드시 중개회사 확인이 필요합니다.';
+                warningText.innerHTML = ```
+                ※ 고객님이 안심하고 결정하실 수 있도록, 일본어 부동산 자료를 보기 쉽게 정리한 내용입니다.<br>
+일본 부동산은 변동이 잦아 최종 공실/조건/비용은 중개회사 확인이 반드시 필요합니다.<br>
+확인 후 진행하시면 불필요한 리스크를 줄이고 안전하게 진행하실 수 있습니다.```;
                 initCostRowContainer.appendChild(warningText);
             }
 
@@ -418,7 +421,10 @@ const PropertyDetail = {
                 warningText.style.margin = '20px 0 30px 0';
                 warningText.style.textAlign = 'left';
                 warningText.style.fontWeight = 'bold';
-                warningText.textContent = '*자료를 보고 판단한 예상치이며, 정확한 내용은 반드시 중개회사 확인이 필요합니다.';
+                warningText.innerHTML = ```
+                ※ 고객님이 안심하고 결정하실 수 있도록, 일본어 부동산 자료를 보기 쉽게 정리한 내용입니다.<br>
+일본 부동산은 변동이 잦아 최종 공실/조건/비용은 중개회사 확인이 반드시 필요합니다.<br>
+확인 후 진행하시면 불필요한 리스크를 줄이고 안전하게 진행하실 수 있습니다.```;
                 specialTermsContainer.appendChild(warningText);
             }
         } else {
