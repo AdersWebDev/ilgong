@@ -2,11 +2,50 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>일본 부동산 검색 - 임대매물 찾기 | 일공</title>
-    <meta name="description" content="일본 임대 부동산을 지도에서 쉽게 검색하세요. 원하는 조건의 매물을 찾아보세요.">
-    <link rel="icon" href="../assest/favicon.png" type="image/png" />
+      <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" href="../assest/favicon.png" type="image/png" />
+
+  <title>일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색</title>
+
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
+  <meta name="keywords" content="일본 부동산 지도, 오사카 지도 매물, 핀 검색, 외국인 입주 가능, 월세 지도, 시키킹 레이킹, 실시간 매물, 일본공간" />
+
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="thumbnail" content="https://www.ilgongjp.com/assest/logo.svg" />
+
+  <!-- CSP: 지도(/map/)는 Google Maps를 쓰므로 frame-src + script-src를 보강 -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' data: blob: https:; 
+    style-src 'self' 'unsafe-inline' https:;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+    connect-src 'self' https:;
+    frame-src 'self' https://www.youtube.com https://www.instagram.com/ https://www.google.com https://maps.google.com https://www.google.co.jp;
+    worker-src 'self' blob:;
+  ">
+
+  <!-- Open Graph -->
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="ilgongjp.com" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
+  <meta property="og:url" content="https://ilgongjp.com/map/" />
+  <meta property="og:description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 조건별로 비교하세요." />
+  <meta property="og:image" content="https://www.ilgongjp.com/assest/favicon.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
+  <meta name="twitter:description" content="지도에서 핀으로 실시간 매물을 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
+  <meta name="twitter:image" content="https://www.ilgongjp.com/assest/logo.svg" />
+  <meta name="twitter:creator" content="@ilgongjp" />
+
+  <!-- Canonical (중복 URL 방지) -->
+  <link rel="canonical" href="https://ilgongjp.com/map/" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
