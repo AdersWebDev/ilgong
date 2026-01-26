@@ -19,14 +19,14 @@
 
   <!-- CSP: 지도(/map/)는 Google Maps를 쓰므로 frame-src + script-src를 보강 -->
   <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    img-src 'self' data: blob: https:; 
-    style-src 'self' 'unsafe-inline' https:;
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
-    connect-src 'self' https:;
-    frame-src 'self' https://www.youtube.com https://www.instagram.com/ https://www.google.com https://maps.google.com https://www.google.co.jp;
-    worker-src 'self' blob:;
-  ">
+  default-src 'self';
+  img-src 'self' data: blob: https:;
+  style-src 'self' 'unsafe-inline' https:;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+  connect-src 'self' https:;
+  font-src 'self' data: https:;
+  frame-src 'self' https://www.youtube.com https://www.instagram.com/ https://www.google.com https://maps.google.com https://www.google.co.jp;
+">
 
   <!-- Open Graph -->
   <meta property="og:locale" content="ko_KR" />
