@@ -2,11 +2,42 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-    <meta name="referrer" content="unsafe-url">
-    <link rel="icon" href="../../assest/favicon.png" type="image/png">
-    <title>맨션 상세 정보 - ilgong</title>
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" href="../../assest/favicon.png" type="image/png" />
+
+  <!-- 디테일 페이지: 건물 + 호실 상세 -->
+  <title>일본공간 | 오사카 실시간 부동산 상세 (호실·사진·초기비용·특수사항)</title>
+
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="오사카 실시간 갱신 일본 부동산 상세페이지. 건물/호실 정보, 사진 갤러리, 초기비용(시키킹·레이킹·중개수수료 등), 특수사항까지 한 번에 확인하세요." />
+  <meta name="keywords" content="일본 부동산 상세, 오사카 월세, 호실 정보, 초기비용, 시키킹, 레이킹, 중개수수료, 보증회사, 반려동물 가능, 외국인 입주, 일본공간" />
+
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="thumbnail" content="https://www.ilgongjp.com/assest/logo.svg" />
+
+  <!-- 지도에서 유입되는 디테일: Google Maps 연동/이미지 갤러리/외부 리소스 고려 -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' data: blob: https:;
+    style-src 'self' 'unsafe-inline' https:;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+    connect-src 'self' https:;
+    frame-src 'self' https://www.youtube.com https://www.instagram.com/ https://www.google.com https://maps.google.com https://www.google.co.jp;
+    worker-src 'self' blob:;
+  " />
+
+  <!-- Open Graph -->
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="ilgongjp.com" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="일본공간 | 오사카 실시간 부동산 상세 (호실·사진·초기비용·특수사항)" />
+
+  <!-- <meta property="og:url" content="https://ilgongjp.com/detail/{id}" /> -->
+  <meta property="og:description" content="건물/호실 정보, 사진, 초기비용, 특수사항까지 전부 확인 가능한 일본 부동산 상세페이지." />
+  <meta property="og:image" content="https://www.ilgongjp.com/assest/favicon.png" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
