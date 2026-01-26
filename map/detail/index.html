@@ -3,50 +3,52 @@
 
 <head>
     <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" href="../../assest/favicon.png" type="image/png" />
+    <link rel="icon" href="../../assest/favicon.png" type="image/png" />
 
-  <!-- 디테일 페이지: 건물 + 호실 상세 -->
-  <title>일본공간 | 오사카 실시간 부동산 상세 (호실·사진·초기비용·특수사항)</title>
+    <!-- 디테일 페이지: 건물 + 호실 상세 -->
+    <title>일본공간 | 오사카 실시간 부동산 상세 (호실·사진·초기비용·특수사항)</title>
 
-  <meta name="robots" content="index, follow" />
-  <meta name="description" content="오사카 실시간 갱신 일본 부동산 상세페이지. 건물/호실 정보, 사진 갤러리, 초기비용(시키킹·레이킹·중개수수료 등), 특수사항까지 한 번에 확인하세요." />
-  <meta name="keywords" content="일본 부동산 상세, 오사카 월세, 호실 정보, 초기비용, 시키킹, 레이킹, 중개수수료, 보증회사, 반려동물 가능, 외국인 입주, 일본공간" />
+    <meta name="robots" content="index, follow" />
+    <meta name="description"
+        content="오사카 실시간 갱신 일본 부동산 상세페이지. 건물/호실 정보, 사진 갤러리, 초기비용(시키킹·레이킹·중개수수료 등), 특수사항까지 한 번에 확인하세요." />
+    <meta name="keywords" content="일본 부동산 상세, 오사카 월세, 호실 정보, 초기비용, 시키킹, 레이킹, 중개수수료, 보증회사, 반려동물 가능, 외국인 입주, 일본공간" />
 
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="thumbnail" content="https://www.ilgongjp.com/assest/logo.svg" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="thumbnail" content="https://www.ilgongjp.com/assest/logo.svg" />
 
-  <!-- 지도에서 유입되는 디테일: Google Maps 연동/이미지 갤러리/외부 리소스 고려 -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    img-src 'self' data: blob: https:;
-    style-src 'self' 'unsafe-inline' https:;
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
-    connect-src 'self' https:;
-    frame-src 'self' https://www.youtube.com https://www.instagram.com/ https://www.google.com https://maps.google.com https://www.google.co.jp;
-    worker-src 'self' blob:;
-  " />
+    <!-- 지도에서 유입되는 디테일: Google Maps 연동/이미지 갤러리/외부 리소스 고려 -->
+    <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  img-src 'self' data: blob: https:;
+  style-src 'self' 'unsafe-inline' https:;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+  connect-src 'self' https:;
+  font-src 'self' data: https:;
+  frame-src 'self' https://www.youtube.com https://www.instagram.com/ https://www.google.com https://maps.google.com https://www.google.co.jp;
+">
 
-  <!-- Open Graph -->
-  <meta property="og:locale" content="ko_KR" />
-  <meta property="og:site_name" content="ilgongjp.com" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="일본공간 | 오사카 실시간 부동산 상세 (호실·사진·초기비용·특수사항)" />
+    <!-- Open Graph -->
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="ilgongjp.com" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="일본공간 | 오사카 실시간 부동산 상세 (호실·사진·초기비용·특수사항)" />
 
-  <!-- <meta property="og:url" content="https://ilgongjp.com/detail/{id}" /> -->
-  <meta property="og:description" content="건물/호실 정보, 사진, 초기비용, 특수사항까지 전부 확인 가능한 일본 부동산 상세페이지." />
-  <meta property="og:image" content="https://www.ilgongjp.com/assest/favicon.png" />
+    <!-- <meta property="og:url" content="https://ilgongjp.com/detail/{id}" /> -->
+    <meta property="og:description" content="건물/호실 정보, 사진, 초기비용, 특수사항까지 전부 확인 가능한 일본 부동산 상세페이지." />
+    <meta property="og:image" content="https://www.ilgongjp.com/assest/favicon.png" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    
+
     <!-- Base Stylesheet -->
     <link rel="stylesheet" href="../../main/style.css">
     <link rel="stylesheet" href="static/detail.css">
@@ -54,12 +56,13 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXLQL7200F"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-HXLQL7200F');
+    gtag('config', 'G-HXLQL7200F');
 </script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 <body>
     <!-- Header -->
     <header class="header">
@@ -87,7 +90,7 @@
                         <a>부동산 정보</a>
                         <span class="nav-badge wait">준비중</span>
                     </li>
-                    
+
                 </ul>
                 <div class="language-selector">
                     <span class="lang-btn active">
@@ -102,7 +105,7 @@
                 <div class="header-logo">
                     <a href="/">iloong</a>
                 </div>
-                
+
                 <button class="mobile-menu-toggle" id="hamburger" aria-label="메뉴 열기">
                     <i class="fas fa-bars" style="font-size: 26px;"></i>
                 </button>
@@ -217,7 +220,7 @@
                     <div class="section-divider"></div>
 
                     <section class="time-deal-section" id="time-deal-section">
-                        
+
                     </section>
 
                     <!-- Unit List Section -->
@@ -282,83 +285,6 @@
                             <h2>초기 상세비용 (예상)<span class="init-num">*203호실 기준</span></h2>
                             <div class="section-note" style="margin-bottom: 20px;"></div>
                             <div id="initCostRowContainer"></div>
-                        </section>
-                        <div class="section-divider"></div>
-                        <section class="thanks-to-agent-section" id="agent-section">
-                            <div class="unit-pagination">
-                                <h3 class="thanks-to-agent-title">한국어 대응가능한 일본 부동산</h3>
-                                <div class="unit-pagination-info" id="thanks-pagenation">
-                                    <button class="unit-pagination-btn prev" id="agent-prev" aria-label="이전 페이지">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-
-                                    <button class="unit-pagination-btn next" id="agent-next" aria-label="다음 페이지">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="thanks-to-agent-content">
-                                <a class="agent" href="http://pf.kakao.com/_qTEPj" target="_blank">
-                                    <div class="agent-logo">
-                                        <img src="https://houber-japanlife.com/asset/logo.png" alt="하우버 부동산 공식 커뮤니티">
-                                    </div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">Houber<br>(株)エイダス</h4>
-                                        <p class="agent-license">택지건물거래업 면허번호</p>
-                                        <p class="agent-license-number">大阪府知事(2)第62361号</p>
-                                    </div>
-                                </a>
-                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-103452hfncBj3wbmcY/" target="_blank">
-                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">大阪ハウスコム株式会社 ミニミニFC天満橋店</h4>
-                                    </div>
-                                </a>
-                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-152621h1nqX7y0JsQY/" target="_blank">
-                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">株式会社アッフェル ホームメイトFC梅田中崎町店</h4>
-                                    </div>
-                                </a>
-                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-130156h7mYaxpv0eB4/" target="_blank">
-                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">センチュリー21株式会社フロンティア不動産販売 本店</h4>
-                                    </div>
-                                </a>
-                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-121469hD5-OgJlwUhs/" target="_blank">
-                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">株式会社ラックハウジング 本店</h4>
-                                    </div>
-                                </a>
-                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-154990hY5rlNeUzjzI/" target="_blank">
-                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">株式会社エリアリサーチ ハウスモ都島店</h4>
-                                    </div>
-                                </a>
-                                <a class="agent" href="https://www.athome.co.jp/ahki/arearesearch.html" target="_blank">
-                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">(株)エリアリサーチハウスモ不動産西長堀・堀江店</h4>
-                                    </div>
-                                </a>
-                                <a class="agent" href="https://www.homes.co.jp/realtor/mid-3104202hOCdTSlLZ8YI/" target="_blank">
-                                    <div class="agent-logo" style="background: url('./assest/no-image.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                    <div class="agent-info">
-                                        <h4 class="agent-name">アパマンショップ上本町店 株式会社タカラコスモス</h4>
-                                    </div>
-                                </a>
-                            </div>
                         </section>
 
                         <div class="section-divider"></div>
@@ -506,7 +432,7 @@
                     </section> -->
                 </div>
                 <div class="property-info-sidebar desktop-only">
-                    <a href="#agent-section" class="sidebar-inquiry-btn primary">부동산 문의</a>
+                    <a class="sidebar-inquiry-btn primary kakaoChatBtn" id="traceType1">부동산 문의</a>
                 </div>
             </div>
         </section>
@@ -562,112 +488,155 @@
     <script src="static/carousel.js"></script>
     <script src="static/form.js"></script>
     <script src="static/detail.js"></script>
-
     <script>
-        // Kakao.init("91ed72bb01c7495238cdd2b0043ed5da");
+        Kakao.init("91ed72bb01c7495238cdd2b0043ed5da");
+        async function sendOncePerHour(key, sendFn) {
+            const now = Date.now();
+            const until = Number(localStorage.getItem(key) || 0);
+            if (now < until) return;
+            localStorage.setItem(key, String(now + 60 * 60 * 1000));
 
-        // document.querySelectorAll(".kakaoChatBtn").forEach(item => {
-        //     item.addEventListener("click", function (e) {
-        //         e.preventDefault();
-        //         Kakao.Channel.chat({
-        //             channelPublicId: "_qTEPj", // pf.kakao.com/_qTEPj 의 그 값
-        //         });
-        //     });
-        // });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.init-cost-textarea.data').forEach(item => {
-                item.style.height = 'auto';
-                item.style.height = item.scrollHeight + 'px';
-            })
+            try { await sendFn(); }
+            catch (e) { localStorage.removeItem(key); }
+        }
+        document.querySelectorAll(".kakaoChatBtn").forEach(item => {
+            item.addEventListener("click", function (e) {
+                e.preventDefault();
+                sendOncePerHour("click_trace_until", () =>
+                    fetch("https://www.houberapp.com/agent/tracker?value=1", {
+                        method: "GET",
+                        keepalive: true,
+                    })
+                );
+                Kakao.Channel.chat({
+                    channelPublicId: "_qTEPj",
+                });
+            });
         });
+
+        // window.addEventListener('DOMContentLoaded', () => {
+        //     document.querySelectorAll('.init-cost-textarea.data').forEach(item => {
+        //         item.style.height = 'auto';
+        //         item.style.height = item.scrollHeight + 'px';
+        //     })
+        // });
 
     </script>
 </body>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    const track = document.querySelector('.thanks-to-agent-content');
-    const prevBtn = document.getElementById('agent-prev');
-    const nextBtn = document.getElementById('agent-next');
-    if (!track) { return;}
+        const track = document.querySelector('.thanks-to-agent-content');
+        const prevBtn = document.getElementById('agent-prev');
+        const nextBtn = document.getElementById('agent-next');
+        if (!track) { return; }
 
-    // agent 1장의 실제 이동거리(너비 + margin + gap)를 계산
-    function getStep() {
-      const first = track.querySelector('.agent');
-      if (!first) return track.clientWidth;
+        // agent 1장의 실제 이동거리(너비 + margin + gap)를 계산
+        function getStep() {
+            const first = track.querySelector('.agent');
+            if (!first) return track.clientWidth;
 
-      const firstRect = first.getBoundingClientRect();
-      const styles = getComputedStyle(first);
+            const firstRect = first.getBoundingClientRect();
+            const styles = getComputedStyle(first);
 
-      const marginLeft = parseFloat(styles.marginLeft) || 0;
-      const marginRight = parseFloat(styles.marginRight) || 0;
+            const marginLeft = parseFloat(styles.marginLeft) || 0;
+            const marginRight = parseFloat(styles.marginRight) || 0;
 
-      // gap은 flex 컨테이너에 걸려있음
-      const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
+            // gap은 flex 컨테이너에 걸려있음
+            const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
 
-      return firstRect.width + marginLeft + marginRight + gap;
+            return firstRect.width + marginLeft + marginRight + gap;
+        }
+
+        function scrollByCard(direction) {
+            console.log('scrollByCard', direction);
+            const step = getStep();
+            track.scrollBy({ left: step * direction, behavior: 'smooth' });
+        }
+
+        prevBtn && prevBtn.addEventListener('click', () => scrollByCard(-1));
+        nextBtn && nextBtn.addEventListener('click', () => scrollByCard(1));
+
+        // --------- 모바일/터치 드래그 스와이프 ----------
+        let isDown = false;
+let isDragging = false;
+let startX = 0;
+let startScrollLeft = 0;
+let moved = 0;
+
+const DRAG_START_THRESHOLD = 10; // 이 정도 움직여야 드래그 시작
+
+track.addEventListener('pointerdown', (e) => {
+  // 링크(a) 위에서 누른 건 드래그 시작하지 말고 클릭에 맡김
+  if (e.target.closest('a.agent')) return;
+
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+  isDown = true;
+  isDragging = false;
+  moved = 0;
+
+  startX = e.clientX;
+  startScrollLeft = track.scrollLeft;
+
+  // 드래그 시작 전에는 capture 하지 말자(클릭 방해 가능)
+  // track.setPointerCapture(e.pointerId);
+});
+
+track.addEventListener('pointermove', (e) => {
+  if (!isDown) return;
+
+  const dx = e.clientX - startX;
+  moved = dx;
+
+  // 드래그가 아직 시작 안 됐으면, 임계값 넘을 때까지는 스크롤 건드리지 않음
+  if (!isDragging) {
+    if (Math.abs(dx) < DRAG_START_THRESHOLD) return;
+
+    isDragging = true;
+    track.classList.add('is-dragging');
+
+    // 이제부터는 드래그로 간주하니까 캡처
+    track.setPointerCapture(e.pointerId);
+  }
+
+  // 드래그 시작된 이후에만 스크롤 이동
+  track.scrollLeft = startScrollLeft - dx;
+});
+
+function endDrag() {
+  if (!isDown) return;
+
+  isDown = false;
+
+  if (isDragging) {
+    track.classList.remove('is-dragging');
+
+    // 드래그 스냅 (원하면 유지)
+    const threshold = 40;
+    if (Math.abs(moved) > threshold) {
+      scrollByCard(moved < 0 ? 1 : -1);
     }
+  }
 
-    function scrollByCard(direction) {
-        console.log('scrollByCard', direction);
-      const step = getStep();
-      track.scrollBy({ left: step * direction, behavior: 'smooth' });
-    }
+  // 다음 클릭을 위해 리셋
+  isDragging = false;
+  moved = 0;
+}
 
-    prevBtn && prevBtn.addEventListener('click', () => scrollByCard(-1));
-    nextBtn && nextBtn.addEventListener('click', () => scrollByCard(1));
+track.addEventListener('pointerup', endDrag);
+track.addEventListener('pointercancel', endDrag);
+track.addEventListener('pointerleave', endDrag);
 
-    // --------- 모바일/터치 드래그 스와이프 ----------
-    let isDown = false;
-    let startX = 0;
-    let startScrollLeft = 0;
-    let moved = 0;
+// ✅ 클릭 방지 로직은 "드래그 중"일 때만 (캡처링 true 쓰지마)
+track.addEventListener('click', (e) => {
+  if (!isDragging) return; // 드래그 아니면 클릭 통과
+  e.preventDefault();
+  e.stopPropagation();
+});
 
-    // 터치/마우스 공통으로 쓰려고 pointer 사용
-    track.addEventListener('pointerdown', (e) => {
-      // 마우스 우클릭/보조키 등 무시
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-        console.log('pointerdown');
-      isDown = true;
-      moved = 0;
-      startX = e.clientX;
-      startScrollLeft = track.scrollLeft;
-
-      track.classList.add('is-dragging');
-      track.setPointerCapture(e.pointerId);
     });
+</script> -->
 
-    track.addEventListener('pointermove', (e) => {
-      if (!isDown) return;
-      const dx = e.clientX - startX;
-      moved = dx;
-      track.scrollLeft = startScrollLeft - dx;
-    });
 
-    function endDrag() {
-      if (!isDown) return;
-      isDown = false;
-      track.classList.remove('is-dragging');
-
-      // 드래그가 좀 있었으면 "카드 단위"로 스냅 이동
-      const threshold = 40; // 이 이상 움직이면 넘김
-      if (Math.abs(moved) > threshold) {
-        scrollByCard(moved < 0 ? 1 : -1); // 왼쪽으로 끌면 다음(+)로 이동
-      }
-    }
-
-    track.addEventListener('pointerup', endDrag);
-    track.addEventListener('pointercancel', endDrag);
-    track.addEventListener('pointerleave', endDrag);
-
-    // 드래그 후 링크 클릭 방지(의도치 않은 클릭 방지)
-    track.addEventListener('click', (e) => {
-      if (Math.abs(moved) > 5) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }, true);
-  });
-</script>
 </html>
