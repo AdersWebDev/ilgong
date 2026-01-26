@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -39,6 +39,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: var(--spacing-3xl);
+            margin-bottom: var(--spacing-3xl);
         }
 
         .dashboard-card {
@@ -122,8 +123,7 @@
 <body>
     <div class="dashboard-container">
         <div class="dashboard-header">
-            <h1 class="dashboard-title">관리 대쉬보드</h1>
-            <p class="dashboard-subtitle">시스템 관리 기능에 접근하세요</p>
+            <h1 class="dashboard-title">일공 대쉬보드</h1>
         </div>
 
         <div class="dashboard-grid">
@@ -140,6 +140,15 @@
                 <h2 class="dashboard-card-title">맨션관리...(준비중)</h2>
                 <p class="dashboard-card-description">
                     맨션을 검색하고 정보 및 사진을 수정합니다.
+                </p>
+            </a>
+        </div>
+        <div class="dashboard-grid">
+            <a class="dashboard-card" href="/aders/dashboard/hot-deal">
+                <div class="dashboard-card-icon">🎈</div>
+                <h2 class="dashboard-card-title">핫딜 관리하기</h2>
+                <p class="dashboard-card-description">
+                    핫딜 이벤트를 등록, 수정합니다.
                 </p>
             </a>
         </div>
