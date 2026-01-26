@@ -490,10 +490,24 @@
     <script src="static/detail.js"></script>
     <script>
         Kakao.init("91ed72bb01c7495238cdd2b0043ed5da");
+        async function sendOncePerHour(key, sendFn) {
+            const now = Date.now();
+            const until = Number(localStorage.getItem(key) || 0);
+            if (now < until) return;
+            localStorage.setItem(key, String(now + 60 * 60 * 1000));
 
+            try { await sendFn(); }
+            catch (e) { localStorage.removeItem(key); }
+        }
         document.querySelectorAll(".kakaoChatBtn").forEach(item => {
             item.addEventListener("click", function (e) {
                 e.preventDefault();
+                sendOncePerHour("click_trace_until", () =>
+                    fetch("https://www.houberapp.com/agent/tracker?value=1", {
+                        method: "GET",
+                        keepalive: true,
+                    })
+                );
                 Kakao.Channel.chat({
                     channelPublicId: "_qTEPj",
                 });
@@ -509,27 +523,6 @@
 
     </script>
 </body>
-<script>
-    async function sendOncePerHour(key, sendFn) {
-        const now = Date.now();
-        const until = Number(localStorage.getItem(key) || 0);
-        if (now < until) return;
-        localStorage.setItem(key, String(now + 60 * 60 * 1000));
-
-        try { await sendFn(); }
-        catch (e) { localStorage.removeItem(key); }
-    }
-
-    document.getElementById("traceType1").addEventListener("click", () => {
-        sendOncePerHour("click_trace_until", () =>
-            fetch("https://www.houberapp.com/agent/tracker?value=1", {
-                method: "GET",
-                keepalive: true,
-            })
-        );
-    });
-
-</script>
 <!-- <script>
     document.addEventListener('DOMContentLoaded', () => {
 
