@@ -326,13 +326,11 @@ body {
 .form-right .form-search-selected {
     flex: 1;
     overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    /* -ms-overflow-style: none;
+    scrollbar-width: none; */
     min-height: 200px;
-}
-
-.form-right .form-search-selected::-webkit-scrollbar {
-    display: none;
+    max-height: 600px;
+    overflow-x: hidden;
 }
 
 .modal-header {
