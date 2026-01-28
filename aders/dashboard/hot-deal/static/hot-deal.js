@@ -3,7 +3,7 @@
 // API 설정
 // ============================================
 
-const API_BASE_URL = 'http://localhost:40011';
+const API_BASE_URL = 'https://www.houberapp.com';
 
 // ============================================
 // API 함수
