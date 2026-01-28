@@ -29,6 +29,7 @@
         this.mobileManager = null;
         this.propertyData = [];
         this.isInitialLoad = true;
+        this.pendingInfoWindowLocation = null;
     }
 
         init() {
@@ -48,22 +49,19 @@
             });
             this.filterManager.init();
             this.searchManager = new SearchManager(AUTOCOMPLETE_DATA, (query) => {
-            }, (lat, lng) => {
-                const map = this.mapManager.getMap();
-                if (map) {
-                    map.setCenter({ lat: lat, lng: lng });
-                    map.setZoom(18);
-                }
+            }, (result) => {
+                this.requestOpenInfoWindow({
+                    lat: Number(result.lat),
+                    lng: Number(result.lng),
+                    producer: result.producer || undefined,
+                    id: result.id || undefined
+                });
             });
             this.searchManager.init();
             this.propertyListManager = new PropertyListManager(10, (property) => {
                 this.onPropertyClick(property);
-            }, this.dataLoader, (lat, lng) => {
-                const map = this.mapManager.getMap();
-                if (map) {
-                    map.setCenter({ lat: lat, lng: lng });
-                    map.setZoom(20);
-                }
+            }, this.dataLoader, (location) => {
+                this.requestOpenInfoWindow(location);
             });
             this.propertyListManager.init();
             this.mobileManager = new MobileManager();
@@ -184,6 +182,33 @@
                     UIRenderer.updateMapStatus(`${displayCount.toLocaleString('ko-KR')}개의 위치를 표시했습니다.`);
                 }
             }
+
+            // 카드/검색 클릭으로 요청된 InfoWindow가 있으면, 마커 생성 이후에 오픈 시도
+            this.tryOpenPendingInfoWindow();
+        }
+
+        requestOpenInfoWindow(location) {
+            const map = this.mapManager.getMap();
+            if (!map || !location) return;
+
+            this.pendingInfoWindowLocation = location;
+
+            // 클러스터링 상태에서도 확실히 개별 마커가 나오도록 충분히 줌인
+            map.setCenter({ lat: Number(location.lat), lng: Number(location.lng) });
+            map.setZoom(20);
+
+            // 즉시 열 수 있으면 열고, 아니면 다음 렌더(Idle)에서 열림
+            this.tryOpenPendingInfoWindow();
+        }
+
+        tryOpenPendingInfoWindow() {
+            if (!this.pendingInfoWindowLocation || !this.markerManager) return;
+
+            const marker = this.markerManager.findMarkerByLocation(this.pendingInfoWindowLocation);
+            if (marker && marker.locationData) {
+                this.markerManager.showInfoWindow(marker, marker.locationData);
+                this.pendingInfoWindowLocation = null;
+            }
         }
 
         async handleMapIdle(bounds, options = {}) {
@@ -238,6 +263,7 @@
                     address: loc.address || '',
                     type: '',
                     buildingType: '',
+                    eventId: loc.eventId || null,
                     options: []
                 }));
                 if (this.filterManager) {

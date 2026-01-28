@@ -58,7 +58,6 @@ class DataLoader {
 
         const data = await response.json();
         const locations = Array.isArray(data) ? data : (data.locations || []);
-
         return locations;
     }
 
@@ -92,7 +91,6 @@ class DataLoader {
             }
 
             const data = await response.json();
-            console.log(data);
         } catch (error) {
             console.error('상세 정보 로드 오류:', error);
             UIRenderer.setSidebarMessage('상세 정보를 불러오는데 실패했습니다.');

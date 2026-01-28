@@ -34,6 +34,10 @@ class MapManager {
             zoom: defaultZoom,
             disableDefaultUI: true,
             zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_BOTTOM, // 위치 변경 가능
+                style: google.maps.ZoomControlStyle.SMALL // 또는 DEFAULT, LARGE
+            },
             streetViewControl: false,
             fullscreenControl: false,
             mapTypeControl: false,

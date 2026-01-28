@@ -66,7 +66,7 @@ class SearchManager {
                         searchInput.value = result.name;
                         this.hideAutocompleteSuggestions(autocompleteDropdown);
                         if (this.onResultClick) {
-                            this.onResultClick(result.lat, result.lng);
+                            this.onResultClick(result);
                         }
                     }
                 }
@@ -120,7 +120,7 @@ class SearchManager {
                 }
                 this.hideAutocompleteSuggestions(dropdown);
                 if (this.onResultClick) {
-                    this.onResultClick(result.lat, result.lng);
+                    this.onResultClick(result);
                 }
             });
         });

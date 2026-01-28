@@ -136,12 +136,12 @@ body {
 
 .sort-price-btn:focus {
     outline: none;
-    border-color: var(--primary-yellow);
+    border-color: #3D8BFF;
     box-shadow: 0 0 0 3px var(--primary-yellow-light);
 }
 
 .sort-price-btn.active {
-    border-color: var(--primary-yellow);
+    border-color: #3D8BFF;
     box-shadow: 0 0 0 3px var(--primary-yellow-light);
 }
 
@@ -234,6 +234,7 @@ body {
 
 /* Property Card */
 .property-card {
+    position: relative;
     width: 258px;
     height: 258px;
     background-color: var(--bg-white);
@@ -254,8 +255,6 @@ body {
     width: 260px;
     height: 260px;
     background-color: unset;
-    border: none;
-    border-radius: unset;
 }
 .property-card.pin:hover {
     box-shadow: unset;
@@ -271,7 +270,35 @@ body {
     background-color: var(--bg-gray);
     overflow: hidden;
 }
+.property-card-event {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: auto;
+    padding: 6px 10px;
+    height: 36px;
+    background-color: #FB8525;
+    z-index: 1;
+    border-radius: 10px 0 10px 0;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
+.property-card-event-text {
+    font-size: 16px;
+    color: var(--bg-white);
+    font-weight: 500;
+}
+.property-card-event-timer {
+    font-size: 16px;
+    color: var(--bg-white);
+    font-weight: 500;
+}
 .property-card-image img {
     position: absolute;
     top: 0;
@@ -342,7 +369,7 @@ body {
 
 .loading-spinner i {
     font-size: var(--font-size-3xl);
-    color: var(--primary-yellow);
+    color: #3D8BFF;
 }
 
 .loading-spinner p {
@@ -353,6 +380,35 @@ body {
 /* ========================================
    Google Maps Custom Styles
 ======================================== */
+
+/* Google Maps 확대/축소 버튼 커스터마이징 */
+/* 확대/축소 컨트롤 컨테이너 */
+.gm-style div[style*="box-shadow: rgba(0, 0, 0, 0.3)"] {
+    box-shadow: none !important;
+    background-color: transparent !important;
+    overflow: hidden !important;
+    height: 90px !important;
+}
+
+/* 확대/축소 버튼 */
+.gm-style button.gm-control-active[title="확대"],
+.gm-style button.gm-control-active[title="축소"] {
+    background-color: #ffffff !important;
+    border: none !important;
+    transition: background-color var(--transition-base) !important;
+    border-radius: 50% !important;
+}
+
+.gm-style button.gm-control-active[title="확대"]:hover,
+.gm-style button.gm-control-active[title="축소"]:hover {
+    background-color: var(--bg-gray-light) !important;
+}
+
+/* 구분선 스타일 */
+.gm-style div[style*="background-color: rgb(230, 230, 230)"] {
+    height: 10px !important;
+    background-color: transparent !important;
+}
 .map-marker {
     background-color: var(--text-primary);
     color: var(--bg-white);

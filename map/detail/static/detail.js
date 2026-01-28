@@ -26,6 +26,9 @@ const PropertyDetail = {
             // 기본 데이터 로드 (초기 비용 문서 제외)
             await this.loadData();
 
+            // 핫딜 이벤트 적용 (eventId가 있을 때만)
+            await this.initHotDealEvent();
+
             // 모듈 초기화
             this.initModules();
 
@@ -93,6 +96,68 @@ const PropertyDetail = {
         } finally {
             // 로딩 오버레이 숨기기
             this.hideLoadingOverlay();
+        }
+    },
+
+    /**
+     * 핫딜 이벤트 초기화
+     * - eventId 없으면 아무것도 하지 않음
+     * - eventId 있으면 /rent/detail/event/{id} 호출 후 UI + 타이머 적용
+     */
+    async initHotDealEvent() {
+        const eventId = this.propertyData?.property?.eventId;
+        if (!eventId) {
+            // 기본은 CSS에서 display:none 이므로 별도 처리 없음
+            return;
+        }
+
+        try {
+            const event = await PropertyAPI.getEventDetail(eventId);
+            const imageUrl = event?.imageUrl;
+            const finDate = event?.finDate;
+
+            if (!imageUrl || !finDate) {
+                return;
+            }
+
+            // 섹션 노출 (기본 display:none -> flex)
+            const timeDealSection = document.getElementById('timeDealSection');
+            if (timeDealSection) timeDealSection.style.display = 'flex';
+
+            const sidebarEventDiv = document.getElementById('sidebarEventDiv');
+            if (sidebarEventDiv) sidebarEventDiv.style.display = 'flex';
+
+            // 이미지 교체
+            const imgEl = document.querySelector('#timeDealImg img');
+            if (imgEl) {
+                imgEl.src = imageUrl;
+            }
+
+            // 타이머 DOM 바인딩
+            const timeEls = Array.from(document.querySelectorAll('.time-deal-timer .event-time span'));
+            const sidebarTimerEl = document.getElementById('sidebarTimeDealTimer');
+
+            const render = (hh, mm, ss, formatted) => {
+                if (timeEls.length >= 3) {
+                    timeEls[0].textContent = String(hh).padStart(2, '0');
+                    timeEls[1].textContent = String(mm).padStart(2, '0');
+                    timeEls[2].textContent = String(ss).padStart(2, '0');
+                }
+                if (sidebarTimerEl) {
+                    sidebarTimerEl.textContent = formatted;
+                }
+            };
+
+            // finDate가 과거면(TimeDealTimer 규칙상 null) 이벤트 오류로 판단하고 종료
+            const started = TimeDealTimer.init(finDate, render);
+            if (!started) {
+                // 오류 시 노출했던 UI를 다시 숨김
+                if (timeDealSection) timeDealSection.style.display = 'none';
+                if (sidebarEventDiv) sidebarEventDiv.style.display = 'none';
+            }
+        } catch (e) {
+            // 이벤트는 부가 기능이므로 조용히 종료
+            console.warn('핫딜 이벤트 적용 실패:', e);
         }
     },
 

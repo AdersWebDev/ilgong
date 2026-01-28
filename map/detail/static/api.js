@@ -5,7 +5,6 @@
 
 const PropertyAPI = {
     baseUrl: 'https://www.houberapp.com',
-    
     /**
      * URL에서 producer와 id 추출 (query parameter 형식 - 테스트용)
      * @returns {Object|null} {producer, id} 또는 null
@@ -354,7 +353,8 @@ const PropertyAPI = {
             ['堺筋線', 'k'],
             ['今里筋線', 'i'],
             ['阪急京都線', 'hk'],
-            ['環状線', 'jr']
+            ['環状線', 'jr'],
+            ["ＪＲ","jr"]
         ];
         
         // trans 문자열에 전철선명이 포함되어 있는지 확인
@@ -445,7 +445,9 @@ const PropertyAPI = {
                 images: allPhotos,
                 trans1: apiResponse.trans1 || null,
                 trans2: apiResponse.trans2 || null,
-                trans3: apiResponse.trans3 || null
+                trans3: apiResponse.trans3 || null,
+                // 이벤트 ID (있으면 핫딜 이벤트 적용)
+                eventId: apiResponse.eventId ?? null
             },
             units: this.sortUnitsByRoomNumber(
                 (apiResponse.ilgongRooms || []).map(room => {
@@ -474,6 +476,28 @@ const PropertyAPI = {
                 })
             )
         };
+    },
+
+    /**
+     * 핫딜 이벤트 상세 조회
+     * GET /rent/detail/event/{id}
+     * @param {number|string} eventId
+     * @returns {Promise<{imageUrl: string, finDate: string}>}
+     */
+    async getEventDetail(eventId) {
+        try {
+            const url = `${this.baseUrl}/rent/detail/event/${eventId}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`이벤트 API 호출 실패: ${response.status} ${response.statusText}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('이벤트 API 호출 오류:', error);
+            throw error;
+        }
     },
     /**
      * 부동산 상세 정보 가져오기 (단일 API 호출)
