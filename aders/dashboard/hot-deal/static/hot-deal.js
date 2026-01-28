@@ -1,125 +1,267 @@
 
 // ============================================
-// 가상 API 함수 및 더미데이터
+// API 설정
 // ============================================
 
-// 더미데이터 저장소 (in-memory)
-let eventsData = [
-    {
-        id: '1',
-        title: '신규 입주 특가 이벤트',
-        description: '신규 입주자를 위한 특별 할인 이벤트입니다. 첫 달 월세 50% 할인!',
-        startDate: '2024-01-01',
-        endDate: '2024-01-31',
-        imageFile: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-        buildings: [
-            { id: 192075, producer: 're', name: '도쿄 타워 맨션' }
-        ],
-        isActive: true
-    },
-    {
-        id: '2',
-        title: '봄맞이 이벤트',
-        description: '봄을 맞이하여 진행하는 특별 이벤트입니다. 다양한 혜택을 확인하세요.',
-        startDate: '2024-03-01',
-        endDate: '2024-03-31',
-        imageFile: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-        buildings: [
-            { id: 194841, producer: 're', name: '시부야 스카이 아파트' },
-            { id: 213467, producer: 're', name: '오사카 센터 빌딩' }
-        ],
-        isActive: false
-    }
-];
+const API_BASE_URL = 'http://localhost:40011';
 
-// 가상 API 함수들
+// ============================================
+// API 함수
+// ============================================
+
+// 이벤트 목록 조회
 async function fetchEvents() {
-    // 실제 API로 교체 시: return fetch('/api/events').then(res => res.json());
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve([...eventsData]);
-        }, 300);
-    });
+    try {
+        const response = await fetch(`${API_BASE_URL}/aders/hot-deal/list`);
+
+        if (!response.ok) {
+            throw new Error(`서버 오류: ${response.status}`);
+        }
+
+        const events = await response.json();
+        return events;
+    } catch (error) {
+        console.error('이벤트 목록 조회 API 오류:', error);
+        throw error;
+    }
+}
+async function fetchEventDetail(eventId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/aders/hot-deal/${eventId}`);
+        if (!response.ok) {
+            throw new Error(`서버 오류: ${response.status}`);
+        }
+        const event = await response.json();
+        return event;
+    } catch (error) {
+        console.error('이벤트 상세 조회 API 오류:', error);
+        throw error;
+    }
 }
 
 async function createEvent(eventData) {
-    // 실제 API로 교체 시: return fetch('/api/events', { method: 'POST', body: JSON.stringify(eventData) }).then(res => res.json());
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const newEvent = {
-                ...eventData,
-                id: Date.now().toString(),
-                isActive: true // 기본적으로 활성화 상태로 생성
-            };
-            eventsData.push(newEvent);
-            resolve(newEvent);
-        }, 300);
-    });
+    // FormData 생성
+    const formData = new FormData();
+
+    // 기본 필드 추가
+    formData.append('name', eventData.title);
+    formData.append('description', eventData.description);
+
+    // 날짜를 LocalDateTime 형식으로 변환 (YYYY-MM-DDTHH:mm:ss)
+    // datetime-local input은 YYYY-MM-DDTHH:mm 형식으로 반환
+    // 분과 초는 00:00으로 고정
+    const startDateTime = eventData.startDate.includes('T')
+        ? eventData.startDate + ':00'
+        : eventData.startDate + 'T00:00:00';
+    const endDateTime = eventData.endDate.includes('T')
+        ? eventData.endDate + ':00'
+        : eventData.endDate + 'T00:00:00';
+
+    formData.append('strDate', startDateTime);
+    formData.append('finDate', endDateTime);
+
+    // 상태 (기본적으로 활성화) - 문자열로 전송 (Spring이 자동 변환)
+    formData.append('status', 'true');
+
+    // 이미지 파일 추가
+    if (eventData.imageFile instanceof File) {
+        formData.append('image', eventData.imageFile);
+    }
+
+    // buildingIds 추가
+    if (eventData.buildings && eventData.buildings.length > 0) {
+        eventData.buildings.forEach((building, index) => {
+            formData.append(`buildingIds[${index}].originalId`, building.id);
+            formData.append(`buildingIds[${index}].producer`, building.producer);
+        });
+    }
+
+    // 디버깅: FormData 내용 확인
+    console.log('=== FormData 전송 내용 ===');
+    for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+    try {
+        // FormData를 사용하면 Content-Type이 자동으로 multipart/form-data로 설정됨
+        // 명시적으로 헤더를 설정하지 않아야 브라우저가 boundary를 자동으로 추가함
+        const response = await fetch(`${API_BASE_URL}/aders/hot-deal`, {
+            method: 'POST',
+            body: formData
+            // Content-Type 헤더를 명시적으로 설정하지 않음
+            // 브라우저가 자동으로 multipart/form-data와 boundary를 설정함
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`서버 오류: ${response.status} - ${errorText}`);
+        }
+
+        // 200 응답 처리 - 바디가 있으면 파싱, 없으면 null 반환
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            const text = await response.text();
+            if (text && text.trim()) {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    return null;
+                }
+            }
+        }
+        // 바디가 없거나 JSON이 아닌 경우 null 반환
+        return null;
+    } catch (error) {
+        console.error('이벤트 생성 API 오류:', error);
+        throw error;
+    }
 }
 
 async function updateEvent(eventId, eventData) {
-    // 실제 API로 교체 시: return fetch(`/api/events/${eventId}`, { method: 'PUT', body: JSON.stringify(eventData) }).then(res => res.json());
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const index = eventsData.findIndex(e => e.id === eventId);
-            if (index !== -1) {
-                eventsData[index] = {
-                    ...eventData,
-                    id: eventId
-                };
-                resolve(eventsData[index]);
-            } else {
-                reject(new Error('이벤트를 찾을 수 없습니다.'));
+    // FormData 생성
+    const formData = new FormData();
+
+    // ID 추가
+    formData.append('id', eventId);
+
+    // 기본 필드 추가
+    formData.append('name', eventData.title);
+    formData.append('description', eventData.description);
+
+    // 날짜를 LocalDateTime 형식으로 변환 (YYYY-MM-DDTHH:mm:ss)
+    // datetime-local input은 YYYY-MM-DDTHH:mm 형식으로 반환
+    // 분과 초는 00:00으로 고정
+    const startDateTime = eventData.startDate.includes('T')
+        ? eventData.startDate + ':00'
+        : eventData.startDate + 'T00:00:00';
+    const endDateTime = eventData.endDate.includes('T')
+        ? eventData.endDate + ':00'
+        : eventData.endDate + 'T00:00:00';
+
+    formData.append('strDate', startDateTime);
+    formData.append('finDate', endDateTime);
+
+    // 상태는 기존 상태 유지 (수정 시에는 변경하지 않음)
+    // 필요시 폼에서 가져올 수 있음
+    // formData.append('status', 'true');
+
+    // 이미지 파일 추가 (새로운 파일이 있으면 추가, 없으면 FormData에 추가하지 않음)
+    // FormData에 추가하지 않으면 Spring이 null로 처리하여 기존 이미지 유지
+    if (eventData.imageFile instanceof File) {
+        formData.append('image', eventData.imageFile);
+    }
+    // 이미지가 없으면 FormData에 추가하지 않음 (서버가 기존 이미지 유지 처리)
+
+    // buildingIds 추가
+    if (eventData.buildings && eventData.buildings.length > 0) {
+        eventData.buildings.forEach((building, index) => {
+            formData.append(`buildingIds[${index}].originalId`, building.id);
+            formData.append(`buildingIds[${index}].producer`, building.producer);
+        });
+    }
+
+    // 디버깅: FormData 내용 확인
+    console.log('=== FormData 수정 전송 내용 ===');
+    for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+    try {
+        // FormData를 사용하면 Content-Type이 자동으로 multipart/form-data로 설정됨
+        // 명시적으로 헤더를 설정하지 않아야 브라우저가 boundary를 자동으로 추가함
+        const response = await fetch(`${API_BASE_URL}/aders/hot-deal`, {
+            method: 'PATCH',
+            body: formData
+            // Content-Type 헤더를 명시적으로 설정하지 않음
+            // 브라우저가 자동으로 multipart/form-data와 boundary를 설정함
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`서버 오류: ${response.status} - ${errorText}`);
+        }
+
+        // 200 응답 처리 - 바디가 있으면 파싱, 없으면 null 반환
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            const text = await response.text();
+            if (text && text.trim()) {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    return null;
+                }
             }
-        }, 300);
-    });
+        }
+        // 바디가 없거나 JSON이 아닌 경우 null 반환
+        return null;
+    } catch (error) {
+        console.error('이벤트 수정 API 오류:', error);
+        throw error;
+    }
 }
 
 async function endEvent(eventId) {
-    // 실제 API로 교체 시: return fetch(`/api/events/${eventId}/end`, { method: 'POST' }).then(res => res.json());
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const index = eventsData.findIndex(e => e.id === eventId);
-            if (index !== -1) {
-                eventsData[index].isActive = false;
-                resolve(eventsData[index]);
-            } else {
-                reject(new Error('이벤트를 찾을 수 없습니다.'));
-            }
-        }, 300);
-    });
+    try {
+        const response = await fetch(`${API_BASE_URL}/aders/hot-deal/${eventId}/status?status=false`, {
+            method: 'PATCH'
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`서버 오류: ${response.status} - ${errorText}`);
+        }
+
+        // 200 응답이면 성공 (바디 없음)
+        return null;
+    } catch (error) {
+        console.error('이벤트 중지 API 오류:', error);
+        throw error;
+    }
 }
 
 async function resumeEvent(eventId) {
-    // 실제 API로 교체 시: return fetch(`/api/events/${eventId}/resume`, { method: 'POST' }).then(res => res.json());
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const index = eventsData.findIndex(e => e.id === eventId);
-            if (index !== -1) {
-                eventsData[index].isActive = true;
-                resolve(eventsData[index]);
-            } else {
-                reject(new Error('이벤트를 찾을 수 없습니다.'));
-            }
-        }, 300);
-    });
+    try {
+        const response = await fetch(`${API_BASE_URL}/aders/hot-deal/${eventId}/status?status=true`, {
+            method: 'PATCH'
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`서버 오류: ${response.status} - ${errorText}`);
+        }
+
+        // 200 응답이면 성공 (바디 없음)
+        return null;
+    } catch (error) {
+        console.error('이벤트 시작 API 오류:', error);
+        throw error;
+    }
 }
 
 async function deleteEvent(eventId) {
-    // 실제 API로 교체 시: return fetch(`/api/events/${eventId}`, { method: 'DELETE' }).then(res => res.json());
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            eventsData = eventsData.filter(event => event.id !== eventId);
-            resolve({ success: true });
-        }, 300);
-    });
+    try {
+        const response = await fetch(`${API_BASE_URL}/aders/hot-deal/${eventId}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`서버 오류: ${response.status} - ${errorText}`);
+        }
+
+        // 200 응답이면 성공 (바디 없음)
+        return null;
+    } catch (error) {
+        console.error('이벤트 시작 API 오류:', error);
+        throw error;
+    }
 }
 
 // ============================================
 // 건물 검색 기능 (실제 API 사용)
 // ============================================
 
-const SEARCH_ENDPOINT = 'https://www.houberapp.com/map/rent/search';
 let selectedBuildings = [];
 let searchResults = [];
 let searchTimeout = null;
@@ -131,13 +273,13 @@ async function searchBuildings(query) {
     }
 
     try {
-        const url = `${SEARCH_ENDPOINT}?q=${encodeURIComponent(query)}`;
+        const url = `${API_BASE_URL}/map/rent/search?q=${encodeURIComponent(query)}`;
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             throw new Error(`검색 요청 실패: ${response.status}`);
         }
-        
+
         const results = await response.json();
         return results;
     } catch (error) {
@@ -180,7 +322,7 @@ let currentEventId = null;
 // ============================================
 
 function renderEvents(events) {
-    if (events.length === 0) {
+    if (!events || events.length === 0) {
         eventsTableContainer.style.display = 'none';
         emptyState.style.display = 'block';
         return;
@@ -190,25 +332,25 @@ function renderEvents(events) {
     emptyState.style.display = 'none';
 
     eventsTableBody.innerHTML = events.map(event => `
-        <tr class="event-row ${!event.isActive ? 'event-inactive' : ''}">
+        <tr class="event-row ${!event.status ? 'event-inactive' : ''}">
             <td class="event-table-id">${event.id}</td>
             <td class="event-table-title">
-                ${escapeHtml(event.title)}
-                ${!event.isActive ? '<span class="event-status-badge inactive">종료됨</span>' : '<span class="event-status-badge active">진행중</span>'}
+                ${!event.status ? '<span class="event-status-badge inactive">중지됌</span>' : '<span class="event-status-badge active">진행중</span>'}
+                ${escapeHtml(event.name)}
             </td>
             <td class="event-table-image">
-                <img src="${event.imageFile}" alt="${escapeHtml(event.title)}" class="event-table-thumbnail" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='">
+                <img src="${event.imageUrl || ''}" alt="${escapeHtml(event.name)}" class="event-table-thumbnail" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='">
             </td>
             <td class="event-table-period">
-                ${formatDate(event.startDate)} ~ <br> ${formatDate(event.endDate)}
+                ${formatDate(event.strDate)} ~ <br> ${formatDate(event.finDate)}
             </td>
             <td class="event-table-actions">
                 <div class="event-actions-group">
                     <button class="btn-secondary" onclick="handleEditEvent('${event.id}')">수정</button>
-                    ${event.isActive 
-                        ? `<button class="btn-warning" onclick="handleEndEvent('${event.id}')">종료</button>`
-                        : `<button class="btn-success" onclick="handleResumeEvent('${event.id}')">재개</button>`
-                    }
+                    ${event.status
+            ? `<button class="btn-warning" onclick="handleEndEvent('${event.id}')">중지</button>`
+            : `<button class="btn-success" onclick="handleResumeEvent('${event.id}')">시작</button>`
+        }
                     <button class="btn-danger" onclick="handleDeleteEvent('${event.id}')">삭제</button>
                 </div>
             </td>
@@ -223,12 +365,36 @@ function escapeHtml(text) {
 }
 
 function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+    if (!dateString) return '';
+
+    try {
+        // LocalDateTime 형식 (YYYY-MM-DDTHH:mm:ss) 처리
+        let date;
+        if (dateString.includes('T')) {
+            // ISO 형식이면 그대로 파싱
+            date = new Date(dateString);
+        } else {
+            // 날짜만 있으면 파싱
+            date = new Date(dateString);
+        }
+
+        // 유효한 날짜인지 확인
+        if (isNaN(date.getTime())) {
+            return '';
+        }
+
+        // 시간까지만 표시 (년/월/일/시)
+        return date.toLocaleString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    } catch (error) {
+        console.error('날짜 파싱 오류:', error, dateString);
+        return '';
+    }
 }
 
 // ============================================
@@ -239,13 +405,17 @@ function openModal(eventId = null) {
     currentEventId = eventId;
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    const eventImageInput = document.getElementById('eventImage');
     
     if (eventId) {
-        // 수정 모드 (현재는 추가만 지원)
+        // 수정 모드 - 이미지는 선택사항
         document.getElementById('modalTitle').textContent = '이벤트 수정';
+        eventImageInput.removeAttribute('required');
     } else {
-        // 추가 모드
+        // 추가 모드 - 이미지는 필수
         document.getElementById('modalTitle').textContent = '이벤트 추가';
+        eventImageInput.setAttribute('required', 'required');
         eventForm.reset();
         resetForm();
     }
@@ -270,6 +440,34 @@ function resetForm() {
     clearFormErrors();
 }
 
+// 날짜시간 입력의 분을 00으로 강제 설정
+function enforceMinuteToZero(inputId) {
+    const dateInput = document.getElementById(inputId);
+    if (dateInput) {
+        // datetime-local 형식에서 분을 00으로 설정
+        let value = dateInput.value;
+        if (value && value.includes('T')) {
+            const [datePart, timePart] = value.split('T');
+            if (timePart) {
+                const parts = timePart.split(':');
+                const hour = parts[0] || '00';
+                const minute = parts[1] || '00';
+                // 분이 00이 아니면 강제로 00으로 설정
+                if (minute !== '00') {
+                    dateInput.value = `${datePart}T${hour.padStart(2, '0')}:00`;
+                    // 값이 변경되었음을 알리기 위해 이벤트 발생
+                    dateInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+        }
+    }
+}
+
+// 종료일시의 분과 초를 00:00으로 강제 설정 (하위 호환성)
+function enforceEndDateTimeFormat() {
+    enforceMinuteToZero('eventEndDate');
+}
+
 // ============================================
 // 건물 검색 UI
 // ============================================
@@ -280,7 +478,7 @@ function isBuildingSelected(building) {
 
 async function performSearch() {
     const query = buildingSearch.value.trim();
-    
+
     if (!query) {
         buildingDropdown.classList.remove('active');
         return;
@@ -292,7 +490,7 @@ async function performSearch() {
 
     const results = await searchBuildings(query);
     searchResults = results;
-    
+
     if (results.length === 0) {
         buildingDropdown.innerHTML = '<div class="form-search-no-results">검색 결과가 없습니다.</div>';
         buildingDropdown.classList.add('active');
@@ -398,7 +596,7 @@ function selectBuilding(building) {
     if (isBuildingSelected(building)) {
         return;
     }
-    
+
     selectedBuildings.push(building);
     buildingSearch.value = '';
     buildingDropdown.classList.remove('active');
@@ -422,7 +620,7 @@ function renderSelectedBuildings() {
         buildingSelected.classList.remove('active');
         return;
     }
-    
+
     buildingSelected.classList.add('active');
     buildingSelectedText.innerHTML = selectedBuildings.map((building, index) => `
         <div class="form-search-selected-item">
@@ -435,7 +633,7 @@ function renderSelectedBuildings() {
     `).join('');
 }
 
-window.removeBuildingFromList = function(buildingId, producer) {
+window.removeBuildingFromList = function (buildingId, producer) {
     removeBuilding(buildingId, producer);
 };
 
@@ -487,7 +685,7 @@ function validateForm() {
         hideFormError('descriptionError');
     }
 
-    // 시작일 검사
+    // 시작일시 검사
     const startDate = document.getElementById('eventStartDate').value;
     if (!startDate) {
         showFormError('startDateError');
@@ -496,7 +694,7 @@ function validateForm() {
         hideFormError('startDateError');
     }
 
-    // 종료일 검사
+    // 종료일시 검사
     const endDate = document.getElementById('eventEndDate').value;
     if (!endDate) {
         showFormError('endDateError');
@@ -506,16 +704,26 @@ function validateForm() {
     }
 
     // 날짜 범위 검사
-    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
-        showFormError('endDateError', '종료일은 시작일보다 이후여야 합니다.');
-        isValid = false;
+    if (startDate && endDate) {
+        const startDateTime = new Date(startDate);
+        const endDateTime = new Date(endDate);
+        if (startDateTime >= endDateTime) {
+            showFormError('endDateError', '종료일시는 시작일시보다 이후여야 합니다.');
+            isValid = false;
+        }
     }
 
-    // 이미지 검사
-    if (!eventImage.files || eventImage.files.length === 0) {
-        showFormError('imageError');
-        isValid = false;
+    // 이미지 검사 (수정 모드에서는 선택사항)
+    if (!currentEventId) {
+        // 추가 모드에서는 이미지 필수
+        if (!eventImage.files || eventImage.files.length === 0) {
+            showFormError('imageError');
+            isValid = false;
+        } else {
+            hideFormError('imageError');
+        }
     } else {
+        // 수정 모드에서는 이미지 선택사항 (이미지가 없으면 기존 이미지 유지)
         hideFormError('imageError');
     }
 
@@ -553,96 +761,180 @@ function clearFormErrors() {
 // 폼 제출 처리
 // ============================================
 
+// 시작일시와 종료일시 변경 시 분을 00으로 강제 설정
+const startDateInput = document.getElementById('eventStartDate');
+const endDateInput = document.getElementById('eventEndDate');
+
+// 분을 00으로 고정하는 함수 (더 강력한 버전)
+function setupMinuteEnforcement(input) {
+    if (!input) return;
+    
+    // 모든 이벤트에 대해 분을 00으로 강제 설정
+    const enforce = () => {
+        // 짧은 지연을 두어 브라우저 UI 업데이트 후 실행
+        setTimeout(() => enforceMinuteToZero(input.id), 50);
+    };
+    
+    // 다양한 이벤트에 리스너 추가
+    input.addEventListener('change', enforce);
+    input.addEventListener('blur', enforce);
+    input.addEventListener('input', enforce);
+    input.addEventListener('keyup', enforce);
+    input.addEventListener('keydown', enforce);
+    input.addEventListener('click', enforce);
+    input.addEventListener('focusout', enforce);
+    
+    // 모달이 열려있을 때 주기적으로 체크 (분 선택 방지)
+    let checkInterval = null;
+    input.addEventListener('focus', () => {
+        checkInterval = setInterval(() => {
+            enforceMinuteToZero(input.id);
+        }, 100); // 100ms마다 체크
+    });
+    
+    input.addEventListener('blur', () => {
+        if (checkInterval) {
+            clearInterval(checkInterval);
+            checkInterval = null;
+        }
+    });
+}
+
+if (startDateInput) {
+    setupMinuteEnforcement(startDateInput);
+}
+
+if (endDateInput) {
+    setupMinuteEnforcement(endDateInput);
+}
+
 eventForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // 시작일시와 종료일시의 분을 00으로 강제 설정
+    enforceMinuteToZero('eventStartDate');
+    enforceMinuteToZero('eventEndDate');
 
     if (!validateForm()) {
         return;
     }
 
     const file = eventImage.files[0];
-    
-    const processEventData = async (imageFile) => {
-        const eventData = {
-            title: document.getElementById('eventTitle').value.trim(),
-            description: document.getElementById('eventDescription').value.trim(),
-            startDate: document.getElementById('eventStartDate').value,
-            endDate: document.getElementById('eventEndDate').value,
-            imageFile: imageFile,
-            buildings: selectedBuildings.map(b => ({
-                id: b.id,
-                producer: b.producer,
-                name: b.name
-            }))
-        };
 
-        try {
-            if (currentEventId) {
-                // 수정 모드
-                await updateEvent(currentEventId, eventData);
-            } else {
-                // 생성 모드
-                await createEvent(eventData);
+    try {
+        if (currentEventId) {
+            // 수정 모드 - 실제 API 호출
+            // 이미지 파일이 없으면 null로 보냄 (서버가 기존 이미지 유지 처리)
+            const eventData = {
+                title: document.getElementById('eventTitle').value.trim(),
+                description: document.getElementById('eventDescription').value.trim(),
+                startDate: document.getElementById('eventStartDate').value,
+                endDate: document.getElementById('eventEndDate').value,
+                imageFile: file || null, // 파일이 없으면 null
+                buildings: selectedBuildings.map(b => ({
+                    id: b.id,
+                    producer: b.producer,
+                    name: b.name
+                }))
+            };
+            await updateEvent(currentEventId, eventData);
+        } else {
+            // 생성 모드 - 실제 API 호출
+            if (!file) {
+                alert('이미지를 선택해주세요.');
+                return;
             }
-            closeModal();
-            loadEvents();
-        } catch (error) {
-            console.error('이벤트 저장 오류:', error);
-            alert(currentEventId ? '이벤트 수정 중 오류가 발생했습니다.' : '이벤트 생성 중 오류가 발생했습니다.');
-        }
-    };
 
-    if (file) {
-        // 새 이미지가 선택된 경우
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            processEventData(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    } else {
-        // 수정 모드이고 이미지가 변경되지 않은 경우 기존 이미지 사용
-        const existingEvent = eventsData.find(e => e.id === currentEventId);
-        const imageFile = existingEvent ? existingEvent.imageFile : '';
-        processEventData(imageFile);
+            await createEvent({
+                title: document.getElementById('eventTitle').value.trim(),
+                description: document.getElementById('eventDescription').value.trim(),
+                startDate: document.getElementById('eventStartDate').value,
+                endDate: document.getElementById('eventEndDate').value,
+                imageFile: file,
+                buildings: selectedBuildings
+            });
+        }
+        closeModal();
+        loadEvents();
+    } catch (error) {
+        console.error('이벤트 저장 오류:', error);
+        alert(currentEventId ? '이벤트 수정 중 오류가 발생했습니다.' : '이벤트 생성 중 오류가 발생했습니다.');
     }
 });
+
+async function getExistingImageAsBlob(eventId) {
+    // API에서 이벤트 상세 정보를 가져와서 이미지 URL을 사용
+    try {
+        const event = await fetchEventDetail(eventId);
+        if (event && event.imageUrl) {
+            const response = await fetch(event.imageUrl);
+            return await response.blob();
+        }
+    } catch (error) {
+        console.error('기존 이미지 가져오기 오류:', error);
+    }
+    return null;
+}
 
 // ============================================
 // 이벤트 수정
 // ============================================
 
-window.handleEditEvent = async function(eventId) {
-    const events = await fetchEvents();
-    const event = events.find(e => e.id === eventId);
-    
-    if (!event) {
-        alert('이벤트를 찾을 수 없습니다.');
-        return;
-    }
-    
-    // 모달 열기 및 데이터 채우기
-    openModal(eventId);
-    
-    // 폼에 데이터 채우기
-    document.getElementById('eventTitle').value = event.title;
-    document.getElementById('eventDescription').value = event.description;
-    document.getElementById('eventStartDate').value = event.startDate;
-    document.getElementById('eventEndDate').value = event.endDate;
-    
-    // 이미지 미리보기
-    if (event.imageFile) {
-        previewImage.src = event.imageFile;
-        imagePreview.classList.add('active');
-    }
-    
-    // 건물 선택
-    if (event.buildings && event.buildings.length > 0) {
-        selectedBuildings = event.buildings.map(b => ({
-            id: b.id,
-            producer: b.producer,
-            name: b.name
-        }));
+window.handleEditEvent = async function (eventId) {
+    try {
+        const event = await fetchEventDetail(eventId);
+
+        if (!event) {
+            alert('이벤트를 찾을 수 없습니다.');
+            return;
+        }
+
+        // 모달 열기 및 데이터 채우기
+        openModal(eventId);
+
+        // 폼에 데이터 채우기
+        document.getElementById('eventTitle').value = event.name || '';
+        document.getElementById('eventDescription').value = event.description || '';
+
+        // 날짜 형식 변환 (YYYY-MM-DDTHH:mm:ss → YYYY-MM-DDTHH:mm)
+        const formatForDateTimeLocal = (dateStr) => {
+            if (!dateStr) return '';
+            if (dateStr.includes('T')) {
+                // 이미 datetime 형식이면 분과 초 제거
+                const [datePart, timePart] = dateStr.split('T');
+                if (timePart) {
+                    const [hour, minute] = timePart.split(':');
+                    return `${datePart}T${hour.padStart(2, '0')}:${minute || '00'}`;
+                }
+                return dateStr;
+            }
+            // 날짜만 있으면 00:00으로 설정
+            return dateStr + 'T00:00';
+        };
+
+        document.getElementById('eventStartDate').value = formatForDateTimeLocal(event.strDate);
+        document.getElementById('eventEndDate').value = formatForDateTimeLocal(event.finDate);
+
+        // 이미지 미리보기
+        if (event.imageUrl) {
+            previewImage.src = event.imageUrl;
+            imagePreview.classList.add('active');
+        }
+
+        // 건물 선택 - eventBuildingResponses에서 건물 정보 가져오기
+        if (event.eventBuildingResponses && event.eventBuildingResponses.length > 0) {
+            selectedBuildings = event.eventBuildingResponses.map(building => ({
+                id: building.originalId || building.id,
+                producer: building.producer,
+                name: building.name || building.buildingName || ''
+            }));
+        } else {
+            selectedBuildings = [];
+        }
         renderSelectedBuildings();
+    } catch (error) {
+        console.error('이벤트 수정 오류:', error);
+        alert('이벤트 정보를 불러오는 중 오류가 발생했습니다.');
     }
 };
 
@@ -650,8 +942,8 @@ window.handleEditEvent = async function(eventId) {
 // 이벤트 종료
 // ============================================
 
-window.handleEndEvent = async function(eventId) {
-    if (!confirm('이 이벤트를 종료하시겠습니까?')) {
+window.handleEndEvent = async function (eventId) {
+    if (!confirm('이 이벤트를 중지하시겠습니까?')) {
         return;
     }
 
@@ -659,8 +951,8 @@ window.handleEndEvent = async function(eventId) {
         await endEvent(eventId);
         loadEvents();
     } catch (error) {
-        console.error('이벤트 종료 오류:', error);
-        alert('이벤트 종료 중 오류가 발생했습니다.');
+        console.error('이벤트 중지 오류:', error);
+        alert('이벤트 중지 중 오류가 발생했습니다.');
     }
 };
 
@@ -668,8 +960,8 @@ window.handleEndEvent = async function(eventId) {
 // 이벤트 재개
 // ============================================
 
-window.handleResumeEvent = async function(eventId) {
-    if (!confirm('이 이벤트를 재개하시겠습니까?')) {
+window.handleResumeEvent = async function (eventId) {
+    if (!confirm('이 이벤트를 시작하시겠습니까?')) {
         return;
     }
 
@@ -677,8 +969,8 @@ window.handleResumeEvent = async function(eventId) {
         await resumeEvent(eventId);
         loadEvents();
     } catch (error) {
-        console.error('이벤트 재개 오류:', error);
-        alert('이벤트 재개 중 오류가 발생했습니다.');
+        console.error('이벤트 시작 오류:', error);
+        alert('이벤트 시작 중 오류가 발생했습니다.');
     }
 };
 
@@ -686,7 +978,7 @@ window.handleResumeEvent = async function(eventId) {
 // 이벤트 삭제
 // ============================================
 
-window.handleDeleteEvent = async function(eventId) {
+window.handleDeleteEvent = async function (eventId) {
     if (!confirm('정말 이 이벤트를 삭제하시겠습니까?')) {
         return;
     }

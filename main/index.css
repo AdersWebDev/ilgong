@@ -12,7 +12,11 @@
 .hero {
     background: linear-gradient(43deg, white 0%, #D0E3FF 100%);
     width: 100%;
-    padding: var(--spacing-4xl) 0;
+    min-height: 440px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     position: relative;
     overflow: hidden;
    
@@ -23,12 +27,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    align-items: flex-start;
     position: relative;
     z-index: 1;
     max-width: 880px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 20px 20px;
+    gap: 130px;
 }
 
 .hero-text {
@@ -309,6 +313,7 @@
 }
 
 .hreo-btn {
+    width: 240px;
     max-width: 240px;
     height: 60px;
     padding: var(--spacing-md) var(--spacing-xl);

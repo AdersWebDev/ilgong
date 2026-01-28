@@ -52,11 +52,9 @@ class FilterManager {
     init() {
         // Filter button click handlers - 모달 열기/닫기 토글
         const filterButtons = document.querySelectorAll('.filter-btn');
-        console.log(`Found ${filterButtons.length} filter buttons`);
         
         filterButtons.forEach(btn => {
             const filterType = btn.dataset.filter;
-            console.log(`Registering click handler for filter type: ${filterType}`);
             
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -69,18 +67,14 @@ class FilterManager {
                 }
                 
                 const filterType = btn.dataset.filter;
-                console.log(`Filter button clicked: ${filterType}`);
                 
                 const modalId = this.getModalId(filterType);
-                console.log(`Modal ID: ${modalId}`);
                 const modal = document.getElementById(modalId);
                 
                 // 이미 열려있는 모달이면 닫기, 아니면 열기
                 if (modal && modal.classList.contains('active')) {
-                    console.log('Closing modal');
                     this.closeAllModals();
                 } else {
-                    console.log('Opening modal');
                     this.openFilterModal(filterType);
                 }
             });
@@ -398,21 +392,6 @@ class FilterManager {
         
         // 필터 버튼 활성화
         filterBtn.classList.add('active');
-        
-        // 디버깅: 모달 상태 확인
-        console.log('Modal opened:', {
-            modalId,
-            isMobile,
-            hasActiveClass: modal.classList.contains('active'),
-            computedStyle: {
-                display: window.getComputedStyle(modal).display,
-                visibility: window.getComputedStyle(modal).visibility,
-                opacity: window.getComputedStyle(modal).opacity,
-                position: window.getComputedStyle(modal).position,
-                top: window.getComputedStyle(modal).top,
-                left: window.getComputedStyle(modal).left
-            }
-        });
     }
 
     /**
@@ -564,7 +543,6 @@ class FilterManager {
      * @returns {Array} 필터링된 프로퍼티 배열
      */
     applyFilters(propertyData = []) {
-        console.log('Applying filters:', this.filterState);
         
         // Filter properties
         // 주의: 검색 쿼리는 SearchManager에서 독립적으로 처리됨
@@ -628,8 +606,6 @@ class FilterManager {
         if (this.onFilterChange) {
             this.onFilterChange(filteredProperties);
         }
-        
-        console.log(`Filtered to ${filteredProperties.length} properties`);
         return filteredProperties;
     }
 

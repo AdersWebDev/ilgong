@@ -51,62 +51,68 @@
             </div>
 
             <form id="eventForm">
-                <div class="form-group">
-                    <label class="form-label required" for="eventTitle">이벤트 제목</label>
-                    <input type="text" id="eventTitle" class="form-input" placeholder="이벤트 제목을 입력하세요" required>
-                    <div class="form-error" id="titleError">이벤트 제목을 입력해주세요.</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label required" for="eventDescription">이벤트 설명</label>
-                    <textarea id="eventDescription" class="form-textarea" placeholder="이벤트 설명을 입력하세요" required></textarea>
-                    <div class="form-error" id="descriptionError">이벤트 설명을 입력해주세요.</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label required">이벤트 기간</label>
-                    <div class="form-date-group">
-                        <div>
-                            <label class="form-label" for="eventStartDate">시작일</label>
-                            <input type="date" id="eventStartDate" class="form-input" required>
-                            <div class="form-error" id="startDateError">시작일을 선택해주세요.</div>
+                <div class="form-layout">
+                    <div class="form-left">
+                        <div class="form-group">
+                            <label class="form-label required" for="eventTitle">이벤트 제목</label>
+                            <input type="text" id="eventTitle" class="form-input" placeholder="이벤트 제목을 입력하세요" required>
+                            <div class="form-error" id="titleError">이벤트 제목을 입력해주세요.</div>
                         </div>
-                        <div>
-                            <label class="form-label" for="eventEndDate">종료일</label>
-                            <input type="date" id="eventEndDate" class="form-input" required>
-                            <div class="form-error" id="endDateError">종료일을 선택해주세요.</div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="eventDescription">이벤트 설명</label>
+                            <textarea id="eventDescription" class="form-textarea" placeholder="이벤트 설명을 입력하세요" required></textarea>
+                            <div class="form-error" id="descriptionError">이벤트 설명을 입력해주세요.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">이벤트 기간</label>
+                            <div class="form-date-group">
+                                <div>
+                                    <label class="form-label" for="eventStartDate">시작일시</label>
+                                    <input type="datetime-local" id="eventStartDate" class="form-input" step="3600" required>
+                                    <div class="form-error" id="startDateError">시작일시를 선택해주세요.</div>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="eventEndDate">종료일시</label>
+                                    <input type="datetime-local" id="eventEndDate" class="form-input" step="3600" required>
+                                    <div class="form-error" id="endDateError">종료일시를 선택해주세요.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">이벤트 PNG</label>
+                            <div class="form-file-group">
+                                <label for="eventImage" class="form-file-label">
+                                    <div>이미지를 선택하거나 드래그하여 업로드하세요</div>
+                                    <div style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-top: var(--spacing-xs);">PNG 파일만 지원됩니다</div>
+                                </label>
+                                <input type="file" id="eventImage" class="form-file-input" accept="image/png" required>
+                                <div class="form-file-preview" id="imagePreview">
+                                    <img id="previewImage" src="" alt="미리보기">
+                                </div>
+                            </div>
+                            <div class="form-error" id="imageError">이벤트 이미지를 선택해주세요.</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label required">이벤트 PNG</label>
-                    <div class="form-file-group">
-                        <label for="eventImage" class="form-file-label">
-                            <div>이미지를 선택하거나 드래그하여 업로드하세요</div>
-                            <div style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-top: var(--spacing-xs);">PNG 파일만 지원됩니다</div>
-                        </label>
-                        <input type="file" id="eventImage" class="form-file-input" accept="image/png" required>
-                        <div class="form-file-preview" id="imagePreview">
-                            <img id="previewImage" src="" alt="미리보기">
+                    <div class="form-right">
+                        <div class="form-group">
+                            <label class="form-label required">배속할 건물</label>
+                            <div class="form-search-group">
+                                <div style="position: relative;">
+                                    <input type="text" id="buildingSearch" class="form-search-input" placeholder="건물명으로 검색하세요 (엔터 또는 입력 중 자동 검색)" autocomplete="off">
+                                    <span style="position: absolute; right: var(--spacing-lg); top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none;">🔍</span>
+                                </div>
+                                <div class="form-search-dropdown" id="buildingDropdown"></div>
+                                <div class="form-search-selected" id="buildingSelected">
+                                    <div class="form-search-selected-text" id="buildingSelectedText"></div>
+                                </div>
+                            </div>
+                            <div class="form-error" id="buildingError">배속할 건물을 선택해주세요.</div>
                         </div>
                     </div>
-                    <div class="form-error" id="imageError">이벤트 이미지를 선택해주세요.</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label required">배속할 건물</label>
-                    <div class="form-search-group">
-                        <div style="position: relative;">
-                            <input type="text" id="buildingSearch" class="form-search-input" placeholder="건물명으로 검색하세요 (엔터 또는 입력 중 자동 검색)" autocomplete="off">
-                            <span style="position: absolute; right: var(--spacing-lg); top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none;">🔍</span>
-                        </div>
-                        <div class="form-search-dropdown" id="buildingDropdown"></div>
-                        <div class="form-search-selected" id="buildingSelected">
-                            <div class="form-search-selected-text" id="buildingSelectedText"></div>
-                        </div>
-                    </div>
-                    <div class="form-error" id="buildingError">배속할 건물을 선택해주세요.</div>
                 </div>
 
                 <div class="form-actions">

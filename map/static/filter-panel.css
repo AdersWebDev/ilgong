@@ -283,6 +283,7 @@
 }
 
 .toggle-all-btn {
+    height: 40px;
     padding: var(--spacing-xs) var(--spacing-md);
     font-size: var(--font-size-m);
     font-weight: bold;
