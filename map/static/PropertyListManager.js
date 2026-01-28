@@ -69,7 +69,6 @@ class PropertyListManager {
             `;
             return;
         }
-        console.log(propertiesToShow);
         container.innerHTML = propertiesToShow.map(property => `
             <div class="property-card" 
                  data-lat="${property.lat}" 
