@@ -257,44 +257,34 @@ const PropertyAPI = {
      * @param {string} status - 상태 문자열
      * @returns {Object} {statusClass, statusText}
      */
-    formatRoomStatus(status) {
-        if (!status || typeof status !== 'string') {
-            return {
-                statusClass: 'scheduled',
-                statusText: '문의필요'
-            };
+    formatRoomStatus(status, application, cleaning) {
+        // Java 로직은 status null이어도 else로 떨어져 "확인필요"가 됨
+        const s = (typeof status === 'string') ? status : '';
+        const sLower = s.toLowerCase();
+      
+        // 1) close or application != null => closed
+        if (s === "close" || application != null) {
+          return { statusClass: "closed", statusText: "만실" };
         }
-
-        const statusLower = status.toLowerCase();
-
-        if (status.includes('空室') || status.includes('新築') || statusLower.includes('available') || statusLower.includes('offered')) {
-            return {
-                statusClass: 'available',
-                statusText: '공실'
-            };
+      
+        // 2) available keywords => available
+        if (s.includes("空室") || s.includes("新築") || sLower.includes("available") || sLower.includes("offered")) {
+          return { statusClass: "available", statusText: "공실" };
         }
-        else if (status.includes('建築中')) {
-            return {
-                statusClass: 'scheduled',
-                statusText: '건축 중'
-            }
+      
+        // 3) 建築中 exact => scheduled (건축 중)
+        if (s === "建築中") {
+          return { statusClass: "scheduled", statusText: "건축 중" };
         }
-        else if (status==="close" || status.includes('商談中')) {
-            return {
-                statusClass: 'closed',
-                statusText: '만실'
-            };
-        } else if (status.includes('예정') || status.includes('予定') || status.includes('内装中')) {
-            return {
-                statusClass: 'scheduled',
-                statusText: '공실예정'
-            };
-        } else {
-            return {
-                statusClass: 'scheduled',
-                statusText: status
-            };
+      
+        // 4) 予定 or cleaning != null => scheduled (공실예정)
+        if (s.includes("予定") || cleaning != null) {
+          return { statusClass: "scheduled", statusText: "공실예정" };
         }
+      
+        // 5) default
+        return { statusClass: "scheduled", statusText: "확인필요" };
+      }
     },
 
     /**
@@ -458,7 +448,7 @@ const PropertyAPI = {
             },
             units: this.sortUnitsByRoomNumber(
                 (apiResponse.ilgongRooms || []).map(room => {
-                    const statusInfo = this.formatRoomStatus(room.status || '');
+                    const statusInfo = this.formatRoomStatus(room.status, room.application, room.cleaning);
                     const enterDate = this.formatEnterDate(room.enableEnterDate);
 
                     return {
@@ -470,6 +460,8 @@ const PropertyAPI = {
                         direction: this.formatDirection(room.roomDirection || '문의필요'),
                         status: statusInfo.statusClass,
                         statusText: statusInfo.statusText,
+                        application: room.application,
+                        cleaning: room.cleaning,
                         rent: room.rentalCost || 0,
                         commonFee: room.feeCommon || 0,
                         deposit: this.parseDeposit(room.deposit || '문의필요'),
