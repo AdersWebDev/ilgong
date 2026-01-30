@@ -284,7 +284,6 @@ const PropertyAPI = {
       
         // 5) default
         return { statusClass: "scheduled", statusText: "확인필요" };
-      }
     },
 
     /**
