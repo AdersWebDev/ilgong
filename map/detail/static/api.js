@@ -13,7 +13,7 @@ const PropertyAPI = {
         const urlParams = new URLSearchParams(window.location.search);
         const producer = urlParams.get('producer');
         const id = urlParams.get('id');
-        
+
         if (producer && id) {
             return {
                 producer: producer,
@@ -38,13 +38,13 @@ const PropertyAPI = {
             if (!Array.isArray(photos)) {
                 return [];
             }
-            
+
             // 타입 필터링
             let filteredPhotos = photos;
             if (filterType) {
                 filteredPhotos = photos.filter(p => p.type === filterType);
             }
-            
+
             return filteredPhotos.map(p => p.path);
         } catch (error) {
             console.error('Failed to parse photoMulti:', error);
@@ -69,13 +69,13 @@ const PropertyAPI = {
             elevator: '엘리베이터',
             petFootWashroom: '반려동물 발 세척장'
         };
-        
+
         for (const [key, label] of Object.entries(mapping)) {
             if (buildingData[key] === true) {
                 facilities.push(label);
             }
         }
-        
+
         return facilities;
     },
 
@@ -105,13 +105,13 @@ const PropertyAPI = {
             allElectric: '전기',
             switchLighting: '조명 포함'
         };
-        
+
         for (const [key, label] of Object.entries(mapping)) {
             if (roomData[key] === true) {
                 equipment.push(label);
             }
         }
-        
+
         return equipment;
     },
 
@@ -159,9 +159,9 @@ const PropertyAPI = {
         if (!direction || typeof direction !== 'string' || direction.trim() === '') {
             return '문의필요';
         }
-        
+
         const trimmed = direction.trim();
-        
+
         // 일본어 방향을 한글로 변환
         if (trimmed.includes('南') || trimmed.includes('남')) {
             if (trimmed.includes('東') || trimmed.includes('동')) {
@@ -182,7 +182,7 @@ const PropertyAPI = {
         } else if (trimmed.includes('西') || trimmed.includes('서')) {
             return '서향';
         }
-        
+
         // 변환 불가능한 경우
         return '문의필요';
     },
@@ -196,7 +196,7 @@ const PropertyAPI = {
         if (!deposit || typeof deposit !== 'string' || deposit.trim() === '') {
             return '없음';
         }
-        
+
         const lower = deposit.toLowerCase();
         if (lower.includes('nashi') || lower.includes('なし')) {
             return '없음';
@@ -217,18 +217,18 @@ const PropertyAPI = {
      */
     getRoomPhotos(room) {
         const photos = [];
-        
+
         // layoutfile 추가 (평면도)
         if (room.layoutfile) {
             photos.push(room.layoutfile);
         }
-        
+
         // photoMulti에서 room 타입 사진만 추가
         if (room.photoMulti) {
             const roomPhotos = this.parsePhotoMulti(room.photoMulti, 'room');
             photos.push(...roomPhotos);
         }
-        
+
         return photos;
     },
 
@@ -241,7 +241,7 @@ const PropertyAPI = {
         if (!recompense || typeof recompense !== 'string' || recompense.trim() === '') {
             return '없음';
         }
-        
+
         const lower = recompense.toLowerCase();
         if (lower.includes('nashi') || lower.includes('なし')) {
             return '없음';
@@ -264,20 +264,27 @@ const PropertyAPI = {
                 statusText: '문의필요'
             };
         }
-        
+
         const statusLower = status.toLowerCase();
-        
+
         if (status.includes('空室') || status.includes('新築') || statusLower.includes('available') || statusLower.includes('offered')) {
             return {
                 statusClass: 'available',
                 statusText: '공실'
             };
-        } else if (status === 'close' || status.includes('建築中')) {
+        }
+        else if (status.includes('建築中')) {
+            return {
+                statusClass: 'scheduled',
+                statusText: '건축 중'
+            }
+        }
+        else if (status==="close" || status.includes('商談中')) {
             return {
                 statusClass: 'closed',
                 statusText: '만실'
             };
-        } else if (status.includes('예정') || status.includes('予定')) {
+        } else if (status.includes('예정') || status.includes('予定') || status.includes('内装中')) {
             return {
                 statusClass: 'scheduled',
                 statusText: '공실예정'
@@ -300,7 +307,7 @@ const PropertyAPI = {
         // enableEnterDate가 있으면 우선 사용
         if (enableEnterDate && typeof enableEnterDate === 'string' && enableEnterDate.trim() !== '') {
             const trimmed = enableEnterDate.trim();
-            
+
             switch (trimmed) {
                 case '相談':
                     return '문의필요';
@@ -312,11 +319,11 @@ const PropertyAPI = {
             }
         }
 
-        
+
         // 둘 다 없으면 빈 문자열
         return '';
     },
-    
+
     /**
      * 호실 번호 추출 (정렬용)
      * @param {string} roomNumber - 호실 번호 문자열 (예: "302호", "101호")
@@ -326,7 +333,7 @@ const PropertyAPI = {
         if (!roomNumber || typeof roomNumber !== 'string') {
             return 0;
         }
-        
+
         // 숫자 부분만 추출
         const match = roomNumber.match(/\d+/);
         return match ? parseInt(match[0], 10) : 0;
@@ -341,7 +348,7 @@ const PropertyAPI = {
         if (!trans || typeof trans !== 'string' || trans.trim() === '') {
             return '';
         }
-        
+
         // 전철선명과 클래스 매핑 (순서대로)
         const subwayMapping = [
             ['中央線', 'c'],
@@ -354,20 +361,20 @@ const PropertyAPI = {
             ['今里筋線', 'i'],
             ['阪急京都線', 'hk'],
             ['環状線', 'jr'],
-            ["ＪＲ","jr"]
+            ["ＪＲ", "jr"]
         ];
-        
+
         // trans 문자열에 전철선명이 포함되어 있는지 확인
         for (const [lineName, className] of subwayMapping) {
             if (trans.includes(lineName)) {
                 return className;
             }
         }
-        
+
         // 매칭되는 전철선이 없으면 빈 문자열 반환
         return '';
     },
-    
+
     /**
      * 호실 목록을 정렬 (closed가 아닌 것 먼저, 그 다음 숫자 순)
      * @param {Array} units - 호실 목록
@@ -377,25 +384,25 @@ const PropertyAPI = {
         if (!Array.isArray(units)) {
             return units;
         }
-        
+
         return [...units].sort((a, b) => {
             // 1순위: closed가 아닌 것들을 앞으로
             const isAClosed = a.status === 'closed';
             const isBClosed = b.status === 'closed';
-            
+
             if (isAClosed !== isBClosed) {
                 // closed가 아닌 것(a가 closed가 아니면 -1, b가 closed가 아니면 1)
                 return isAClosed ? 1 : -1;
             }
-            
+
             // 2순위: 같은 상태 그룹 내에서 숫자로 비교
             const numA = this.extractRoomNumber(a.number);
             const numB = this.extractRoomNumber(b.number);
-            
+
             if (numA !== numB) {
                 return numA - numB;
             }
-            
+
             // 숫자가 같으면 문자열로 비교 (예: "101A호" vs "101B호")
             const strA = a.number || '';
             const strB = b.number || '';
@@ -418,7 +425,7 @@ const PropertyAPI = {
                 allPhotos.push(...buildingPhotos);
             }
         }
-        
+
         // 최소 월세 계산
         let minRent = null;
         if (apiResponse.ilgongRooms && apiResponse.ilgongRooms.length > 0) {
@@ -453,7 +460,7 @@ const PropertyAPI = {
                 (apiResponse.ilgongRooms || []).map(room => {
                     const statusInfo = this.formatRoomStatus(room.status || '');
                     const enterDate = this.formatEnterDate(room.enableEnterDate);
-                    
+
                     return {
                         id: room.originalId,
                         producer: room.producer,
@@ -509,14 +516,14 @@ const PropertyAPI = {
         try {
             const url = `${this.baseUrl}/rent/detail/${producer}/${id}`;
             const response = await fetch(url);
-            
+
             if (!response.ok) {
                 throw new Error(`API 호출 실패: ${response.status} ${response.statusText}`);
             }
-            
+
             const apiData = await response.json();
             const transformed = this.transformApiResponse(apiData);
-            
+
             return transformed.property;
         } catch (error) {
             console.error('API 호출 오류:', error);
@@ -534,14 +541,14 @@ const PropertyAPI = {
         try {
             const url = `${this.baseUrl}/rent/detail/${producer}/${id}`;
             const response = await fetch(url);
-            
+
             if (!response.ok) {
                 throw new Error(`API 호출 실패: ${response.status} ${response.statusText}`);
             }
-            
+
             const apiData = await response.json();
             const transformed = this.transformApiResponse(apiData);
-            
+
             return transformed.units;
         } catch (error) {
             console.error('API 호출 오류:', error);
@@ -559,11 +566,11 @@ const PropertyAPI = {
         try {
             const url = `${this.baseUrl}/rent/detail/${producer}/${id}`;
             const response = await fetch(url);
-            
+
             if (!response.ok) {
                 throw new Error(`API 호출 실패: ${response.status} ${response.statusText}`);
             }
-            
+
             const apiData = await response.json();
             return this.transformApiResponse(apiData);
         } catch (error) {
@@ -588,14 +595,14 @@ const PropertyAPI = {
                 }
                 // body 없음
             });
-            
+
             if (!response.ok) {
                 throw new Error(`갱신 API 호출 실패: ${response.status} ${response.statusText}`);
             }
-            
+
             const apiData = await response.json();
             const transformed = this.transformApiResponse(apiData);
-            
+
             return {
                 updatedAt: transformed.property.updatedAt,
                 units: transformed.units
@@ -616,7 +623,7 @@ const PropertyAPI = {
         try {
             const url = `${this.baseUrl}/rent/detail/${producer}/${buildingId}/document`;
             const response = await fetch(url);
-            
+
             if (!response.ok) {
                 // 404나 다른 에러 시 null 반환 (null 케이스로 처리)
                 if (response.status === 400) {
@@ -624,7 +631,7 @@ const PropertyAPI = {
                 }
                 throw new Error(`API 호출 실패: ${response.status} ${response.statusText}`);
             }
-            
+
             const data = await response.json();
             return data;
         } catch (error) {
