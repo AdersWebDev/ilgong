@@ -547,7 +547,7 @@
         document.querySelectorAll(".kakaoChatBtn").forEach(item => {
             item.addEventListener("click", function (e) {
                 e.preventDefault();
-                sendOncePerHour("click_trace_until", () =>
+                sendOncePerHour("click_trace_until_1", () =>
                     fetch("https://www.houberapp.com/agent/tracker?value=1", {
                         method: "GET",
                         keepalive: true,

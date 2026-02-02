@@ -663,7 +663,7 @@
         }
 
         document.getElementById("traceType2").addEventListener("click", () => {
-            sendOncePerHour("click_trace_until", () =>
+            sendOncePerHour("click_trace_until_2", () =>
                 fetch("https://www.houberapp.com/agent/tracker?value=2", {
                     method: "GET",
                     keepalive: true,
