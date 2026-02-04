@@ -107,7 +107,7 @@
 
 .gallery-view-more-btn {
     position: absolute;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 4px;
     bottom: var(--spacing-lg);
@@ -513,7 +513,7 @@
 
 #unitUpdateTime {
     display: inline-flex;
-    width: 130px;
+    width: 110px;
     height: 40px;
     font-size: 12px;
     font-weight: bold;

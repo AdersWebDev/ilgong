@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ja">
 
 <head>
       <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" href="../assest/favicon.png" type="image/png" />
+  <link rel="icon" href="../../assest/favicon.png" type="image/png" />
 
-  <title>일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색</title>
+  <title>日本空間地図 | リアルタイム更新 不動産ピン検索</title>
 
   <meta name="robots" content="index, follow" />
-  <meta name="description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
-  <meta name="keywords" content="일본 부동산 지도, 오사카 지도 매물, 핀 검색, 외국인 입주 가능, 월세 지도, 시키킹 레이킹, 실시간 매물, 일본공간" />
+  <meta name="description" content="リアルタイム更新 不動産を地図で一目で！ 月額家賃・初期費用・オプション条件を素早く比較してください。" />
+  <meta name="keywords" content="不動産地図、地図物件、ピン検索、外国人入居可能、月額賃貸地図、シキキングレイキング、リアルタイム物件、日本空間" />
 
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="format-detection" content="telephone=no" />
@@ -29,18 +29,18 @@
 ">
 
   <!-- Open Graph -->
-  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:locale" content="ja_JP" />
   <meta property="og:site_name" content="ilgongjp.com" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
+  <meta property="og:title" content="日本空間地図 | リアルタイム更新 不動産ピン検索" />
   <meta property="og:url" content="https://ilgongjp.com/map/" />
-  <meta property="og:description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 조건별로 비교하세요." />
+  <meta property="og:description" content="リアルタイム更新 不動産を地図で一目で！ 月額家賃・初期費用・オプション条件を素早く比較してください。" />
   <meta property="og:image" content="https://www.ilgongjp.com/assest/favicon.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
-  <meta name="twitter:description" content="지도에서 핀으로 실시간 매물을 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
+  <meta name="twitter:title" content="日本空間地図 | リアルタイム更新 不動産ピン検索" />
+  <meta name="twitter:description" content="リアルタイム更新 不動産を地図で一目で！ 月額家賃・初期費用・オプション条件を素早く比較してください。" />
   <meta name="twitter:image" content="https://www.ilgongjp.com/assest/logo.svg" />
   <meta name="twitter:creator" content="@ilgongjp" />
 
@@ -55,9 +55,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../main/style.css">
-    <link rel="stylesheet" href="/map/static/map.css">
-    <link rel="stylesheet" href="/map/static/filter-panel.css">
+    <link rel="stylesheet" href="/jp/assest/style.css">
+    <link rel="stylesheet" href="/jp/map/static/map.css">
+    <link rel="stylesheet" href="/jp/map/static/filter-panel.css">
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXLQL7200F"></script>
@@ -76,48 +76,35 @@
                 <ul class="nav-menu" id="mainNav">
                     <li>
                         <div class="header-logo">
-                            <a href="/">iloong</a>
+                            <a href="/jp/">iloong</a>
                         </div>
                     </li>
                     <li>
-                        <a href="/map/">지도로 매물보기</a>
-                        <span class="nav-badge new">NEW</span>
+                        <a href="/jp/map/">地図から探す</a>
+                        <span class="nav-badge new">新着</span>
                     </li>
                     <li>
-                        <a href="/agent/houber">24시간 매물받기</a>
-                        <span class="nav-badge new">NEW</span>
+                        <a href="/jp/agent/houber">24時間メール受取</a>
+                        <span class="nav-badge new">新着</span>
                     </li>
                     <li style="cursor: not-allowed;">
-                        <a>일공 포럼</a>
-                        <span class="nav-badge wait">준비중</span>
+                        <a>日本空間情報</a>
+                        <span class="nav-badge wait">準備中</span>
                     </li>
                     <li style="cursor: not-allowed;">
-                        <a>부동산 정보</a>
-                        <span class="nav-badge wait">준비중</span>
+                        <a>不動産会社を探す</a>
+                        <span class="nav-badge wait">準備中</span>
                     </li>
                     
                 </ul>
                 <div class="language-selector" data-lang-selector>
                     <span class="lang-btn active" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false">
-                        KR
+                        JP
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
-                            <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13443)"/>
-                            <circle cx="8.875" cy="7.875" r="3.375" fill="#415687"/>
-                            <path d="M8.875 4.5C7.01104 4.5 5.5 6.01104 5.5 7.875C5.5 7.875 7.1875 9.5625 8.875 7.875C10.5625 6.1875 12.25 7.875 12.25 7.875C12.25 6.01104 10.739 4.5 8.875 4.5Z" fill="#CE3F4D"/>
-                            <path d="M3.65625 3.58594L2.25 6.02163" stroke="black" stroke-width="0.5"/>
-                            <path d="M4.43359 4.03906L3.02734 6.47476" stroke="black" stroke-width="0.5"/>
-                            <path d="M5.11328 4.42969L3.70703 6.86538" stroke="black" stroke-width="0.5"/>
-                            <path d="M14.3438 8.08594L13.9922 8.69486L13.8164 8.99932M12.9375 10.5216L13.2891 9.91271L13.4648 9.60825" stroke="black" stroke-width="0.5"/>
-                            <path d="M15.8008 8.92969L15.4492 9.53861L15.2734 9.84307M14.3945 11.3654L14.7461 10.7565L14.9219 10.452" stroke="black" stroke-width="0.5"/>
-                            <path d="M15.0742 8.50781L14.7227 9.11674L14.5469 9.4212M13.668 10.9435L14.0195 10.3346L14.1953 10.0301" stroke="black" stroke-width="0.5"/>
-                            <path d="M2.25 10.0547L2.60156 10.6636L2.77734 10.9681L3.12891 11.577L3.30469 11.8815L3.65625 12.4904" stroke="black" stroke-width="0.5"/>
-                            <path d="M3.71484 9.21094L4.06641 9.81986L4.24219 10.1243L4.59375 10.7332L4.76953 11.0377L5.12109 11.6466" stroke="black" stroke-width="0.5"/>
-                            <path d="M2.98438 9.63281L3.33594 10.2417L3.51172 10.5462M4.39062 12.0685L4.03906 11.4596L3.86328 11.1551" stroke="black" stroke-width="0.5"/>
-                            <path d="M12.375 3.30469L12.7266 3.91361L12.9023 4.21807M13.7812 5.74038L13.4297 5.13146L13.2539 4.827" stroke="black" stroke-width="0.5"/>
-                            <path d="M13.8398 2.46094L14.1914 3.06986L14.3672 3.37432M15.2461 4.89663L14.8945 4.28771L14.7188 3.98325" stroke="black" stroke-width="0.5"/>
-                            <path d="M13.1094 2.88281L14.5156 5.31851" stroke="black" stroke-width="0.5"/>
+                            <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13437)"/>
+                            <circle cx="9" cy="8.08594" r="3.375" fill="#C4254B"/>
                             <defs>
-                            <radialGradient id="paint0_radial_3390_13443" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
+                            <radialGradient id="paint0_radial_3390_13437" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
                             <stop offset="0.610577" stop-color="white"/>
                             <stop offset="1" stop-color="#D9D9D9"/>
                             </radialGradient>
@@ -126,7 +113,20 @@
                         <i class="fas fa-chevron-down lang-chevron" aria-hidden="true"></i>
                     </span>
                     <div class="lang-dropdown" role="menu" aria-label="Language selector">
-                        <a class="lang-option active" role="menuitem" href="/map/" data-lang="kr">
+                        <a class="lang-option active" role="menuitem" href="/jp/map/" data-lang="jp">
+                            JP
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
+                                <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13437)"/>
+                                <circle cx="9" cy="8.08594" r="3.375" fill="#C4254B"/>
+                                <defs>
+                                <radialGradient id="paint0_radial_3390_13437" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
+                                <stop offset="0.610577" stop-color="white"/>
+                                <stop offset="1" stop-color="#D9D9D9"/>
+                                </radialGradient>
+                                </defs>
+                            </svg>
+                        </a>
+                        <a class="lang-option" role="menuitem" href="/map/" data-lang="kr">
                             KR
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
                                 <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13443)"/>
@@ -152,26 +152,13 @@
                                 </defs>
                             </svg>
                         </a>
-                        <a class="lang-option" role="menuitem" href="/jp/map/" data-lang="jp">
-                            JP
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
-                                <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13437)"/>
-                                <circle cx="9" cy="8.08594" r="3.375" fill="#C4254B"/>
-                                <defs>
-                                <radialGradient id="paint0_radial_3390_13437" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
-                                <stop offset="0.610577" stop-color="white"/>
-                                <stop offset="1" stop-color="#D9D9D9"/>
-                                </radialGradient>
-                                </defs>
-                            </svg>
-                        </a>
                     </div>
                 </div>
             </nav>
 
             <div class="header-actions">
                 <div class="header-logo">
-                    <a href="/">iloong</a>
+                    <a href="/jp/">iloong</a>
                 </div>
                 
                 <button class="mobile-menu-toggle" id="hamburger" aria-label="메뉴 열기">
@@ -189,7 +176,7 @@
             <div class="filter-search">
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="일본 맨션 명으로 검색"
+                    <input type="text" id="searchInput" class="search-input" placeholder="建物名から探す"
                         autocomplete="off">
                 </div>
                 <!-- Autocomplete Dropdown -->
@@ -224,7 +211,7 @@
                             d="M5.80078 10.5C5.80078 8.01472 7.8155 6 10.3008 6C12.7861 6 14.8008 8.01472 14.8008 10.5C14.8008 12.9853 12.7861 15 10.3008 15C7.8155 15 5.80078 12.9853 5.80078 10.5ZM6.64453 10.5C6.64453 8.48071 8.28149 6.84375 10.3008 6.84375C12.3201 6.84375 13.957 8.48071 13.957 10.5C13.957 12.5193 12.3201 14.1562 10.3008 14.1562C8.28149 14.1562 6.64453 12.5193 6.64453 10.5Z"
                             stroke="#17171B" stroke-width="0.3" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <span>비자 선택</span>
+                    <span>ビザ選択</span>
                 </button>
                 <button class="filter-btn" data-filter="price">
                     <svg class="icon price-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -233,7 +220,7 @@
                             d="M4.8 16C3.45185 16 2.31481 15.537 1.38889 14.6111C0.462963 13.6852 0 12.5481 0 11.2C0 10.637 0.0962963 10.0889 0.288889 9.55556C0.481482 9.02222 0.755556 8.54074 1.11111 8.11111L4.26667 4.31111L2.83472 1.44721C2.50227 0.782314 2.98576 0 3.72915 0H12.2709C13.0142 0 13.4977 0.782312 13.1653 1.44721L11.7333 4.31111L14.8889 8.11111C15.2444 8.54074 15.5185 9.02222 15.7111 9.55556C15.9037 10.0889 16 10.637 16 11.2C16 12.5481 15.5333 13.6852 14.6 14.6111C13.6667 15.537 12.5333 16 11.2 16H4.8ZM8 11.5556C7.51111 11.5556 7.09259 11.3815 6.74444 11.0333C6.3963 10.6852 6.22222 10.2667 6.22222 9.77778C6.22222 9.28889 6.3963 8.87037 6.74444 8.52222C7.09259 8.17407 7.51111 8 8 8C8.48889 8 8.90741 8.17407 9.25556 8.52222C9.6037 8.87037 9.77778 9.28889 9.77778 9.77778C9.77778 10.2667 9.6037 10.6852 9.25556 11.0333C8.90741 11.3815 8.48889 11.5556 8 11.5556ZM5.88889 3.55556H10.1111L11 1.77778H5L5.88889 3.55556ZM4.8 14.2222H11.2C12.0444 14.2222 12.7593 13.9296 13.3444 13.3444C13.9296 12.7593 14.2222 12.0444 14.2222 11.2C14.2222 10.8444 14.1593 10.5 14.0333 10.1667C13.9074 9.83333 13.7333 9.53333 13.5111 9.26667L10.2444 5.33333H5.77778L2.48889 9.24444C2.26667 9.51111 2.09259 9.81481 1.96667 10.1556C1.84074 10.4963 1.77778 10.8444 1.77778 11.2C1.77778 12.0444 2.07037 12.7593 2.65556 13.3444C3.24074 13.9296 3.95556 14.2222 4.8 14.2222Z"
                             fill="#17171B" />
                     </svg>
-                    <span>월세 금액대</span>
+                    <span>家賃</span>
                 </button>
                 <button class="filter-btn" data-filter="buildingType">
                     <svg class="icon type-icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17"
@@ -242,7 +229,7 @@
                             d="M0.125 1.75C0.125 0.783501 0.908502 0 1.875 0H14.375C15.3415 0 16.125 0.783502 16.125 1.75V5.33528C16.204 5.45406 16.25 5.59666 16.25 5.75C16.25 5.90334 16.204 6.04594 16.125 6.16472V14.25C16.125 15.2165 15.3415 16 14.375 16H6.43403C6.2967 16.1534 6.09713 16.25 5.87501 16.25C5.65288 16.25 5.45331 16.1534 5.31598 16H1.875C0.908501 16 0.125 15.2165 0.125 14.25V6.16472C0.0460191 6.04594 0 5.90334 0 5.75C0 5.59666 0.0460191 5.45406 0.125 5.33528V1.75ZM1.625 6.5V14.25C1.625 14.3881 1.73693 14.5 1.875 14.5H5.12501L5.125 6.5H1.625ZM5.125 5H1.625V1.75C1.625 1.61193 1.73693 1.5 1.875 1.5H5.125L5.125 5ZM6.625 6.5L6.62501 14.5H14.375C14.5131 14.5 14.625 14.3881 14.625 14.25V6.5H6.625ZM14.625 5H6.625L6.625 1.5H14.375C14.5131 1.5 14.625 1.61193 14.625 1.75V5Z"
                             fill="#24292E" />
                     </svg>
-                    <span>구조 선택</span>
+                    <span>間取り</span>
                 </button>
                 <button class="filter-btn" data-filter="options">
                     <svg class="icon detail-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -254,7 +241,7 @@
                             d="M0.76923 2C0.344396 2 0 2.3444 0 2.76923C0 3.19406 0.344396 3.53846 0.76923 3.53846H3.23077C3.6556 3.53846 4 3.19406 4 2.76923C4 2.3444 3.6556 2 3.23077 2H0.76923Z"
                             fill="#1F1F1F" />
                     </svg>
-                    <span>세부옵션</span>
+                    <span>その他条件</span>
                 </button>
             </div>
         </div>
@@ -269,23 +256,23 @@
     <div class="filter-modal" id="visaTypeModal">
         <div class="filter-modal-content">
             <div class="filter-modal-header">
-                <h3>비자 선택</h3>
+                <h3>ビザ選択</h3>
             </div>
             <div class="checkbox-list">
                 <label class="checkbox-label">
                     <input type="checkbox" name="visaType" value="1">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">외국인 가능(취업, 장기비자)</span>
+                    <span class="checkbox-text">外国人契約可能</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="visaType" value="3">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">유학비자</span>
+                    <span class="checkbox-text">留学ビザ</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="visaType" value="2">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">워킹홀리데이 비자</span>
+                    <span class="checkbox-text">ワーホリ</span>
                 </label>
             </div>
         </div>
@@ -295,25 +282,25 @@
     <div class="filter-modal" id="priceModal">
         <div class="filter-modal-content">
             <div class="filter-modal-header">
-                <h3>희망 월세 금액대</h3>
+                <h3>賃料</h3>
             </div>
             <div class="price-range-selector">
                 <div class="price-dropdown-wrapper">
-                    <label>최소금액</label>
+                    <label>最小料金</label>
                     <div class="custom-select" id="minPriceSelect">
                         <button class="select-button" type="button">
-                            <span class="select-text">제한 없음</span>
+                            <span class="select-text">制限なし</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <ul class="select-dropdown">
-                            <li data-value="">제한 없음</li>
-                            <li data-value="40000">4만엔</li>
-                            <li data-value="50000">5만엔</li>
-                            <li data-value="60000">6만엔</li>
-                            <li data-value="70000">7만엔</li>
-                            <li data-value="80000">8만엔</li>
-                            <li data-value="90000">9만엔</li>
-                            <li data-value="100000">10만엔</li>
+                            <li data-value="">制限なし</li>
+                            <li data-value="40000">4万円</li>
+                            <li data-value="50000">5万円</li>
+                            <li data-value="60000">6万円</li>
+                            <li data-value="70000">7万円</li>
+                            <li data-value="80000">8万円</li>
+                            <li data-value="90000">9万円</li>
+                            <li data-value="100000">10万円</li>
                         </ul>
                     </div>
                 </div>
@@ -321,21 +308,21 @@
                 <span class="price-separator">~</span>
 
                 <div class="price-dropdown-wrapper">
-                    <label>최대금액</label>
+                    <label>最大料金</label>
                     <div class="custom-select" id="maxPriceSelect">
                         <button class="select-button" type="button">
-                            <span class="select-text">제한 없음</span>
+                            <span class="select-text">制限なし</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <ul class="select-dropdown">
-                            <li data-value="">제한 없음</li>
-                            <li data-value="40000">4만엔</li>
-                            <li data-value="50000">5만엔</li>
-                            <li data-value="60000">6만엔</li>
-                            <li data-value="70000">7만엔</li>
-                            <li data-value="80000">8만엔</li>
-                            <li data-value="90000">9만엔</li>
-                            <li data-value="100000">10만엔</li>
+                            <li data-value="">制限なし</li>
+                            <li data-value="40000">4万円</li>
+                            <li data-value="50000">5万円</li>
+                            <li data-value="60000">6万円</li>
+                            <li data-value="70000">7万円</li>
+                            <li data-value="80000">8万円</li>
+                            <li data-value="90000">9万円</li>
+                            <li data-value="100000">10万円</li>
                         </ul>
                     </div>
                 </div>
@@ -346,14 +333,14 @@
     <div class="filter-modal" id="buildingTypeModal">
         <div class="filter-modal-content">
             <div class="filter-modal-header">
-                <h3>방 타입별</h3>
+                <h3>間取り</h3>
             </div>
-            <button class="toggle-all-btn" data-group="roomType">전체</button>
+            <button class="toggle-all-btn" data-group="roomType">すべて</button>
             <div class="checkbox-grid">
                 <label class="checkbox-label">
                     <input type="checkbox" name="roomType" value="r1">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">원룸(1R)</span>
+                    <span class="checkbox-text">ワンルーム</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="roomType" value="k1">
@@ -402,38 +389,38 @@
                 </label>
             </div>
             <div class="filter-modal-header">
-                <h3>건물 구조 타입별</h3>
+                <h3>物件構造</h3>
             </div>
-            <button class="toggle-all-btn" data-group="structureType">전체</button>
+            <button class="toggle-all-btn" data-group="structureType">すべて</button>
             <div class="checkbox-list">
                 <label class="checkbox-label">
                     <input type="checkbox" name="structureType" value="CONCRETE">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">철근·콘크리트 계열</span>
+                    <span class="checkbox-text">鉄筋コンクリート造</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="structureType" value="STEEL">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">철골 계열</span>
+                    <span class="checkbox-text">鉄骨造</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="structureType" value="OTHER">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">기타 계열(목조 등)</span>
+                    <span class="checkbox-text">その他 (木造等)</span>
                 </label>
             </div>
             <div class="filter-modal-header">
-                <h3>건물 축년 수</h3>
+                <h3>築年数</h3>
             </div>
             <div class="building-age-filter">
-                <div class="age-filter-display" id="ageFilterDisplay">전체</div>
+                <div class="age-filter-display" id="ageFilterDisplay">すべて</div>
                 <div class="age-slider">
                     <div class="age-slider-track">
                         <div class="age-slider-line" id="ageSliderLine"></div>
                     </div>
                     <div class="age-slider-points">
                         <button type="button" class="age-point" data-year="all" data-index="0">
-                            <span class="age-point-label">전체</span>
+                            <span class="age-point-label">すべて</span>
                         </button>
                         <button type="button" class="age-point" data-year="1990" data-index="1">
                             <span class="age-point-label">1990+</span>
@@ -457,72 +444,72 @@
     <div class="filter-modal" id="optionsModal" style="width: 400px;">
         <div class="filter-modal-content">
             <div class="filter-modal-header">
-                <h3>많이 찾는 옵션</h3>
+                <h3>よく選ばれるオプション</h3>
             </div>
             <div class="checkbox-grid">
                 <label class="checkbox-label">
                     <input type="checkbox" name="popularOptions" value="184">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">인터넷 무료</span>
+                    <span class="checkbox-text">インターネット無料</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="popularOptions" value="128">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">2인 입주가능</span>
+                    <span class="checkbox-text">2人入居可能</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="popularOptions" value="113">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">반려동물 상담 가능</span>
+                    <span class="checkbox-text">ペット相談</span>
                 </label>
             </div>
 
             <div class="filter-modal-header">
-                <h3>건물 옵션</h3>
+                <h3>建物設備</h3>
             </div>
             <div class="checkbox-grid">
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="114">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">인터폰</span>
+                    <span class="checkbox-text">インターホン</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="1">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">오토록</span>
+                    <span class="checkbox-text">オートロック</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="6">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">택배함</span>
+                    <span class="checkbox-text">宅配BOX</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="10">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">방범 카메라</span>
+                    <span class="checkbox-text">防犯カメラ</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="4">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">자전거 보관소</span>
+                    <span class="checkbox-text">自転車置場</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="5">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">전용 쓰레기장</span>
+                    <span class="checkbox-text">専用ごみ置場</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="7">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">엘리베이터</span>
+                    <span class="checkbox-text">エレベーター</span>
                 </label>
                 <label class="checkbox-label">
                     <input type="checkbox" name="buildingOptions" value="13">
                     <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">반려동물 발 세척장</span>
+                    <span class="checkbox-text">ペット足洗い場</span>
                 </label>
             </div>
-            <div class="temp-png">
+            <div class="temp-png" style="content: url(../../jp/map/assest/comingSoon.png)">
 
             </div>
             <!-- <div class="filter-modal-header" style="margin-top: 24px;">
@@ -637,7 +624,7 @@
                         d="M1.28571 2.5C1.99579 2.5 2.57143 1.94035 2.57143 1.25C2.57143 0.55965 1.99579 0 1.28571 0C0.57564 0 0 0.55965 0 1.25C0 1.94035 0.57564 2.5 1.28571 2.5ZM6.10714 0.625C5.57459 0.625 5.14286 1.04474 5.14286 1.5625C5.14286 2.08026 5.57459 2.5 6.10714 2.5H17.0357C17.5683 2.5 18 2.08026 18 1.5625C18 1.04474 17.5683 0.625 17.0357 0.625H6.10714ZM6.10714 6.875C5.57459 6.875 5.14286 7.29474 5.14286 7.8125C5.14286 8.33026 5.57459 8.75 6.10714 8.75H17.0357C17.5683 8.75 18 8.33026 18 7.8125C18 7.29474 17.5683 6.875 17.0357 6.875H6.10714ZM6.10714 13.125C5.57459 13.125 5.14286 13.5448 5.14286 14.0625C5.14286 14.5802 5.57459 15 6.10714 15H17.0357C17.5683 15 18 14.5802 18 14.0625C18 13.5448 17.5683 13.125 17.0357 13.125H6.10714ZM2.57143 7.5C2.57143 8.19035 1.99579 8.75 1.28571 8.75C0.57564 8.75 0 8.19035 0 7.5C0 6.80965 0.57564 6.25 1.28571 6.25C1.99579 6.25 2.57143 6.80965 2.57143 7.5ZM1.28571 15C1.99579 15 2.57143 14.4404 2.57143 13.75C2.57143 13.0596 1.99579 12.5 1.28571 12.5C0.57564 12.5 0 13.0596 0 13.75C0 14.4404 0.57564 15 1.28571 15Z"
                         fill="white" />
                 </svg>
-                맨션 보기
+                マンションを見る
             </button>
         </section>
 
@@ -645,20 +632,20 @@
         <aside class="property-list-panel">
             <div class="property-list-header">
                 <div class="list-header-title">
-                    <h2>맨션 리스트</h2>
+                    <h2>物件のリスト</h2>
                     <div class="sort-selector">
                         <button id="sortOrderBtn" class="sort-price-btn" type="button">
-                            <span class="sort-price-text">정렬 선택</span>
+                            <span class="sort-price-text">並べ替え</span>
                             <i class="fas fa-chevron-down sort-arrow"></i>
                         </button>
                         <ul class="sort-dropdown" id="sortDropdown">
-                            <li data-value="event-asc">핫딜 정렬</li>
-                            <li data-value="price-asc">야칭 낮은 순</li>
-                            <li data-value="price-desc">야칭 높은 순</li>
+                            <li data-value="event-asc">特価</li>
+                            <li data-value="price-asc">安い順(賃料)</li>
+                            <li data-value="price-desc">高い順(賃料)</li>
                         </ul>
                     </div>
                 </div>
-                <span class="property-count" id="propertyCount">Loading...</span>
+                <span class="property-count" id="propertyCount">ロード中</span>
             </div>
 
             <div class="property-list-container" id="propertyList">
@@ -668,7 +655,7 @@
             <!-- Loading Spinner -->
             <div class="loading-spinner" id="loadingSpinner">
                 <i class="fas fa-spinner fa-spin"></i>
-                <p>Loading...</p>
+                <p>ロード中</p>
             </div>
         </aside>
     </main>
@@ -676,20 +663,20 @@
     <!-- <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script> -->
     <!-- 모듈 로드 순서 중요 -->
     <script src="/main/main.js"></script>
-    <script src="/map/static/Constants.js"></script>
-    <script src="/map/static/Utils.js"></script>
-    <script src="/map/static/ClusterManager.js"></script>
-    <script src="/map/static/UIRenderer.js"></script>
-    <script src="/map/static/DataLoader.js"></script>
-    <script src="/map/static/MarkerManager.js"></script>
-    <script src="/map/static/MapManager.js"></script>
+    <script src="/jp/map/static/Constants.js"></script>
+    <script src="/jp/map/static/Utils.js"></script>
+    <script src="/jp/map/static/ClusterManager.js"></script>
+    <script src="/jp/map/static/UIRenderer.js"></script>
+    <script src="/jp/map/static/DataLoader.js"></script>
+    <script src="/jp/map/static/MarkerManager.js"></script>
+    <script src="/jp/map/static/MapManager.js"></script>
     <!-- 필터 관련 모듈 -->
-    <script src="/map/static/FilterManager.js"></script>
-    <script src="/map/static/SearchManager.js"></script>
-    <script src="/map/static/PropertyListManager.js"></script>
-    <script src="/map/static/MobileManager.js"></script>
+    <script src="/jp/map/static/FilterManager.js"></script>
+    <script src="/jp/map/static/SearchManager.js"></script>
+    <script src="/jp/map/static/PropertyListManager.js"></script>
+    <script src="/jp/map/static/MobileManager.js"></script>
     <!-- 메인 애플리케이션 -->
-    <script src="/map/static/map.js"></script>
+    <script src="/jp/map/static/map.js"></script>
     <script>
         // 서버에서 API 키를 가져와서 Google Maps API 동적 로드
         async function loadGoogleMapsAPI() {

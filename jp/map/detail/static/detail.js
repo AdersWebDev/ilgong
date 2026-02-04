@@ -258,10 +258,10 @@ const PropertyDetail = {
                 priceElement.textContent = `${property.rent.toLocaleString('ko-KR')}+`;
             }
             if (priceUnit) {
-                priceUnit.textContent = '엔';
+                priceUnit.textContent = '円';
             }
             if (priceTag) {
-                priceTag.textContent = '월세';
+                priceTag.textContent = '賃料';
             }
         }
 
@@ -270,7 +270,7 @@ const PropertyDetail = {
         if (infoRows.length > 0 && property.name) {
             const nameRow = Array.from(infoRows).find(row =>
                 row.querySelector('.info-label.house') ||
-                row.textContent.includes('맨션명')
+                row.textContent.includes('物件名')
             );
             if (nameRow) {
                 const nameValue = nameRow.querySelector('.info-value');
@@ -283,7 +283,7 @@ const PropertyDetail = {
         // 주소
         if (infoRows.length > 1 && property.address) {
             const addressRow = Array.from(infoRows).find(row =>
-                row.textContent.includes('주소')
+                row.textContent.includes('所在地')
             );
             if (addressRow) {
                 const addressValue = addressRow.querySelector('.info-value');
@@ -305,7 +305,7 @@ const PropertyDetail = {
                     if (!isNaN(date.getTime())) {
                         const year = date.getFullYear();
                         const month = date.getMonth() + 1;
-                        constructionValue.textContent = `${year}년${month}월`;
+                        constructionValue.textContent = `${year}年${month}月`;
                     } else {
                         constructionValue.textContent = property.constructionDate;
                     }
@@ -316,7 +316,17 @@ const PropertyDetail = {
                 const structureCard = infoCards[1];
                 const structureValue = structureCard?.querySelector('.info-value');
                 if (structureValue) {
-                    structureValue.textContent = property.structure;
+                    switch (property.structure) {
+                        case '콘크리트계열':
+                            structureValue.textContent = 'コンクリート系列';
+                            break;
+                        case '철골계열':
+                            structureValue.textContent = '鉄骨系列';
+                            break;
+                        case '목조계열':
+                            structureValue.textContent = '木造系列';
+                            break;
+                    }
                 }
             }
         }
@@ -521,9 +531,9 @@ const PropertyDetail = {
                                     fill="#17171B" />
                             </svg>
                         </div>
-                        <h3>준비 중인 정보입니다...(;-;)</h3>
-                        <p>해당 건물은 작성 중이며 곧 업데이트 될 예정입니다.<br>
-                            자세한 내용이 필요하시다면 <b>부동산</b> 또는 <b>일본공간</b>에 문의해주세요!</p>
+                        <h3>現在、情報を準備中です</h3>
+                        <p>こちらの情報は現在準備中で、近日中に更新予定です.<br>
+                        詳しい内容につきましては、<b>不動産会社</b>または<b>日本空間</b>までお気軽にお問い合わせください</p>
                     </div>
                 `;
             }
@@ -555,9 +565,9 @@ const PropertyDetail = {
                                         fill="#17171B" />
                                 </svg>
                             </div>
-                            <h3>준비 중인 정보입니다...(;-;)</h3>
-                            <p>해당 건물은 작성 중이며 곧 업데이트 될 예정입니다.<br>
-                                자세한 내용이 필요하시다면 <b>부동산</b> 또는 <b>일본공간</b>에 문의해주세요!</p>
+                            <h3>現在、情報を準備中です</h3>
+                            <p>こちらの情報は現在準備中で、近日中に更新予定です.<br>
+                            詳しい内容につきましては、<b>不動産会社</b>または<b>日本空間</b>までお気軽にお問い合わせください</p>
                         </div>
                     `;
                 }
@@ -743,7 +753,7 @@ const PropertyDetail = {
 
             // 최대 7초 타임아웃 설정
             const timeoutPromise = new Promise((_, reject) => {
-                setTimeout(() => reject(new Error('갱신 시간 초과')), 15000);
+                setTimeout(() => reject(new Error('更新タイムアウト')), 15000);
             });
 
             // refresh API 호출

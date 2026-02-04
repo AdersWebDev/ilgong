@@ -1,3 +1,44 @@
+// ========================================
+// Language Selector Dropdown
+// ========================================
+function initLangSelector() {
+    const selector = document.querySelector('[data-lang-selector]');
+    if (!selector) return;
+
+    const btn = selector.querySelector('.lang-btn');
+    const dropdown = selector.querySelector('.lang-dropdown');
+    if (!btn || !dropdown) return;
+
+    function open() {
+        selector.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+    }
+
+    function close() {
+        selector.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+    }
+
+    function toggle(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        selector.classList.toggle('open');
+        const expanded = selector.classList.contains('open');
+        btn.setAttribute('aria-expanded', expanded);
+    }
+
+    btn.addEventListener('click', toggle);
+
+    // 바깥 클릭 시 닫기
+    document.addEventListener('click', function (e) {
+        if (!selector.contains(e.target)) close();
+    });
+
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') close();
+    });
+}
 
 // ========================================
 // Mobile Navigation Toggle
@@ -65,12 +106,19 @@ function initMobileNav() {
 
 // DOM이 로드된 후 초기화
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobileNav);
+    document.addEventListener('DOMContentLoaded', function () {
+        initMobileNav();
+        initLangSelector();
+    });
 } else {
     initMobileNav();
+    initLangSelector();
 }
 
 // 라우터가 페이지를 로드할 때도 초기화
 window.addEventListener('pageLoaded', () => {
-    setTimeout(initMobileNav, 100);
+    setTimeout(() => {
+        initMobileNav();
+        initLangSelector();
+    }, 100);
 });
