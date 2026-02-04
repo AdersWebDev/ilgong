@@ -1,5 +1,5 @@
-// const API_BASE_URL = 'https://www.houberapp.com';
-const API_BASE_URL = 'http://localhost:40011';
+const API_BASE_URL = 'https://www.houberapp.com';
+
 class Constants {
     static get DETAIL_ENDPOINT() {
         return `${API_BASE_URL}/big/map/working`;
