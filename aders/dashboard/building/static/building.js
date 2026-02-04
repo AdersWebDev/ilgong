@@ -13,8 +13,7 @@
  * - producer / id는 화면에 노출하지 않고, data-*로만 보관
  */
 
-// const API_BASE_URL = 'https://www.houberapp.com';
-const API_BASE_URL = 'http://localhost:40011';
+const API_BASE_URL = 'https://www.houberapp.com';
 // 타이핑 도중 실시간 호출 방지(입력 멈춘 뒤 검색)
 const DEBOUNCE_MS = 700;
 

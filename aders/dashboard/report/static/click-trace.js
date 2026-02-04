@@ -4,7 +4,6 @@
 // 집계: click_type < 100 만 날짜별 row count
 // ============================================
 
-// const API_BASE_URL = 'http://localhost:40011';
 const API_BASE_URL = 'https://houberapp.com';
 const AGENT = 'houber';
 
