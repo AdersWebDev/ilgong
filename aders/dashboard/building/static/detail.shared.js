@@ -4,8 +4,8 @@
  * - 다른 detail.*.js에서 window.BuildingDetailShared로 접근
  */
 (() => {
-  // const API_BASE_URL = 'https://www.houberapp.com';
-  const API_BASE_URL = 'http://localhost:40011';
+  const API_BASE_URL = 'https://www.houberapp.com';
+
 
   const BUILDING_FACILITIES = {
     dedicatedGarbagePatch: '전용 쓰레기장',
