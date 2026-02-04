@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>건물 관리</title>
+    <link rel="stylesheet" href="/main/style.css">
+    <link rel="stylesheet" href="/aders/dashboard/building/static/building.css">
+    <link rel="icon" href="../../../assest/favicon.png" type="image/png" />
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1 class="page-title">건물 관리</h1>
+            <a class="back-link" href="/aders/dashboard">← 대시보드로 돌아가기</a>
+        </div>
+
+        <section class="building-search-section">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <span class="filter-label">구분</span>
+                    <div class="filter-buttons" role="group" aria-label="producer 선택">
+                        <button type="button" class="filter-btn active" data-producer="" aria-pressed="true">전체</button>
+                        <button type="button" class="filter-btn" data-producer="re" aria-pressed="false">리아프로</button>
+                        <button type="button" class="filter-btn" data-producer="it" aria-pressed="false">이탄지</button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">조건</span>
+                    <label class="toggle-chip" for="isFor">
+                        <input type="checkbox" id="isFor">
+                        <span>외국인 ok</span>
+                    </label>
+                    <label class="toggle-chip" for="isWh">
+                        <input type="checkbox" id="isWh">
+                        <span>워홀 ok</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-search-group has-left-toggle">
+                <label class="search-left-toggle toggle-chip toggle-chip-compact" for="isAgent" title="관리회사명으로 검색">
+                    <input type="checkbox" id="isAgent">
+                    <span>관리회사명</span>
+                </label>
+                <input type="text" id="buildingSearch" class="form-search-input" placeholder="건물명으로 검색" autocomplete="off">
+                <span class="search-icon-wrap" aria-hidden="true">🔍</span>
+            </div>
+        </section>
+
+        <div class="building-list" id="buildingList"></div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">🏢</div>
+            <div>검색 결과가 없습니다.</div>
+        </div>
+    </div>
+
+    <script src="/aders/dashboard/building/static/building.js"></script>
+</body>
+
+</html>

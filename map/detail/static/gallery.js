@@ -6,6 +6,7 @@
 const PropertyGallery = {
     images: [],
     buildingImages: [], // 건물 사진 저장 (호실 갤러리 후 복원용)
+    buildingListPhoto: null, // 건물 대표 사진(photo) - 메인 이미지용, 리스트와 별도
     currentIndex: 0,
     mainImage: null,
     thumbnailContainer: null,
@@ -23,9 +24,10 @@ const PropertyGallery = {
     init(images = [], listPhoto, isBuilding = false) {
         this.images = images.length > 0 ? images : [];
 
-        // 건물 사진이면 원본 저장(호실 갤러리 후 복원용)
+        // 건물 사진이면 원본 저장(호실 갤러리 후 복원용), 메인용 대표 사진 저장
         if (isBuilding) {
             this.buildingImages = [...this.images];
+            this.buildingListPhoto = listPhoto || null;
 
             // ✅ 11장 미만이면 호실 사진으로 채우기 (this.roomImages 가 있다고 가정)
             if (this.images.length < 11 && Array.isArray(this.roomImages) && this.roomImages.length > 0) {
@@ -67,9 +69,10 @@ const PropertyGallery = {
             }
             return;
         }
-        // 첫 번째 이미지를 메인 이미지로 설정
-        if (this.mainImage && this.images.length > 0) {
-            this.mainImage.src = this.images[0];
+        // 메인 이미지: 건물이면 대표 사진(photo/listPhoto), 아니면 리스트 첫 장
+        if (this.mainImage) {
+            const mainSrc = (isBuilding && listPhoto) ? listPhoto : this.images[0];
+            this.mainImage.src = mainSrc;
             this.mainImage.onerror = () => {
                 this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';
             };
@@ -107,9 +110,10 @@ const PropertyGallery = {
             this.images = [...this.buildingImages];
             this.currentIndex = 0;
 
-            // 첫 번째 이미지를 메인 이미지로 설정
+            // 메인 이미지: 건물 대표 사진(photo) 우선
             if (this.mainImage && this.images.length > 0) {
-                this.mainImage.src = this.images[0];
+                const mainSrc = this.buildingListPhoto || this.images[0];
+                this.mainImage.src = mainSrc;
                 this.mainImage.onerror = () => {
                     this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';
                 };
@@ -121,22 +125,24 @@ const PropertyGallery = {
     },
 
     /**
-     * 썸네일 렌더링 (첫 번째 이미지 제외하고 나머지만 표시)
+     * 썸네일 렌더링
+     * 건물 대표 사진(buildingListPhoto) 사용 시: 대표 사진은 썸네일 스트립에 표시하지 않음(모달에는 포함)
+     * 그 외: 첫 번째 이미지 제외하고 나머지만 썸네일로 표시
      */
     renderThumbnails() {
         if (!this.thumbnailContainer) return;
 
         this.thumbnailContainer.innerHTML = '';
+        const skipFirst = !this.buildingListPhoto;
 
-        // 첫 번째 이미지(인덱스 0)를 제외하고 나머지만 썸네일로 표시
         this.images.forEach((image, index) => {
-            // 첫 번째 이미지는 썸네일에 표시하지 않음
-            if (index === 0) return;
+            if (skipFirst && index === 0) return;
+            if (this.buildingListPhoto && image === this.buildingListPhoto) return;
 
             const thumbnail = document.createElement('div');
             thumbnail.className = 'gallery-thumbnail';
+            thumbnail.dataset.index = String(index);
             thumbnail.innerHTML = `<img src="${image}" alt="썸네일 ${index}">`;
-            // 썸네일 클릭 시 모달로 해당 이미지 보기 (메인 이미지는 변경하지 않음)
             thumbnail.addEventListener('click', () => {
                 this.currentIndex = index;
                 this.openModal();
@@ -146,16 +152,15 @@ const PropertyGallery = {
     },
 
     /**
-     * 메인 이미지 업데이트 (네비게이션 버튼용 - 첫 번째 이미지로 고정)
+     * 메인 이미지 업데이트 (네비게이션 버튼용)
+     * 건물이면 대표 사진(photo) 유지, 아니면 리스트 첫 장
      */
     updateMainImage() {
         if (!this.mainImage || this.images.length === 0) return;
 
-        // 메인 이미지는 항상 첫 번째 이미지로 유지
-        const imageUrl = this.images[0];
+        const imageUrl = this.buildingListPhoto || this.images[0];
         this.mainImage.src = imageUrl;
 
-        // 이미지 로드 에러 처리
         this.mainImage.onerror = () => {
             this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';
         };
@@ -185,9 +190,8 @@ const PropertyGallery = {
         const thumbnails = this.thumbnailContainer?.querySelectorAll('.gallery-thumbnail');
         if (!thumbnails) return;
 
-        // 썸네일 인덱스는 원본 배열에서 1부터 시작 (0번은 메인 이미지)
-        thumbnails.forEach((thumb, thumbIndex) => {
-            const actualIndex = thumbIndex + 1; // 썸네일 인덱스는 원본 배열에서 +1
+        thumbnails.forEach((thumb) => {
+            const actualIndex = parseInt(thumb.dataset.index, 10);
             if (actualIndex === this.currentIndex) {
                 thumb.classList.add('active');
             } else {

@@ -193,9 +193,11 @@ const PropertyDetail = {
         if (!property.images || property.images.length === 0) {
             property.images = [listPhoto];
         }
-        property.images = this.fillPropertyImages(property.images || [], units, 11);
-        // 이미지 갤러리 초기화 (건물 사진으로 저장)
-        PropertyGallery.init(property.images || [], listPhoto, true);
+        // 갤러리: 메인=listPhoto, 리스트=대표 사진 + 나머지(중복 제외) 최대 11장(모달용). 썸네일 스트립에는 대표 사진 제외
+        const merged = [...(property.ilgongPhotoList || []), ...(property.images || [])];
+        const rest = merged.filter((url) => url !== listPhoto).slice(0, 10);
+        const galleryImages = [listPhoto, ...rest];
+        PropertyGallery.init(galleryImages, listPhoto, true);
 
         // 공실 목록 및 추천 맨션 카로셀 초기화
         PropertyCarousel.init(units || [], recommended || [], property.updatedAt);
