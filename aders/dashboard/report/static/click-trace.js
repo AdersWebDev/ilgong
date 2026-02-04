@@ -4,7 +4,6 @@
 // 집계: click_type < 100 만 날짜별 row count
 // ============================================
 
-// const API_BASE_URL = 'http://localhost:40011';
 const API_BASE_URL = 'https://houberapp.com';
 const AGENT = 'houber';
 
@@ -672,7 +671,7 @@ async function loadHourly(dayKey) {
 
         if (hourlyHint) {
             const max = Math.max(0, ...totals);
-            hourlyHint.textContent = max === 0 ? '해당 날짜에 이벤트가 없습니다.' : '색상별로 타입 구분해서 볼 수 있습니다. (hover로 상세)';
+            hourlyHint.textContent = max === 0 ? '해당 날짜에 이벤트가 없습니다.' : '색상별로 타입 구분해서 볼 수 있습니다.';
         }
     } catch (e) {
         if (reqId !== hourlyRequestSeq) return;

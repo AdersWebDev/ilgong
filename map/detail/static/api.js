@@ -4,7 +4,8 @@
  */
 
 const PropertyAPI = {
-    baseUrl: 'https://www.houberapp.com',
+    // baseUrl: 'https://www.houberapp.com',
+    baseUrl: 'http://localhost:40011',
     /**
      * URL에서 producer와 id 추출 (query parameter 형식 - 테스트용)
      * @returns {Object|null} {producer, id} 또는 null
@@ -218,12 +219,20 @@ const PropertyAPI = {
     getRoomPhotos(room) {
         const photos = [];
 
-        // layoutfile 추가 (평면도)
+        // 1) layoutfile (평면도)
         if (room.layoutfile) {
             photos.push(room.layoutfile);
         }
 
-        // photoMulti에서 room 타입 사진만 추가
+        // 2) ilgongRoomPhotoList (앞쪽)
+        if (Array.isArray(room.ilgongRoomPhotoList) && room.ilgongRoomPhotoList.length > 0) {
+            room.ilgongRoomPhotoList.forEach((item) => {
+                const url = typeof item === 'string' ? item : (item && item.path) || '';
+                if (url) photos.push(url);
+            });
+        }
+
+        // 3) photoMulti room 타입 (뒤쪽)
         if (room.photoMulti) {
             const roomPhotos = this.parsePhotoMulti(room.photoMulti, 'room');
             photos.push(...roomPhotos);
@@ -405,13 +414,19 @@ const PropertyAPI = {
      * @returns {Object} UI 형식 데이터
      */
     transformApiResponse(apiResponse) {
-        // 건물 사진만 추출 (첫 번째 호실에서만 building 타입만 추출하여 중복 방지)
-        const allPhotos = [];
+        // 건물 사진: ilgongPhotoList(API) + images(photoMulti building fallback) 분리
+        const ilgongPhotoList = [];
+        if (Array.isArray(apiResponse.ilgongPhotoList) && apiResponse.ilgongPhotoList.length > 0) {
+            apiResponse.ilgongPhotoList.forEach((item) => {
+                const url = typeof item === 'string' ? item : (item && item.path) || '';
+                if (url) ilgongPhotoList.push(url);
+            });
+        }
+        let images = [];
         if (apiResponse.ilgongRooms && apiResponse.ilgongRooms.length > 0) {
             const firstRoom = apiResponse.ilgongRooms[0];
             if (firstRoom && firstRoom.photoMulti) {
-                const buildingPhotos = this.parsePhotoMulti(firstRoom.photoMulti, 'building');
-                allPhotos.push(...buildingPhotos);
+                images = this.parsePhotoMulti(firstRoom.photoMulti, 'building');
             }
         }
 
@@ -438,7 +453,8 @@ const PropertyAPI = {
                 structure: apiResponse.structure || ' - ',
                 updatedAt: apiResponse.updatedAt || ' - ',
                 buildingFacilities: this.mapBuildingFacilities(apiResponse),
-                images: allPhotos,
+                ilgongPhotoList,
+                images,
                 trans1: apiResponse.trans1 || null,
                 trans2: apiResponse.trans2 || null,
                 trans3: apiResponse.trans3 || null,
