@@ -4,8 +4,8 @@
  */
 
 const PropertyAPI = {
-    // baseUrl: 'https://www.houberapp.com',
-    baseUrl: 'http://localhost:40011',
+    baseUrl: 'https://www.houberapp.com',
+
     /**
      * URL에서 producer와 id 추출 (query parameter 형식 - 테스트용)
      * @returns {Object|null} {producer, id} 또는 null
