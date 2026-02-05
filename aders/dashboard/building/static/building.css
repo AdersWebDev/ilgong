@@ -450,6 +450,12 @@ body {
 .btn-panel-nav {
     padding: 10px 14px;
     min-width: 44px;
+    font-size: var(--font-size-lg)
+}
+.btn-panel-nav:hover {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .detail-panel-nav-title {
