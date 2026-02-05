@@ -9,16 +9,17 @@
     <link rel="stylesheet" href="/main/style.css">
     <link rel="stylesheet" href="/aders/dashboard/hot-deal/static/hot-deal.css">
     <link rel="icon" href="../../../assest/favicon.png" type="image/png" />
-    
 </head>
 
 <body>
     <div class="page-container">
         <div class="page-header">
             <h1 class="page-title">핫딜 이벤트 관리</h1>
+            <a class="back-link" href="/aders/dashboard">← 대시보드로 돌아가기</a>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: var(--spacing-sm);">
             <button class="btn-primary" id="addEventBtn">이벤트 추가</button>
         </div>
-
         <div class="events-table-container" id="eventsTableContainer">
             <table class="events-table" id="eventsTable">
                 <thead>

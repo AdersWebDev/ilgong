@@ -22,6 +22,40 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-2xl);
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+
+        .page-title {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+        }
+
+        .back-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
         .managemant-container {
             width: 700px;
             margin: 0 auto;
@@ -56,6 +90,7 @@
             position: relative;
             border-radius: 12px;
         }
+
         .is-success::after {
             display: block;
             font-size: 20px;
@@ -77,6 +112,10 @@
 <body>
     <div class="container">
         <section class="managemant-container">
+            <div class="page-header">
+                <h1 class="page-title">관리회사별 자료파일</h1>
+                <a class="back-link" href="/aders/dashboard">← 대시보드로 돌아가기</a>
+            </div>
             <div class="button-container">
                 <h2>realpro(ワーホリ)</h2>
                 <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=11208">フェニックス管理</a>
@@ -87,7 +126,8 @@
                 <a href="/aders/dashboard/fact-list/index.html?producer=re&agent=41096">エヌ・ケー興産</a>
                 <hr style="width: 100%;">
                 <h2>itandi(ワーホリ)</h2>
-                <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=247">株式会社RENOSY ASSET MANAGEMENT 大阪支社</a>
+                <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=247">株式会社RENOSY ASSET MANAGEMENT
+                    大阪支社</a>
                 <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=4455">株式会社ネクサスエージェント</a>
                 <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3114">大成トラスト 株式会社</a>
                 <a href="/aders/dashboard/fact-list/index.html?producer=it&agent=3835">株式会社富士ホールディングス</a>
