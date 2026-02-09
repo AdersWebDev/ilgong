@@ -22,7 +22,7 @@ class Constants {
     static MIN_LOCATIONS_FOR_CLUSTERING = 10;
     static LOAD_DEBOUNCE_MS = 400;
     static CLUSTER_PRECISION = {
-        VERY_LARGE: 0.6,
+        VERY_LARGE: 2,
         LARGE: 0.3,
         MEDIUM: 0.1,
         SMALL: 0.03,
