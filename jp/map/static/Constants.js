@@ -22,19 +22,24 @@ class Constants {
     static MIN_LOCATIONS_FOR_CLUSTERING = 10;
     static LOAD_DEBOUNCE_MS = 400;
     static CLUSTER_PRECISION = {
-        VERY_LARGE: 1.5,
-        LARGE: 0.5,
-        MEDIUM: 0.3,
-        SMALL: 0.08,
-        VERY_SMALL: 0.02,
-        TINY: 0.01
+        VERY_LARGE: 0.6,
+        LARGE: 0.3,
+        MEDIUM: 0.1,
+        SMALL: 0.03,
+        VERY_SMALL: 0.01,
+        TINY: 0.005
     };
 
     static DEFAULT_LOCATION = {
-        lat: 34.68226531215091,
-        lng: 135.497583508982
+        lat: 34.6822,
+        lng: 135.4975
     };
 
-    static DEFAULT_ZOOM = 16;
+    static DEFAULT_ZOOM = 15;
+
+    /** 바운딩 격자 step(도). 0.001 ≈ 110m. 캐시 히트를 위해 자릿수보다 의미 있는 격자 사용 */
+    static BOUNDS_GRID_STEP = 0.001;
+    /** 바운딩 값 출력 소수 자릿수 (URL/시그니처 고정용) */
+    static BOUNDS_FIXED_DECIMALS = 4;
 }
 

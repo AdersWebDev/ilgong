@@ -12,36 +12,55 @@ class Utils {
         return coords.every(Utils.isFiniteNumber);
     }
 
-    static getBoundsSignature(bounds) {
-        if (!Utils.isBoundsValid(bounds)) return '';
-        const ne = bounds.getNorthEast();
-        const sw = bounds.getSouthWest();
-        return [
-            ne.lat().toFixed(4),
-            ne.lng().toFixed(4),
-            sw.lat().toFixed(4),
-            sw.lng().toFixed(4)
-        ].join('|');
+    /** step 격자로 내림. minLat/minLon용, 경계 누락 방지 */
+    static floorToStep(v, step) {
+        if (!Utils.isFiniteNumber(v) || !step) return v;
+        return Math.floor(v / step) * step;
     }
 
-    static buildBoundsQuery(bounds) {
-        if (!Utils.isBoundsValid(bounds)) return '';
+    /** step 격자로 올림. maxLat/maxLon용, 경계 누락 방지 */
+    static ceilToStep(v, step) {
+        if (!Utils.isFiniteNumber(v) || !step) return v;
+        return Math.ceil(v / step) * step;
+    }
+
+    /** 격자로 정규화한 bounds 값 4개 반환. getBoundsSignature / buildBoundsQuery 공용 */
+    static getNormalizedBoundsStrings(bounds, step = Constants.BOUNDS_GRID_STEP, fixed = Constants.BOUNDS_FIXED_DECIMALS) {
+        if (!Utils.isBoundsValid(bounds)) return null;
         const ne = bounds.getNorthEast();
         const sw = bounds.getSouthWest();
+        return {
+            minLat: Utils.floorToStep(sw.lat(), step).toFixed(fixed),
+            minLon: Utils.floorToStep(sw.lng(), step).toFixed(fixed),
+            maxLat: Utils.ceilToStep(ne.lat(), step).toFixed(fixed),
+            maxLon: Utils.ceilToStep(ne.lng(), step).toFixed(fixed)
+        };
+    }
 
-        const params = new URLSearchParams({
-            maxLat: ne.lat(),
-            maxLon: ne.lng(),
-            minLat: sw.lat(),
-            minLon: sw.lng()
-        });
+    /** 캐시/중복 요청 방지용. buildBoundsQuery와 동일 격자·min=floor, max=ceil */
+    static getBoundsSignature(bounds, step = Constants.BOUNDS_GRID_STEP, fixed = Constants.BOUNDS_FIXED_DECIMALS) {
+        const n = Utils.getNormalizedBoundsStrings(bounds, step, fixed);
+        if (!n) return '';
+        return [n.maxLat, n.maxLon, n.minLat, n.minLon].join('|');
+    }
 
-        return params.toString();
+    /** 좌표를 고정 소수 자리로 반올림 (bounds 외 용도) */
+    static roundCoord(value, decimals = 5) {
+        if (!Utils.isFiniteNumber(value)) return value;
+        const factor = Math.pow(10, decimals);
+        return Math.round(value * factor) / factor;
+    }
+
+    /** 격자(step) 기반 바운딩. nginx 캐시 히트를 위해 의미 있는 격자 사용, min=floor / max=ceil 로 누락 방지 */
+    static buildBoundsQuery(bounds, step = Constants.BOUNDS_GRID_STEP, fixed = Constants.BOUNDS_FIXED_DECIMALS) {
+        const n = Utils.getNormalizedBoundsStrings(bounds, step, fixed);
+        if (!n) return '';
+        return new URLSearchParams({ minLat: n.minLat, minLon: n.minLon, maxLat: n.maxLat, maxLon: n.maxLon }).toString();
     }
 
     static formatCurrency(value) {
         if (!Number.isFinite(value)) return '-';
-        return `${value.toLocaleString('ko-KR')}엔`;
+        return `${value.toLocaleString('ja-JP')}円`;
     }
 
     static formatCount(count) {
