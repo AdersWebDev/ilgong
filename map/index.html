@@ -47,6 +47,7 @@
   <!-- Canonical (중복 URL 방지) -->
   <link rel="canonical" href="https://ilgongjp.com/map/" />
     <!-- Google Fonts -->
+    <link rel="preconnect" href="https://challenges.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -58,6 +59,7 @@
     <link rel="stylesheet" href="../main/style.css">
     <link rel="stylesheet" href="/map/static/map.css">
     <link rel="stylesheet" href="/map/static/filter-panel.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXLQL7200F"></script>
@@ -95,7 +97,6 @@
                         <a>부동산 정보</a>
                         <span class="nav-badge wait">준비중</span>
                     </li>
-                    
                 </ul>
                 <div class="language-selector" data-lang-selector>
                     <span class="lang-btn active" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false">
@@ -290,7 +291,6 @@
             </div>
         </div>
     </div>
-
     <!-- Price Modal -->
     <div class="filter-modal" id="priceModal">
         <div class="filter-modal-content">
@@ -476,7 +476,6 @@
                     <span class="checkbox-text">반려동물 상담 가능</span>
                 </label>
             </div>
-
             <div class="filter-modal-header">
                 <h3>건물 옵션</h3>
             </div>
@@ -525,7 +524,7 @@
             <div class="temp-png">
 
             </div>
-            <!-- <div class="filter-modal-header" style="margin-top: 24px;">
+        <!-- <div class="filter-modal-header" style="margin-top: 24px;">
                 <h3>내부 옵션</h3>
             </div>
             <div class="checkbox-grid">

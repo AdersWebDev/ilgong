@@ -17,8 +17,46 @@ class PropertyListManager {
         this.onResultClick = onResultClick;
         this.currentPage = 1;
         this.filteredProperties = [];
+        this.currentBounds = null;
+        this.currentFilter = '';
+        this.panelTotal = 0;
+    }
+/**
+     * bounds 설정 (loadPanelData/loadMoreProperties에서 사용)
+     * @param {google.maps.LatLngBounds} bounds
+     */
+    setBounds(bounds) {
+        this.currentBounds = bounds;
     }
 
+    /**
+     * 필터 쿼리 스트링 설정
+     * @param {string} filterQueryString
+     */
+    setFilter(filterQueryString) {
+        this.currentFilter = filterQueryString || '';
+    }
+
+    /**
+     * 패널 데이터 설정 (API 응답)
+     * @param {google.maps.LatLngBounds} bounds
+     * @param {string} filterQueryString
+     * @param {number} page
+     * @param {{ items: Array, total: number }} data
+     */
+    setPanelData(bounds, filterQueryString, page, data) {
+        const { items = [], total = 0 } = data;
+        if (page === 1) {
+            this.filteredProperties = items;
+            this.currentPage = 1;
+        } else {
+            this.filteredProperties = this.filteredProperties.concat(items);
+            this.currentPage = page;
+        }
+        this.panelTotal = total;
+        this.renderPropertyCards();
+        this.updatePropertyCount();
+    }
     /**
      * 프로퍼티 리스트 초기화
      */
@@ -49,15 +87,13 @@ class PropertyListManager {
     }
 
     /**
-     * 프로퍼티 카드 렌더링
+     * 프로퍼티 카드 렌더링 (패널 API 기반: 모든 로드된 항목 표시)
      */
     renderPropertyCards() {
         const container = document.getElementById('propertyList');
         if (!container) return;
         
-        const startIndex = 0;
-        const endIndex = this.currentPage * this.propertiesPerPage;
-        const propertiesToShow = this.filteredProperties.slice(startIndex, endIndex);
+        const propertiesToShow = this.filteredProperties;
         
         if (propertiesToShow.length === 0) {
             container.innerHTML = `
@@ -123,13 +159,17 @@ class PropertyListManager {
      * 더 많은 프로퍼티 로드
      */
     loadMoreProperties() {
-        const maxPages = Math.ceil(this.filteredProperties.length / this.propertiesPerPage);
-        
-        if (this.currentPage < maxPages) {
-            this.currentPage++;
-            this.renderPropertyCards();
-            console.log(`Loaded page ${this.currentPage} of ${maxPages}`);
-        }
+        if (!this.dataLoader || !this.currentBounds) return;
+        if (this.currentPage >= 5) return;
+
+        const nextPage = this.currentPage + 1;
+        this.dataLoader.loadPanelData(this.currentBounds, this.currentFilter, nextPage)
+            .then((result) => {
+                this.setPanelData(this.currentBounds, this.currentFilter, nextPage, result);
+            })
+            .catch((err) => {
+                console.error('패널 추가 로드 오류:', err);
+            });
     }
 
     /**
@@ -138,7 +178,8 @@ class PropertyListManager {
     updatePropertyCount() {
         const countElement = document.getElementById('propertyCount');
         if (countElement) {
-            countElement.textContent = `${this.filteredProperties.length.toLocaleString()} 件`;
+            const count = this.panelTotal > 0 ? this.panelTotal : this.filteredProperties.length;
+            countElement.textContent = `${count.toLocaleString()} 件`;
         }
     }
 

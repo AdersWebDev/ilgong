@@ -100,90 +100,58 @@
             }
         }
 
-        updateMapMarkersFromLocations(locations, filteredProperties = []) {
-            if (!this.markerManager) return;
-            const map = this.mapManager.getMap();
-            if (!map) return;
-            const uniqueLocations = Utils.removeDuplicateLocations(locations);
-            const actualLocationCount = uniqueLocations.length;
-            const currentZoom = map.getZoom();
-            const usePerformanceMode = currentZoom <= Constants.PERFORMANCE_ZOOM_THRESHOLD;
-            const appendMode = !this.isInitialLoad && currentZoom >= 16;
-            if (this.isInitialLoad || currentZoom < 16) {
-                this.markerManager.clearMarkers();
-            }
-            if (usePerformanceMode && actualLocationCount > Constants.MIN_LOCATIONS_FOR_CLUSTERING) {
-                if (!appendMode) {
-                    const groupedLocations = ClusterManager.groupLocationsByWard(uniqueLocations, currentZoom);
-                    const totalGroupedCount = groupedLocations.reduce((sum, group) => sum + group.count, 0);
-                    const groupType = currentZoom >= Constants.CLUSTER_ZOOM_THRESHOLD ? '50km' : '시/현';
-                    const groupClickHandlers = new Map();
-                    groupedLocations.forEach(location => {
-                        const key = `${location.lat}_${location.lng}`;
-                        groupClickHandlers.set(key, () => {
-                            if (location.locations) {
-                                const groupBounds = new google.maps.LatLngBounds();
-                                location.locations.forEach(loc => {
-                                    const locLat = Number(loc.lat);
-                                    const locLng = Number(loc.lng);
-                                    if (Utils.isFiniteNumber(locLat) && Utils.isFiniteNumber(locLng)) {
-                                        groupBounds.extend({ lat: locLat, lng: locLng });
-                                    }
-                                });
-                                
-                                if (!groupBounds.isEmpty()) {
-                                    map.fitBounds(groupBounds);
-                                }
-                            }
-                        });
-                    });
-                    
-                    this.markerManager.displayLocations(groupedLocations, {
-                        performanceMode: true,
-                        onGroupClick: (marker, location) => {
-                            const key = `${location.lat}_${location.lng}`;
-                            const handler = groupClickHandlers.get(key);
-                            if (handler) handler();
-                        }
-                    });
-                    
-                    UIRenderer.updateMapStatus(
-                        `${groupedLocations.length}개 ${groupType}에 ${Utils.formatCount(totalGroupedCount)}개 건물이 있습니다. (줌 레벨: ${currentZoom})`
-                    );
-                }
-            } else {
-                const markerClickHandlers = new Map();
-                uniqueLocations.forEach(location => {
+        updateMapMarkersFromLocations(mapResponseData, map) {
+            if (!this.markerManager || !map) return;
+            const { mode, items, cellSizeM } = mapResponseData;
+            this.markerManager.clearMarkers();
+
+            if (mode === 'cluster') {
+                const groupClickHandlers = new Map();
+                items.forEach((location) => {
                     const key = `${location.lat}_${location.lng}`;
-                    markerClickHandlers.set(key, () => {
-                        if (location.id) {
-                            this.dataLoader.loadLocationDetails(location.producer, location.id);
-                        }
+                    groupClickHandlers.set(key, () => {
+                        map.setCenter({ lat: Number(location.lat), lng: Number(location.lng) });
+                        const currentZoom = map.getZoom();
+                        map.setZoom(Math.min(currentZoom + 2, 21));
                     });
                 });
+                this.markerManager.displayLocations(items, {
+                    performanceMode: true,
+                    clusterFormat: 'backend',
+                    onGroupClick: (marker, location) => {
+                        const key = `${location.lat}_${location.lng}`;
+                        const handler = groupClickHandlers.get(key);
+                        if (handler) handler();
+                    }
+                });
+                const totalCount = items.reduce((sum, g) => sum + (g.count || 0), 0);
+                UIRenderer.updateMapStatus(
+                    `${items.length}개 클러스터에 ${Utils.formatCount(totalCount)}개 건물이 있습니다.`
+                );
+            } else {
+                const mapPointToUnified = (p) => ({
+                    producer: p.producer,
+                    id: p.originalId ?? p.id,
+                    lat: Number(p.lat),
+                    lng: Number(p.lng),
+                    thumbnail: p.photo ?? p.thumbnail ?? '',
+                    minRentalFee: p.minRentalFee ?? 0,
+                    address: p.address ?? '',
+                    eventId: p.eventId ?? null,
+                    buildingName: p.buildingName ?? '',
+                    name: p.buildingName ?? ''
+                });
+                const locationsForMarkers = items.map(mapPointToUnified);
+                const uniqueLocations = Utils.removeDuplicateLocations(locationsForMarkers);
                 this.markerManager.displayLocations(uniqueLocations, {
                     performanceMode: false,
-                    appendMode: appendMode,
                     onMarkerClick: (marker, location) => {
                         this.markerManager.showInfoWindow(marker, location);
                     }
                 });
-                
-                const displayCount = filteredProperties.length > 0 ? filteredProperties.length : actualLocationCount;
-                const newMarkersCount = appendMode ? uniqueLocations.filter(loc => {
-                    if (!loc.producer || !loc.id) return false;
-                    const markerKey = `${loc.producer}_${loc.id}`;
-                    return !this.markerManager.displayedMarkerKeys.has(markerKey);
-                }).length : actualLocationCount;
-                
-                if (appendMode && newMarkersCount > 0) {
-                    UIRenderer.updateMapStatus(`새로운 ${newMarkersCount.toLocaleString('ko-KR')}개의 위치를 추가했습니다.`);
-                } else {
-                    UIRenderer.updateMapStatus(`${displayCount.toLocaleString('ko-KR')}개의 위치를 표시했습니다.`);
-                }
+                UIRenderer.updateMapStatus(`${uniqueLocations.length.toLocaleString('ko-KR')}개의 위치를 표시했습니다.`);
             }
 
-            // 카드/검색 클릭으로 요청된 InfoWindow가 있으면, 마커 생성 이후에 오픈 시도
             this.tryOpenPendingInfoWindow();
         }
 
@@ -242,50 +210,35 @@
                 if (locationList) locationList.innerHTML = '';
                 UIRenderer.updateMapStatus('현재 화면의 데이터를 불러오는 중...');
                 const filterQueryString = this.filterManager.getFilterQueryString();
-                const locations = await this.dataLoader.loadMapData(effectiveBounds, filterQueryString);
-                if (locations.length === 0) {
+                const mapResponse = await this.dataLoader.loadMapData(effectiveBounds, filterQueryString);
+                const mode = mapResponse?.mode || 'point';
+                const items = mapResponse?.items || [];
+                const cellSizeM = mapResponse?.cellSizeM || 0;
+
+                if (items.length === 0) {
                     if (loadingIndicator) {
                         loadingIndicator.style.display = 'block';
                         loadingIndicator.textContent = '표시할 위치가 없습니다.';
                     }
                     UIRenderer.updateMapStatus('해당 영역에 데이터가 없습니다.');
                     this.markerManager.clearMarkers();
+                    this.propertyListManager.setPanelData(effectiveBounds, filterQueryString, 1, { items: [], total: 0 });
                     this.mapManager.setLastLoadedBoundsSignature(boundsSignature);
                     return;
                 }
-                this.propertyData = locations.map(loc => ({
-                    producer: loc.producer,
-                    id: loc.id,
-                    lat: Number(loc.lat),
-                    lng: Number(loc.lng),
-                    thumbnail: loc.thumbnail || '',
-                    minRentalFee: loc.minRentalFee || 0,
-                    address: loc.address || '',
-                    type: '',
-                    buildingType: '',
-                    eventId: loc.eventId || null,
-                    options: []
-                }));
-                if (this.filterManager) {
-                    this.filterManager.setPropertyData(this.propertyData);
-                }
-                this.propertyListManager.setFilteredProperties(this.propertyData);
-                const propertyMap = new Map();
-                this.propertyData.forEach(prop => {
-                    if (prop.id) {
-                        propertyMap.set(prop.id, prop);
-                    }
-                });
-                const locationsForMarkers = locations.map(loc => {
-                    const property = propertyMap.get(loc.id);
-                    return {
-                        ...loc,
-                        name: loc.buildingName || '',
-                        price: property ? property.price : (loc.price || 0),
-                        property: property || null
-                    };
-                });
-                this.updateMapMarkersFromLocations(locationsForMarkers, this.propertyData);
+
+                this.propertyListManager.setBounds(effectiveBounds);
+                this.propertyListManager.setFilter(filterQueryString);
+                this.dataLoader.loadPanelData(effectiveBounds, filterQueryString, 1)
+                    .then((panelData) => {
+                        this.propertyListManager.setPanelData(effectiveBounds, filterQueryString, 1, panelData);
+                    })
+                    .catch((err) => {
+                        console.error('패널 데이터 로드 오류:', err);
+                        this.propertyListManager.setPanelData(effectiveBounds, filterQueryString, 1, { items: [], total: 0 });
+                    });
+
+                this.updateMapMarkersFromLocations({ mode, items, cellSizeM }, map);
                 if (this.isInitialLoad) {
                     this.isInitialLoad = false;
                 }

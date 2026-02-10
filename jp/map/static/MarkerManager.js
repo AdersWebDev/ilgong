@@ -272,8 +272,8 @@ class MarkerManager {
      * @returns {google.maps.Marker} 생성된 마커
      */
     createGroupMarker(position, location, onClick) {
-        // 그룹 내부에 이벤트가 있는 마커가 있는지 확인
-        const hasEvent = location.locations?.some(loc => loc.eventId) || false;
+        // 그룹 내부에 이벤트가 있는 마커가 있는지 확인 (MapClusterDto.hasEvent 0/1 또는 location.locations)
+        const hasEvent = (location.hasEvent === 1) || (location.locations?.some(loc => loc.eventId)) || false;
         const countText = Utils.formatCount(location.count);
 
         // 그룹 마커 아이콘 생성
@@ -627,7 +627,8 @@ class MarkerManager {
             performanceMode = false,
             onGroupClick = null,
             onMarkerClick = null,
-            appendMode = false
+            appendMode = false,
+            clusterFormat = 'ward'  // 'ward' | 'backend' - backend: MapClusterDto (cellX, cellY, count, hasEvent)
         } = options;
 
         const bounds = new google.maps.LatLngBounds();
@@ -652,8 +653,9 @@ class MarkerManager {
 
             const position = { lat, lng };
 
-            // 성능 모드: 시/현 또는 구 그룹 마커
-            if (performanceMode && location.isWardGroup) {
+            // 성능 모드: 시/현 그룹 마커 또는 백엔드 클러스터( MapClusterDto: cellX, cellY, count, hasEvent )
+            const isBackendCluster = clusterFormat === 'backend' && (location.cellX !== undefined || location.hasEvent !== undefined);
+            if (performanceMode && (location.isWardGroup || isBackendCluster)) {
                 const marker = this.createGroupMarker(position, location, null);
                 // 마커 생성 후 클릭 핸들러 등록
                 if (onGroupClick) {
