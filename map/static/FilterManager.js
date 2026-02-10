@@ -85,10 +85,9 @@ class FilterManager {
             btn.addEventListener('click', () => {
                 this.updateFilterState();
                 this.closeAllModals();
-                // 필터 적용 (map.js의 onFilterChange 콜백 호출)
-                if (this.onFilterChange && this.propertyData && this.propertyData.length > 0) {
-                    const filtered = this.applyFilters(this.propertyData);
-                    this.onFilterChange(filtered);
+                // 필터 적용 시 항상 onFilterChange 호출하여 지도/패널 리로드 (propertyData 무시)
+                if (this.onFilterChange) {
+                    this.onFilterChange([]);
                 }
             });
         });

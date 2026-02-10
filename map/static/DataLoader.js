@@ -57,8 +57,47 @@ class DataLoader {
         }
 
         const data = await response.json();
-        const locations = Array.isArray(data) ? data : (data.locations || []);
-        return locations;
+        return data;
+    }
+
+    async loadPanelData(bounds, filterQueryString = '', page = 1) {
+        if (!Utils.isBoundsValid(bounds)) {
+            throw new Error('유효하지 않은 bounds');
+        }
+        if (page > 5) {
+            return { items: [], total: 0 };
+        }
+
+        const query = Utils.buildBoundsQuery(bounds);
+        if (!query) {
+            throw new Error('쿼리 생성 실패');
+        }
+
+        const baseUrl = `${API_BASE_URL}/map/rent/panel`;
+        const queryParts = [query, `page=${page}`];
+        if (filterQueryString) {
+            const filterParams = filterQueryString.startsWith('?')
+                ? filterQueryString.substring(1)
+                : filterQueryString;
+            if (filterParams) {
+                queryParts.push(filterParams);
+            }
+        }
+
+        const fullQuery = `?${queryParts.join('&')}`;
+        const response = await fetch(`${baseUrl}${fullQuery}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data === null) {
+            return { items: [], total: 0 };
+        }
+        // Spring Page 형식 (content, totalElements)
+        const items = Array.isArray(data.content) ? data.content : [];
+        const total = typeof data.totalElements === 'number' ? data.totalElements : items.length;
+        return { items, total };
     }
 
     async loadRentDetail(producer, propertyId) {
