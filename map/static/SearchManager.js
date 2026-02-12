@@ -75,11 +75,13 @@ class SearchManager {
             }
         });
         
-        document.addEventListener('click', (e) => {
+        const handleOutsideAutocomplete = (e) => {
             if (!searchInput.contains(e.target) && !autocompleteDropdown.contains(e.target)) {
                 this.hideAutocompleteSuggestions(autocompleteDropdown);
             }
-        });
+        };
+        document.addEventListener('click', handleOutsideAutocomplete);
+        document.addEventListener('pointerdown', handleOutsideAutocomplete);
     }
 
     async searchFromBackend(query) {

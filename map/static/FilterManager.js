@@ -259,15 +259,17 @@ class FilterManager {
         // Building age filter 초기화
         this.initializeBuildingAgeFilter();
         
-        // 외부 클릭 시 모달 닫기
-        document.addEventListener('click', (e) => {
+        // 외부 클릭·드래그 시 모달 닫기 (pointerdown으로 드래그 시작 시점에도 반응)
+        const handleOutsideInteraction = (e) => {
             if (!e.target.closest('.filter-btn') && !e.target.closest('.filter-modal')) {
                 const activeModal = document.querySelector('.filter-modal.active');
                 if (activeModal && !activeModal.contains(e.target)) {
                     this.closeAllModals();
                 }
             }
-        });
+        };
+        document.addEventListener('click', handleOutsideInteraction);
+        document.addEventListener('pointerdown', handleOutsideInteraction);
     }
 
     /**
