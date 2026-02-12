@@ -201,7 +201,7 @@ class FilterManager {
             // 초기 상태 설정 (오름차순)
             this.filterState.sortOrder = 'event-asc';
             if (sortPriceText) {
-                sortPriceText.textContent = '特価';
+                sortPriceText.textContent = '特価優先';
             }
             
             // 버튼 클릭 시 드롭다운 토글
