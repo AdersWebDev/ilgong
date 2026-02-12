@@ -199,9 +199,9 @@ class FilterManager {
         
         if (sortOrderBtn && sortDropdown) {
             // 초기 상태 설정 (오름차순)
-            this.filterState.sortOrder = 'price-asc';
+            this.filterState.sortOrder = 'event-asc';
             if (sortPriceText) {
-                sortPriceText.textContent = '가격정렬';
+                sortPriceText.textContent = '핫딜 정렬';
             }
             
             // 버튼 클릭 시 드롭다운 토글
@@ -247,7 +247,7 @@ class FilterManager {
             });
             
             // 초기 선택 항목 표시
-            const initialItem = sortDropdown.querySelector('li[data-value="price-asc"]');
+            const initialItem = sortDropdown.querySelector('li[data-value="event-asc"]');
             if (initialItem) {
                 initialItem.classList.add('selected');
             }
