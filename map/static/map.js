@@ -67,7 +67,87 @@
             this.mobileManager = new MobileManager();
             this.mobileManager.init();
             this.setupDOMEventListeners();
+            this.initVisaTutorial();
             this.loadPropertyData();
+        }
+
+        initVisaTutorial() {
+            const STORAGE_KEY = 'ilgong_visa_tutorial_dismissed_until';
+            const HOUR_24_MS = 24 * 60 * 60 * 1000;
+
+            function shouldShowVisaTutorial() {
+                const val = localStorage.getItem(STORAGE_KEY);
+                if (!val) return true;
+                return Date.now() > parseInt(val, 10);
+            }
+
+            function dismissTutorial() {
+                localStorage.setItem(STORAGE_KEY, String(Date.now() + HOUR_24_MS));
+
+                const tutorialModal = document.getElementById('visaTutorialModal');
+                const selectedCheckbox = tutorialModal?.querySelector('input[name="visaTypeTutorial"]:checked');
+                if (selectedCheckbox && this.filterManager) {
+                    const value = selectedCheckbox.value;
+                    const visaTypeModal = document.getElementById('visaTypeModal');
+                    if (visaTypeModal) {
+                        visaTypeModal.querySelectorAll('input[name="visaType"]').forEach(cb => {
+                            cb.checked = cb.value === value;
+                        });
+                    }
+                    this.filterManager.filterState.visaType = value;
+                    this.filterManager.triggerFilterChange();
+                }
+
+                const overlay = document.getElementById('visaTutorialOverlay');
+                if (overlay) overlay.classList.remove('active');
+                if (tutorialModal) {
+                    tutorialModal.classList.remove('active');
+                    tutorialModal.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            if (!shouldShowVisaTutorial()) return;
+
+            const overlay = document.getElementById('visaTutorialOverlay');
+            const modal = document.getElementById('visaTutorialModal');
+            const visaBtn = document.getElementById('visa-tutorial-btn');
+            const confirmBtn = document.getElementById('visaTutorialConfirm');
+            const dismissLabel = document.querySelector('.visa-tutorial-dismiss-label');
+
+            if (overlay) overlay.classList.add('active');
+            if (modal) {
+                if (visaBtn) {
+                    const rect = visaBtn.getBoundingClientRect();
+                    modal.style.left = (rect.left + 13) + 'px';
+                    modal.style.top = (rect.bottom + 26) + 'px';
+                }
+                modal.classList.add('active');
+                modal.setAttribute('aria-hidden', 'false');
+            }
+
+            const handleDismiss = () => {
+                dismissTutorial.call(this);
+            };
+
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', handleDismiss);
+            }
+            if (dismissLabel) {
+                dismissLabel.addEventListener('click', handleDismiss);
+            }
+
+            const tutorialCheckboxes = modal?.querySelectorAll('input[name="visaTypeTutorial"]');
+            if (tutorialCheckboxes) {
+                tutorialCheckboxes.forEach(cb => {
+                    cb.addEventListener('change', () => {
+                        if (cb.checked) {
+                            tutorialCheckboxes.forEach(other => {
+                                if (other !== cb) other.checked = false;
+                            });
+                        }
+                    });
+                });
+            }
         }
 
         loadPropertyData() {
