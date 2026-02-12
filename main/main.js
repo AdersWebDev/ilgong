@@ -90,6 +90,16 @@ function initMobileNav() {
         item.addEventListener('click', closeMobileNav);
     });
 
+    // 메뉴바 밖 클릭·드래그 시 닫기 (모바일일 때만)
+    const handleOutsideMobileNav = (e) => {
+        if (window.innerWidth > 1023) return;
+        if (!mainNav.classList.contains('active')) return;
+        if (mainNav.contains(e.target) || hamburger.contains(e.target)) return;
+        closeMobileNav();
+    };
+    document.addEventListener('click', handleOutsideMobileNav);
+    document.addEventListener('pointerdown', handleOutsideMobileNav);
+
     // Close menu when window is resized to desktop
     let resizeTimeout;
     window.addEventListener('resize', () => {

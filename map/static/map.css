@@ -541,6 +541,7 @@ body {
     
     .floating-recommendation-btn {
         display: flex;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     }
 }
 
@@ -615,7 +616,7 @@ body:has(.visa-tutorial-modal.active) #visa-tutorial-btn {
 }
 
 .visa-tutorial-modal-content {
-    padding: var(--spacing-2xl);
+    padding: 20px;
     display: flex;
     flex-direction: column;
 }

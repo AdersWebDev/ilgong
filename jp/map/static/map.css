@@ -540,5 +540,6 @@ body {
     
     .floating-recommendation-btn {
         display: flex;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     }
 }
