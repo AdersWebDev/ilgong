@@ -14,11 +14,13 @@
     background-color: var(--bg-white);
     border-bottom: 1px solid var(--border-color);
     z-index: var(--z-filter-bar);
-    padding: 10px var(--spacing-xl);
+    padding: 0 var(--spacing-xl);
     gap: 10px;
+    height: 62px;
 }
 
 .filter-bar-container {
+    height: 100%;
     position: relative;
     display: flex;
     gap: 10px;

@@ -11,6 +11,7 @@ body {
     overflow: hidden;
 }
 .main-container {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr var(--property-list-width);
     height: calc(100vh - var(--header-height) - var(--filter-bar-height));
@@ -541,4 +542,142 @@ body {
     .floating-recommendation-btn {
         display: flex;
     }
+}
+
+/* ========================================
+   Visa Tutorial Overlay & Modal
+======================================== */
+
+.visa-tutorial-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 900;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.visa-tutorial-overlay.active {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+}
+
+.visa-tutorial-modal {
+    position: fixed;
+    z-index: 1000;
+    width: 320px;
+    max-width: calc(100vw - 2 * var(--spacing-xl));
+    background-color: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), visibility var(--transition-base);
+    /* top, left는 JS로 #visa-tutorial-btn 기준 설정 */
+}
+
+.visa-tutorial-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30px;
+    transform: translateY(-100%);
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-bottom: 16px solid var(--bg-white);
+    z-index: 1001;
+}
+
+.visa-tutorial-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 튜토리얼 모달 활성 시 비자선택 버튼 하이라이트 (body:has로 부모 기준 선택) */
+body:has(.visa-tutorial-modal.active) #visa-tutorial-btn {
+    background-color: #ffffff;
+    border: 2px solid #3D8BFF;
+    box-shadow:
+        6px  0   0 #D8E8FF,
+        -6px 0   0 #D8E8FF,
+        0    6px 0 #D8E8FF,
+        0   -6px 0 #D8E8FF,
+        6px  6px 0 #D8E8FF,
+        -6px 6px 0 #D8E8FF,
+        6px -6px 0 #D8E8FF,
+        -6px -6px 0 #D8E8FF;
+}
+
+.visa-tutorial-modal-content {
+    padding: var(--spacing-2xl);
+    display: flex;
+    flex-direction: column;
+}
+
+.visa-tutorial-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.visa-tutorial-subtitle {
+    font-size: 15px;
+    color: var(--text-primary);
+    margin: 0;
+    white-space: nowrap;
+    margin-bottom: 20px;
+}
+
+.visa-tutorial-modal .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.visa-tutorial-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.visa-tutorial-confirm-btn {
+    width: 80px;
+    height: 40px;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #3D8BFF;
+    border: 1px solid #3D8BFF;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.visa-tutorial-confirm-btn:hover {
+    background-color: #1266E5;
+    border-color: #1266E5;
+}
+
+.visa-tutorial-dismiss-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.visa-tutorial-dismiss-label .checkbox-text {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
 }

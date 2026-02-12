@@ -2,23 +2,23 @@
 <html lang="ko">
 
 <head>
-      <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" href="../assest/favicon.png" type="image/png" />
+    <link rel="icon" href="../assest/favicon.png" type="image/png" />
 
-  <title>일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색</title>
+    <title>일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색</title>
 
-  <meta name="robots" content="index, follow" />
-  <meta name="description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
-  <meta name="keywords" content="일본 부동산 지도, 오사카 지도 매물, 핀 검색, 외국인 입주 가능, 월세 지도, 시키킹 레이킹, 실시간 매물, 일본공간" />
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
+    <meta name="keywords" content="일본 부동산 지도, 오사카 지도 매물, 핀 검색, 외국인 입주 가능, 월세 지도, 시키킹 레이킹, 실시간 매물, 일본공간" />
 
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="thumbnail" content="https://www.ilgongjp.com/assest/logo.svg" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="thumbnail" content="https://www.ilgongjp.com/assest/logo.svg" />
 
-  <!-- CSP: 지도(/map/)는 Google Maps를 쓰므로 frame-src + script-src를 보강 -->
-  <meta http-equiv="Content-Security-Policy" content="
+    <!-- CSP: 지도(/map/)는 Google Maps를 쓰므로 frame-src + script-src를 보강 -->
+    <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
   img-src 'self' data: blob: https:;
   style-src 'self' 'unsafe-inline' https:;
@@ -28,29 +28,30 @@
   frame-src 'self' https://www.youtube.com https://www.instagram.com/ https://www.google.com https://maps.google.com https://www.google.co.jp;
 ">
 
-  <!-- Open Graph -->
-  <meta property="og:locale" content="ko_KR" />
-  <meta property="og:site_name" content="ilgongjp.com" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
-  <meta property="og:url" content="https://ilgongjp.com/map/" />
-  <meta property="og:description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 조건별로 비교하세요." />
-  <meta property="og:image" content="https://www.ilgongjp.com/assest/favicon.png" />
+    <!-- Open Graph -->
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="ilgongjp.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
+    <meta property="og:url" content="https://ilgongjp.com/map/" />
+    <meta property="og:description" content="오사카 실시간 갱신 일본 부동산을 지도에서 한눈에! 외국인 입주 가능 매물을 핀으로 확인하고 조건별로 비교하세요." />
+    <meta property="og:image" content="https://www.ilgongjp.com/assest/favicon.png" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
-  <meta name="twitter:description" content="지도에서 핀으로 실시간 매물을 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
-  <meta name="twitter:image" content="https://www.ilgongjp.com/assest/logo.svg" />
-  <meta name="twitter:creator" content="@ilgongjp" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="일본공간 지도 | 실시간 갱신 일본 부동산 핀 검색" />
+    <meta name="twitter:description" content="지도에서 핀으로 실시간 매물을 확인하고 월세·초기비용·옵션 조건을 빠르게 비교하세요." />
+    <meta name="twitter:image" content="https://www.ilgongjp.com/assest/logo.svg" />
+    <meta name="twitter:creator" content="@ilgongjp" />
 
-  <!-- Canonical (중복 URL 방지) -->
-  <link rel="canonical" href="https://ilgongjp.com/map/" />
+    <!-- Canonical (중복 URL 방지) -->
+    <link rel="canonical" href="https://ilgongjp.com/map/" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://challenges.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -64,12 +65,13 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXLQL7200F"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-HXLQL7200F');
+    gtag('config', 'G-HXLQL7200F');
 </script>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -102,26 +104,48 @@
                     <span class="lang-btn active" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false">
                         KR
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
-                            <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13443)"/>
-                            <circle cx="8.875" cy="7.875" r="3.375" fill="#415687"/>
-                            <path d="M8.875 4.5C7.01104 4.5 5.5 6.01104 5.5 7.875C5.5 7.875 7.1875 9.5625 8.875 7.875C10.5625 6.1875 12.25 7.875 12.25 7.875C12.25 6.01104 10.739 4.5 8.875 4.5Z" fill="#CE3F4D"/>
-                            <path d="M3.65625 3.58594L2.25 6.02163" stroke="black" stroke-width="0.5"/>
-                            <path d="M4.43359 4.03906L3.02734 6.47476" stroke="black" stroke-width="0.5"/>
-                            <path d="M5.11328 4.42969L3.70703 6.86538" stroke="black" stroke-width="0.5"/>
-                            <path d="M14.3438 8.08594L13.9922 8.69486L13.8164 8.99932M12.9375 10.5216L13.2891 9.91271L13.4648 9.60825" stroke="black" stroke-width="0.5"/>
-                            <path d="M15.8008 8.92969L15.4492 9.53861L15.2734 9.84307M14.3945 11.3654L14.7461 10.7565L14.9219 10.452" stroke="black" stroke-width="0.5"/>
-                            <path d="M15.0742 8.50781L14.7227 9.11674L14.5469 9.4212M13.668 10.9435L14.0195 10.3346L14.1953 10.0301" stroke="black" stroke-width="0.5"/>
-                            <path d="M2.25 10.0547L2.60156 10.6636L2.77734 10.9681L3.12891 11.577L3.30469 11.8815L3.65625 12.4904" stroke="black" stroke-width="0.5"/>
-                            <path d="M3.71484 9.21094L4.06641 9.81986L4.24219 10.1243L4.59375 10.7332L4.76953 11.0377L5.12109 11.6466" stroke="black" stroke-width="0.5"/>
-                            <path d="M2.98438 9.63281L3.33594 10.2417L3.51172 10.5462M4.39062 12.0685L4.03906 11.4596L3.86328 11.1551" stroke="black" stroke-width="0.5"/>
-                            <path d="M12.375 3.30469L12.7266 3.91361L12.9023 4.21807M13.7812 5.74038L13.4297 5.13146L13.2539 4.827" stroke="black" stroke-width="0.5"/>
-                            <path d="M13.8398 2.46094L14.1914 3.06986L14.3672 3.37432M15.2461 4.89663L14.8945 4.28771L14.7188 3.98325" stroke="black" stroke-width="0.5"/>
-                            <path d="M13.1094 2.88281L14.5156 5.31851" stroke="black" stroke-width="0.5"/>
+                            <path
+                                d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z"
+                                fill="url(#paint0_radial_3390_13443)" />
+                            <circle cx="8.875" cy="7.875" r="3.375" fill="#415687" />
+                            <path
+                                d="M8.875 4.5C7.01104 4.5 5.5 6.01104 5.5 7.875C5.5 7.875 7.1875 9.5625 8.875 7.875C10.5625 6.1875 12.25 7.875 12.25 7.875C12.25 6.01104 10.739 4.5 8.875 4.5Z"
+                                fill="#CE3F4D" />
+                            <path d="M3.65625 3.58594L2.25 6.02163" stroke="black" stroke-width="0.5" />
+                            <path d="M4.43359 4.03906L3.02734 6.47476" stroke="black" stroke-width="0.5" />
+                            <path d="M5.11328 4.42969L3.70703 6.86538" stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M14.3438 8.08594L13.9922 8.69486L13.8164 8.99932M12.9375 10.5216L13.2891 9.91271L13.4648 9.60825"
+                                stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M15.8008 8.92969L15.4492 9.53861L15.2734 9.84307M14.3945 11.3654L14.7461 10.7565L14.9219 10.452"
+                                stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M15.0742 8.50781L14.7227 9.11674L14.5469 9.4212M13.668 10.9435L14.0195 10.3346L14.1953 10.0301"
+                                stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M2.25 10.0547L2.60156 10.6636L2.77734 10.9681L3.12891 11.577L3.30469 11.8815L3.65625 12.4904"
+                                stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M3.71484 9.21094L4.06641 9.81986L4.24219 10.1243L4.59375 10.7332L4.76953 11.0377L5.12109 11.6466"
+                                stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M2.98438 9.63281L3.33594 10.2417L3.51172 10.5462M4.39062 12.0685L4.03906 11.4596L3.86328 11.1551"
+                                stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M12.375 3.30469L12.7266 3.91361L12.9023 4.21807M13.7812 5.74038L13.4297 5.13146L13.2539 4.827"
+                                stroke="black" stroke-width="0.5" />
+                            <path
+                                d="M13.8398 2.46094L14.1914 3.06986L14.3672 3.37432M15.2461 4.89663L14.8945 4.28771L14.7188 3.98325"
+                                stroke="black" stroke-width="0.5" />
+                            <path d="M13.1094 2.88281L14.5156 5.31851" stroke="black" stroke-width="0.5" />
                             <defs>
-                            <radialGradient id="paint0_radial_3390_13443" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
-                            <stop offset="0.610577" stop-color="white"/>
-                            <stop offset="1" stop-color="#D9D9D9"/>
-                            </radialGradient>
+                                <radialGradient id="paint0_radial_3390_13443" cx="0" cy="0" r="1"
+                                    gradientUnits="userSpaceOnUse"
+                                    gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
+                                    <stop offset="0.610577" stop-color="white" />
+                                    <stop offset="1" stop-color="#D9D9D9" />
+                                </radialGradient>
                             </defs>
                         </svg>
                         <i class="fas fa-chevron-down lang-chevron" aria-hidden="true"></i>
@@ -129,40 +153,68 @@
                     <div class="lang-dropdown" role="menu" aria-label="Language selector">
                         <a class="lang-option active" role="menuitem" href="/map/" data-lang="kr">
                             KR
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
-                                <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13443)"/>
-                                <circle cx="8.875" cy="7.875" r="3.375" fill="#415687"/>
-                                <path d="M8.875 4.5C7.01104 4.5 5.5 6.01104 5.5 7.875C5.5 7.875 7.1875 9.5625 8.875 7.875C10.5625 6.1875 12.25 7.875 12.25 7.875C12.25 6.01104 10.739 4.5 8.875 4.5Z" fill="#CE3F4D"/>
-                                <path d="M3.65625 3.58594L2.25 6.02163" stroke="black" stroke-width="0.5"/>
-                                <path d="M4.43359 4.03906L3.02734 6.47476" stroke="black" stroke-width="0.5"/>
-                                <path d="M5.11328 4.42969L3.70703 6.86538" stroke="black" stroke-width="0.5"/>
-                                <path d="M14.3438 8.08594L13.9922 8.69486L13.8164 8.99932M12.9375 10.5216L13.2891 9.91271L13.4648 9.60825" stroke="black" stroke-width="0.5"/>
-                                <path d="M15.8008 8.92969L15.4492 9.53861L15.2734 9.84307M14.3945 11.3654L14.7461 10.7565L14.9219 10.452" stroke="black" stroke-width="0.5"/>
-                                <path d="M15.0742 8.50781L14.7227 9.11674L14.5469 9.4212M13.668 10.9435L14.0195 10.3346L14.1953 10.0301" stroke="black" stroke-width="0.5"/>
-                                <path d="M2.25 10.0547L2.60156 10.6636L2.77734 10.9681L3.12891 11.577L3.30469 11.8815L3.65625 12.4904" stroke="black" stroke-width="0.5"/>
-                                <path d="M3.71484 9.21094L4.06641 9.81986L4.24219 10.1243L4.59375 10.7332L4.76953 11.0377L5.12109 11.6466" stroke="black" stroke-width="0.5"/>
-                                <path d="M2.98438 9.63281L3.33594 10.2417L3.51172 10.5462M4.39062 12.0685L4.03906 11.4596L3.86328 11.1551" stroke="black" stroke-width="0.5"/>
-                                <path d="M12.375 3.30469L12.7266 3.91361L12.9023 4.21807M13.7812 5.74038L13.4297 5.13146L13.2539 4.827" stroke="black" stroke-width="0.5"/>
-                                <path d="M13.8398 2.46094L14.1914 3.06986L14.3672 3.37432M15.2461 4.89663L14.8945 4.28771L14.7188 3.98325" stroke="black" stroke-width="0.5"/>
-                                <path d="M13.1094 2.88281L14.5156 5.31851" stroke="black" stroke-width="0.5"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14"
+                                fill="none">
+                                <path
+                                    d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z"
+                                    fill="url(#paint0_radial_3390_13443)" />
+                                <circle cx="8.875" cy="7.875" r="3.375" fill="#415687" />
+                                <path
+                                    d="M8.875 4.5C7.01104 4.5 5.5 6.01104 5.5 7.875C5.5 7.875 7.1875 9.5625 8.875 7.875C10.5625 6.1875 12.25 7.875 12.25 7.875C12.25 6.01104 10.739 4.5 8.875 4.5Z"
+                                    fill="#CE3F4D" />
+                                <path d="M3.65625 3.58594L2.25 6.02163" stroke="black" stroke-width="0.5" />
+                                <path d="M4.43359 4.03906L3.02734 6.47476" stroke="black" stroke-width="0.5" />
+                                <path d="M5.11328 4.42969L3.70703 6.86538" stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M14.3438 8.08594L13.9922 8.69486L13.8164 8.99932M12.9375 10.5216L13.2891 9.91271L13.4648 9.60825"
+                                    stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M15.8008 8.92969L15.4492 9.53861L15.2734 9.84307M14.3945 11.3654L14.7461 10.7565L14.9219 10.452"
+                                    stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M15.0742 8.50781L14.7227 9.11674L14.5469 9.4212M13.668 10.9435L14.0195 10.3346L14.1953 10.0301"
+                                    stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M2.25 10.0547L2.60156 10.6636L2.77734 10.9681L3.12891 11.577L3.30469 11.8815L3.65625 12.4904"
+                                    stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M3.71484 9.21094L4.06641 9.81986L4.24219 10.1243L4.59375 10.7332L4.76953 11.0377L5.12109 11.6466"
+                                    stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M2.98438 9.63281L3.33594 10.2417L3.51172 10.5462M4.39062 12.0685L4.03906 11.4596L3.86328 11.1551"
+                                    stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M12.375 3.30469L12.7266 3.91361L12.9023 4.21807M13.7812 5.74038L13.4297 5.13146L13.2539 4.827"
+                                    stroke="black" stroke-width="0.5" />
+                                <path
+                                    d="M13.8398 2.46094L14.1914 3.06986L14.3672 3.37432M15.2461 4.89663L14.8945 4.28771L14.7188 3.98325"
+                                    stroke="black" stroke-width="0.5" />
+                                <path d="M13.1094 2.88281L14.5156 5.31851" stroke="black" stroke-width="0.5" />
                                 <defs>
-                                <radialGradient id="paint0_radial_3390_13443" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
-                                <stop offset="0.610577" stop-color="white"/>
-                                <stop offset="1" stop-color="#D9D9D9"/>
-                                </radialGradient>
+                                    <radialGradient id="paint0_radial_3390_13443" cx="0" cy="0" r="1"
+                                        gradientUnits="userSpaceOnUse"
+                                        gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
+                                        <stop offset="0.610577" stop-color="white" />
+                                        <stop offset="1" stop-color="#D9D9D9" />
+                                    </radialGradient>
                                 </defs>
                             </svg>
                         </a>
                         <a class="lang-option" role="menuitem" href="/jp/map/" data-lang="jp">
                             JP
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
-                                <path d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z" fill="url(#paint0_radial_3390_13437)"/>
-                                <circle cx="9" cy="8.08594" r="3.375" fill="#C4254B"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14"
+                                fill="none">
+                                <path
+                                    d="M0 13.1487V1.8987C1.875 2.65648 6.4125 3.71736 9.5625 1.8987C12.7125 0.0800505 16.5 1.14093 18 1.8987V13.1487C16.875 12.6965 13.6125 12.0635 9.5625 13.1487C5.5125 14.2339 1.5 13.6009 0 13.1487Z"
+                                    fill="url(#paint0_radial_3390_13437)" />
+                                <circle cx="9" cy="8.08594" r="3.375" fill="#C4254B" />
                                 <defs>
-                                <radialGradient id="paint0_radial_3390_13437" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
-                                <stop offset="0.610577" stop-color="white"/>
-                                <stop offset="1" stop-color="#D9D9D9"/>
-                                </radialGradient>
+                                    <radialGradient id="paint0_radial_3390_13437" cx="0" cy="0" r="1"
+                                        gradientUnits="userSpaceOnUse"
+                                        gradientTransform="translate(9 7.02051) rotate(-114.364) scale(6.0602 9.87985)">
+                                        <stop offset="0.610577" stop-color="white" />
+                                        <stop offset="1" stop-color="#D9D9D9" />
+                                    </radialGradient>
                                 </defs>
                             </svg>
                         </a>
@@ -174,7 +226,7 @@
                 <div class="header-logo">
                     <a href="/">iloong</a>
                 </div>
-                
+
                 <button class="mobile-menu-toggle" id="hamburger" aria-label="메뉴 열기">
                     <i class="fas fa-bars" style="font-size: 26px;"></i>
                 </button>
@@ -199,7 +251,7 @@
 
             <!-- Filter Buttons -->
             <div class="filter-buttons">
-                <button class="filter-btn" data-filter="visaType">
+                <button class="filter-btn" data-filter="visaType" id="visa-tutorial-btn">
                     <!-- <i class="icon visa-icon"></i> -->
                     <svg class="icon visa-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         viewBox="0 0 16 16" fill="none">
@@ -261,8 +313,10 @@
         </div>
         <button class="filter-refresh-btn" id="filter-refresh">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="14" viewBox="0 0 12 14" fill="none">
-                <path d="M6 14C5.16667 14 4.38611 13.8417 3.65833 13.525C2.93056 13.2083 2.29722 12.7806 1.75833 12.2417C1.21944 11.7028 0.791667 11.0694 0.475 10.3417C0.158333 9.61389 0 8.83333 0 8H1.33333C1.33333 9.3 1.78611 10.4028 2.69167 11.3083C3.59722 12.2139 4.7 12.6667 6 12.6667C7.3 12.6667 8.40278 12.2139 9.30833 11.3083C10.2139 10.4028 10.6667 9.3 10.6667 8C10.6667 6.7 10.2139 5.59722 9.30833 4.69167C8.40278 3.78611 7.3 3.33333 6 3.33333H5.9L6.93333 4.36667L6 5.33333L3.33333 2.66667L6 0L6.93333 0.966667L5.9 2H6C6.83333 2 7.61389 2.15833 8.34167 2.475C9.06944 2.79167 9.70278 3.21944 10.2417 3.75833C10.7806 4.29722 11.2083 4.93056 11.525 5.65833C11.8417 6.38611 12 7.16667 12 8C12 8.83333 11.8417 9.61389 11.525 10.3417C11.2083 11.0694 10.7806 11.7028 10.2417 12.2417C9.70278 12.7806 9.06944 13.2083 8.34167 13.525C7.61389 13.8417 6.83333 14 6 14Z" fill="#17171B"/>
-                </svg>
+                <path
+                    d="M6 14C5.16667 14 4.38611 13.8417 3.65833 13.525C2.93056 13.2083 2.29722 12.7806 1.75833 12.2417C1.21944 11.7028 0.791667 11.0694 0.475 10.3417C0.158333 9.61389 0 8.83333 0 8H1.33333C1.33333 9.3 1.78611 10.4028 2.69167 11.3083C3.59722 12.2139 4.7 12.6667 6 12.6667C7.3 12.6667 8.40278 12.2139 9.30833 11.3083C10.2139 10.4028 10.6667 9.3 10.6667 8C10.6667 6.7 10.2139 5.59722 9.30833 4.69167C8.40278 3.78611 7.3 3.33333 6 3.33333H5.9L6.93333 4.36667L6 5.33333L3.33333 2.66667L6 0L6.93333 0.966667L5.9 2H6C6.83333 2 7.61389 2.15833 8.34167 2.475C9.06944 2.79167 9.70278 3.21944 10.2417 3.75833C10.7806 4.29722 11.2083 4.93056 11.525 5.65833C11.8417 6.38611 12 7.16667 12 8C12 8.83333 11.8417 9.61389 11.525 10.3417C11.2083 11.0694 10.7806 11.7028 10.2417 12.2417C9.70278 12.7806 9.06944 13.2083 8.34167 13.525C7.61389 13.8417 6.83333 14 6 14Z"
+                    fill="#17171B" />
+            </svg>
         </button>
     </section>
 
@@ -524,7 +578,7 @@
             <div class="temp-png">
 
             </div>
-        <!-- <div class="filter-modal-header" style="margin-top: 24px;">
+            <!-- <div class="filter-modal-header" style="margin-top: 24px;">
                 <h3>내부 옵션</h3>
             </div>
             <div class="checkbox-grid">
@@ -625,6 +679,8 @@
 
     <!-- Main Content - Map + Property List -->
     <main class="main-container">
+        <!-- Visa Tutorial Overlay (dim map + property panel) -->
+        <div class="visa-tutorial-overlay" id="visaTutorialOverlay" aria-hidden="true"></div>
         <!-- Map Section -->
         <section class="map-section">
             <div class="map-container" id="map"></div>
@@ -671,6 +727,39 @@
             </div>
         </aside>
     </main>
+
+    <!-- Visa Tutorial Modal -->
+    <div class="visa-tutorial-modal" id="visaTutorialModal" role="dialog" aria-labelledby="visaTutorialTitle" aria-modal="true">
+        <div class="visa-tutorial-modal-content">
+            <h2 class="visa-tutorial-title" id="visaTutorialTitle"><span style="color: var(--primary-blue);">비자 종류</span>에 따라<br> 계약 가능 매물이 달라져요!</h2>
+            <p class="visa-tutorial-subtitle">정확한 매물 확인을 위해 비자 선택을 해주세요</p>
+            <div class="checkbox-list">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="visaTypeTutorial" value="2">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">워킹홀리데이 비자</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="visaTypeTutorial" value="3">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">유학비자</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="visaTypeTutorial" value="1">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">외국국적 계약 가능</span>
+                </label>
+            </div>
+            <div class="visa-tutorial-actions">
+                <button type="button" class="visa-tutorial-confirm-btn" id="visaTutorialConfirm">확인</button>
+                <label class="visa-tutorial-dismiss-label checkbox-label">
+                    <input type="checkbox" id="visaTutorialDismissCheckbox">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">오늘 하루 보지않기</span>
+                </label>
+            </div>
+        </div>
+    </div>
 
     <!-- <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script> -->
     <!-- 모듈 로드 순서 중요 -->
