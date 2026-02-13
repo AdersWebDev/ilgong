@@ -180,9 +180,9 @@ input, select, textarea {
 }
 
 .header-logo a {
-    content: url('../assest/logo.svg');
-    width: 79px;
-    height: 44px;
+    content: url('../assest/logo.png');
+    width: 119px;
+    height: 35px;
     object-fit: contain;
     object-position: center;
     display: block;

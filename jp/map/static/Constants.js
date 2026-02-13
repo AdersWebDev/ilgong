@@ -20,7 +20,7 @@ class Constants {
     static PERFORMANCE_ZOOM_THRESHOLD = 15;
     static CLUSTER_ZOOM_THRESHOLD = 16;
     static MIN_LOCATIONS_FOR_CLUSTERING = 10;
-    static LOAD_DEBOUNCE_MS = 400;
+    static LOAD_DEBOUNCE_MS = 600;
     static CLUSTER_PRECISION = {
         VERY_LARGE: 2,
         LARGE: 0.3,
