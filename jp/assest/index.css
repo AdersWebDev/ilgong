@@ -1,7 +1,7 @@
 /* ========================================
    Container
    ======================================== */
-.container {
+   .container {
     margin: 0 auto;
 }
 
@@ -30,7 +30,7 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url(../assest/main-back-1.png);
+    background-image: url(../../assest/main-back-1.png);
     background-size: cover;
     background-position: center;
     opacity: 1;
@@ -48,7 +48,7 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url(../assest/main-back-2.png);
+    background-image: url(../../assest/main-back-2.png);
     background-size: cover;
     background-position: center;
     opacity: 0;
@@ -333,7 +333,7 @@
 
 .how-it-works-title {
     display: inline-block;
-    content: url(../assest/logo-white.png);
+    content: url(../..//assest/logo-white.png);
     margin: 0 auto 20px auto;
     padding: 0 40px;
 }
@@ -346,50 +346,6 @@
     text-align: center;
     padding: 0 40px;
 }
-
-.outro {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    overflow: hidden;
-    margin: 40px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 40px;
-}
-
-.outro-left {
-    width: 100%;
-    max-width: 400px;
-    height: 400px;
-    max-height: 400px;
-    background: url('/assest/outro.png') no-repeat center center;
-}
-
-.outro-right {
-    padding: 0 20px;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 10px;
-}
-
-.outro-logo svg {
-    width: 88px;
-    height: auto;
-    /* background-size: fill;
-    background-position: center;
-    background-repeat: no-repeat; */
-}
-
-/* ========================================
-   Buttons
-   ======================================== */
-
-
 
 
 /* ========================================
