@@ -140,6 +140,20 @@
 .intro-nav-wrapper .intro-icon:hover {
     scale: 1.2;
 }
+@media (max-width: 600px) {
+    .intro-nav-wrapper {
+        display: none;
+    }
+    .intro-item h2 {
+        font-size: 24px;
+    }
+    .intro-item p {
+        font-size: 14px;
+    }
+    .intro-item h2 {
+        white-space: normal;
+    }
+}
 /* ========================================
    Main Banner
    ======================================== */
@@ -204,7 +218,7 @@
    ======================================== */
 .property-preview {
     width: 100%;
-    max-width: 1095px;
+    max-width: 1125px;
     margin: 0 auto;
     padding: 48px 20px;
     background-color: #ffffff;
@@ -338,6 +352,10 @@
     background-color: #ffffff;
     border: 1px solid #DCDCDC;
     border-radius: 20px;
+    transition: box-shadow 0.2s ease-in-out;
+}
+.short-cut-item:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.10);
 }
 .short-cut-item p {
     font-size: 24px;
@@ -541,6 +559,16 @@
     font-weight: bold;
     color: var(--text-primary);
 }
+@media (max-width: 940px) {
+    .why-choose-item-line--right {
+        display: none;
+    }
+}
+@media (max-width: 600px) {
+    .why-choose-item-wrapper {
+        display: none;
+    }
+}
 /* ========================================
    owner-contract
    ======================================== */
@@ -592,4 +620,19 @@
     font-size: 30px;
     color: #234270;
     font-weight: bold;
+}
+@media (max-width: 600px) {
+    .owner-contract {
+        height: auto;
+        padding: 32px 0;
+    }
+    .owner-contract-features {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+     .owner-contract-feature-item {
+        width: 100%;
+        max-width: 300px;
+    }
 }
