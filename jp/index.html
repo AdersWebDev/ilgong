@@ -431,57 +431,7 @@
     <script src="../main/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            function showPrivacyModal() {
-                const privacyModal = document.getElementById('privacyModal');
-                if (privacyModal) {
-                    privacyModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-
-            function hidePrivacyModal() {
-                const privacyModal = document.getElementById('privacyModal');
-                if (privacyModal) {
-                    privacyModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            }
-
-            // 개인정보 처리방침 상세보기 링크
-            const privacyDetailLink = document.getElementById('privacyDetailLink');
-            if (privacyDetailLink) {
-                privacyDetailLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    showPrivacyModal();
-                });
-            }
-
-            // 모달 닫기 버튼
-            const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
-            if (privacyModalCloseBtn) {
-                privacyModalCloseBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    hidePrivacyModal();
-                });
-            }
-
-            // 모달 밖 클릭 시 닫기
-            const privacyModal = document.getElementById('privacyModal');
-            if (privacyModal) {
-                const modalContent = privacyModal.querySelector('.modal-content');
-                if (modalContent) {
-                    // modal-content 클릭 시 이벤트 전파 방지
-                    modalContent.addEventListener('click', function (e) {
-                        e.stopPropagation();
-                    });
-                }
-                // 모달 배경(backdrop) 클릭 시 닫기
-                privacyModal.addEventListener('click', function (e) {
-                    if (e.target === privacyModal || e.target.classList.contains('modal-backdrop')) {
-                        hidePrivacyModal();
-                    }
-                });
-            }
+            
             // hero 배경: 초기 줌인(4초) 후 상태 고정 → 1번 호버 시 추가 줌인 로직이 꼬이지 않도록
             var heroEl = document.querySelector('.hero');
             if (heroEl) {

@@ -457,6 +457,110 @@ input, select, textarea {
 /* ========================================
    Footer
    ======================================== */
+
+/* ========================================
+   Privacy Modal
+======================================== */
+.privacy-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.privacy-modal.active {
+    display: flex;
+}
+
+.privacy-modal .modal-content {
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    width: 500px;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.privacy-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.privacy-modal .modal-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+}
+
+.privacy-modal .modal-header .modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+}
+
+.privacy-modal .modal-header .modal-close-btn:hover {
+    color: #000;
+}
+
+.privacy-modal .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.privacy-content {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.privacy-content p {
+    margin-bottom: 20px;
+}
+
+.privacy-content strong {
+    color: #000;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* 스크롤바 숨기기 (스크롤 기능은 유지) */
+.privacy-modal .modal-body {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.privacy-modal .modal-body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+}
 .footer {
     display: block;
     background-color: #FFFFFF;

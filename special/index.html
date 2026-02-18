@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../assest/favicon.png" type="image/png" />
+    <link rel="icon" href="https://www.ilgongjp.com/assest/favicon.png" type="image/png" />
     <title>일본공간 | 실시간 갱신 일본 부동산</title>
     <meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,8 +42,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="main/style.css">
-    <link rel="stylesheet" href="main/index.css">
+    <link rel="stylesheet" href="../main/style.css">
+    <link rel="stylesheet" href="static/index.css">
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXLQL7200F"></script>
@@ -67,20 +67,19 @@
                         </div>
                     </li>
                     <li>
-                        <a href="/map/">지도로 매물보기</a>
+                        <a href="/special/">오너 직계약</a>
                         <span class="nav-badge new">NEW</span>
                     </li>
                     <li>
-                        <a href="/agent/houber">24시간 매물받기</a>
+                        <a href="/special/owner/">집 등록하기</a>
                         <span class="nav-badge new">NEW</span>
                     </li>
-                    <li style="cursor: not-allowed;">
-                        <a>일공 포럼</a>
-                        <span class="nav-badge wait">준비중</span>
+                    <li>
+                        <a href="/special/client">특가 리스트</a>
+                        <span class="nav-badge new">NEW</span>
                     </li>
-                    <li style="cursor: not-allowed;">
-                        <a>부동산 정보</a>
-                        <span class="nav-badge wait">준비중</span>
+                    <li>
+                        <a href="/map">지도로 보기</a>
                     </li>
 
                 </ul>
@@ -135,7 +134,7 @@
                         <i class="fas fa-chevron-down lang-chevron" aria-hidden="true"></i>
                     </span>
                     <div class="lang-dropdown" role="menu" aria-label="Language selector">
-                        <a class="lang-option active" role="menuitem" href="/" data-lang="kr">
+                        <a class="lang-option active" role="menuitem" href="/special/" data-lang="kr">
                             KR
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14"
                                 fill="none">
@@ -184,7 +183,7 @@
                                 </defs>
                             </svg>
                         </a>
-                        <a class="lang-option" role="menuitem" href="/jp/" data-lang="jp">
+                        <a class="lang-option" role="menuitem" href="/jp/special/" data-lang="jp">
                             JP
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14"
                                 fill="none">
@@ -217,81 +216,441 @@
             </div>
         </div>
     </header>
-    <!-- Hero Section -->
-    <section class="hero">
-
-        <div class="hero-wrapper">
-            <h1 class="hero-title" id="hero-title">지도로 한눈에 보는 <strong>실시간 공실 정보</strong></h1>
-            <div class="hero-content">
-                <a href="/map/" class="hero-content-item" id="hero-content-item-1">
-                    <svg class="hero-content-item-border" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 328 168"
-                        fill="none" stroke="#3D8BFF" stroke-width="4" stroke-linejoin="round">
-                        <path class="hero-border-path" pathLength="1"
-                            d="M 26,2 L 302,2 A 24 24 0 0 1 326 26 L 326 142 A 24 24 0 0 1 302 166 L 26 166 A 24 24 0 0 1 2 142 L 2 26 A 24 24 0 0 1 26 2 Z" />
-                    </svg>
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46" fill="none">
-                            <path
-                                d="M8.3375 39.675C7.69861 39.9306 7.10764 39.8587 6.56458 39.4594C6.02153 39.0601 5.75 38.525 5.75 37.8542V11.0208C5.75 10.6056 5.86979 10.2382 6.10938 9.91875C6.34896 9.59931 6.67639 9.35972 7.09167 9.2L16.2705 6.08265C16.9052 5.86711 17.5937 5.8703 18.2263 6.09172L28.75 9.775L37.6625 6.325C38.3014 6.06944 38.8924 6.14132 39.4354 6.54063C39.9785 6.93993 40.25 7.475 40.25 8.14583V22.652C40.25 23.4331 39.1218 23.8122 38.549 23.2812C38.0356 22.8054 37.4878 22.3787 36.9058 22.0011C36.6074 21.8075 36.4167 21.4813 36.4167 21.1256V10.925L30.6667 13.1292V19.1667C30.6667 19.719 30.2181 20.1618 29.6679 20.209C29.342 20.2369 29.0201 20.2787 28.7021 20.3344C28.5363 20.3634 28.3716 20.3962 28.208 20.4327C27.529 20.5843 26.8333 20.0991 26.8333 19.4034V13.1292L19.1667 10.4458V34.1331C19.1667 34.9604 18.6573 35.7023 17.8852 35.9996L8.3375 39.675ZM9.58333 35.075L15.3333 32.8708V10.4458L9.58333 12.3625V35.075ZM33.374 33.5417C34.0927 32.9028 34.4681 31.9444 34.5 30.6667C34.5319 29.5806 34.1726 28.6701 33.4219 27.9354C32.6712 27.2007 31.7528 26.8333 30.6667 26.8333C29.5806 26.8333 28.6701 27.2007 27.9354 27.9354C27.2007 28.6701 26.8333 29.5806 26.8333 30.6667C26.8333 31.7528 27.2007 32.6632 27.9354 33.3979C28.6701 34.1326 29.5806 34.5 30.6667 34.5C31.7528 34.5 32.6552 34.1806 33.374 33.5417ZM30.6667 38.3333C28.5583 38.3333 26.7535 37.5826 25.2521 36.0813C23.7507 34.5799 23 32.775 23 30.6667C23 28.5583 23.7507 26.7535 25.2521 25.2521C26.7535 23.7507 28.5583 23 30.6667 23C32.775 23 34.5799 23.7507 36.0813 25.2521C37.5826 26.7535 38.3333 28.5583 38.3333 30.6667C38.3333 31.4014 38.2455 32.0962 38.0698 32.751C37.8941 33.4059 37.6306 34.0208 37.2792 34.5958L40.825 38.1417C41.566 38.8826 41.566 40.084 40.825 40.825C40.084 41.566 38.8826 41.566 38.1417 40.825L34.5958 37.2792C34.0208 37.6306 33.4059 37.8941 32.751 38.0698C32.0962 38.2455 31.4014 38.3333 30.6667 38.3333Z"
-                                fill="#3D8BFF" />
-                        </svg>
-                        <h2 style="font-size: 20px; font-weight: 700; color: #17171B;">실시간 공실 매물 정보</h2>
-                    </div>
-
-                    <div class="btn btn-primary hreo-btn">지도로 매물보기</div>
-                </a>
-                <a href="/agent/houber/" class="hero-content-item" id="hero-content-item-2">
-                    <svg class="hero-content-item-border" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 328 168"
-                        fill="none" stroke="#3D8BFF" stroke-width="4" stroke-linejoin="round">
-                        <path class="hero-border-path" pathLength="1"
-                            d="M 26,2 L 302,2 A 24 24 0 0 1 326 26 L 326 142 A 24 24 0 0 1 302 166 L 26 166 A 24 24 0 0 1 2 142 L 2 26 A 24 24 0 0 1 26 2 Z" />
-                    </svg>
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46" fill="none">
-                            <path
-                                d="M32.7096 40.9154C31.9495 41.6755 30.7172 41.6755 29.9571 40.9154C29.2013 40.1596 29.1964 38.9356 29.9463 38.1739L31.676 36.4167H25.4583C24.3768 36.4167 23.5 35.5399 23.5 34.4583C23.5 33.3768 24.3768 32.5 25.4583 32.5H31.676L29.9463 30.7428C29.1964 29.981 29.2013 28.7571 29.9571 28.0012C30.7172 27.2412 31.9495 27.2412 32.7096 28.0012L37.7525 33.0441C38.5335 33.8252 38.5335 35.0915 37.7525 35.8725L32.7096 40.9154ZM3.91667 36.4167C2.83958 36.4167 1.91753 36.0332 1.15052 35.2661C0.383507 34.4991 0 33.5771 0 32.5V12.9167C0 11.8396 0.383507 10.9175 1.15052 10.1505C1.91753 9.38351 2.83958 9 3.91667 9H29.375C30.4521 9 31.3741 9.38351 32.1411 10.1505C32.9082 10.9175 33.2917 11.8396 33.2917 12.9167V23.9136C33.2917 24.4261 32.8224 24.8083 32.3125 24.7573C31.9861 24.7247 31.6597 24.7083 31.3333 24.7083C31.0069 24.7083 30.6806 24.7165 30.3542 24.7328C29.8438 24.7583 29.375 24.3785 29.375 23.8675V15.6583L17.6082 23.8594C16.9138 24.3434 15.9901 24.3379 15.3015 23.8457L3.91667 15.7073V32.5H19.7425C20.2535 32.5 20.6333 32.9688 20.6078 33.4792C20.5915 33.8056 20.5833 34.1319 20.5833 34.4583C20.5833 34.7847 20.5997 35.1111 20.6323 35.4375C20.6833 35.9474 20.3011 36.4167 19.7887 36.4167H3.91667ZM6.75625 12.9167L16.45 19.8688L26.4375 12.9167H6.75625Z"
-                                fill="#3D8BFF" />
-                        </svg>
-                        <h2 style="font-size: 20px; font-weight: 700; color: #17171B;">24시간 매물 추천</h2>
-                    </div>
-                    <div class="btn btn-primary hreo-btn">10초안에 10개 받기</div>
-                </a>
+    <section class="direct-intro intro-slide-0" id="directIntro" style="position: relative;">
+        <ul class="intro-wrapper" aria-label="인트로 슬라이더">
+            <li class="intro-item active" data-index="0">
+                <h2>비용 부담을 낮춘<br>계약 가능 매물만</h2>
+                <p><b>관리회사 한정 모집</b>으로 제공되는 <b>특별</b> 조건</p>
+            </li>
+            <li class="intro-item" data-index="1">
+                <h2>체계적인 임대 계약 진행</h2>
+                <p><b>신청부터 열쇠 전달</b>까지 <b>원스톱 서비스</b></p>
+            </li>
+            <li class="intro-item" data-index="2">
+                <h2>부담은 낮추고, 계약은 빠르게</h2>
+                <p><b>초기비용 부담을 줄인 지금 가능한 매물<br>놓치지 마세요</b></p>
+            </li>
+        </ul>
+        <div class="intro-nav-wrapper">
+            <div class="intro-bar-container">
+                <div class="intro-back-bar"></div>
+                <div class="intro-forward-bar" id="introForwardBar" aria-hidden="true"></div>
             </div>
+            <svg class="intro-icon prev" xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10"
+                fill="none" aria-label="이전">
+                <path
+                    d="M0.507772 4.51499L0 5L0.507772 5.48501L5.22395 10L6 9.02998L1.79044 5L6 0.970018L5.22395 0L0.507772 4.51499Z"
+                    fill="#DCDCDC" />
+            </svg>
+            <svg class="intro-icon next" xmlns="http://www.w3.org/2000/svg" width="6" height="10" viewBox="0 0 6 10"
+                fill="none" aria-label="다음">
+                <path
+                    d="M5.49223 4.51499L6 5L5.49223 5.48501L0.776051 10L0 9.02998L4.20956 5L0 0.970018L0.776051 0L5.49223 4.51499Z"
+                    fill="#DCDCDC" />
+            </svg>
         </div>
     </section>
-    <section class="bridge">
-        <div class="bridge-content">
-            <div class="bridge-text">
-                <h1 class="bridge-title">통합형 주거 플랫폼<br><b>일본 공간</b></h1>
+    <section class="main-banner">
+        <section class="direct-wrapper">
+            <div class="main-banner-content">
+                <div class="main-banner-text">
+                    <div class="main-banner-text-content">
+                        <h1 style="font-size: 34px; color: var(--text-primary);">집 주인과 직접 계약</h1>
+                        <p style="font-size: 18px; color: var(--text-primary);"><b>중개수수료 0엔 · 초기비용 할인</b><br><b>허위매물
+                                없는</b> 일본공간</p>
+                    </div>
+
+                    <a href="/special/client/" style="
+                    display: flex; align-items: center; justify-content: center; width: 274px; height: 60px;
+                    background-color: var(--primary-blue);
+                    color: var(--bg-white);
+                    font-weight: 600;
+                    font-size: 18px;
+                    border-radius: var(--radius-lg); gap: 14px;">
+                        오늘의 한정 직계약 매물 보기
+                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="16" viewBox="0 0 9 16" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.343829 0.351469C0.802268 -0.117156 1.54556 -0.117156 2.004 0.351469L8.65616 7.15149C9.11461 7.62011 9.11461 8.37992 8.65616 8.84855L2.004 15.6485C1.54556 16.1172 0.802268 16.1172 0.343829 15.6485C-0.11461 15.1799 -0.11461 14.4202 0.343829 13.9516L6.16595 8.00002L0.343829 2.04853C-0.11461 1.5799 -0.11461 0.820094 0.343829 0.351469Z"
+                                fill="white" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="main-banner-features">
+                    <div class="main-banner-feature-item">
+                        <p style="font-size: 18px; font-weight: var(--font-weight-bold); color: var(--text-primary);">
+                            초기비용</p>
+                        <strong style="font-size: 26px; color: var(--primary-blue);">대폭 절감</strong>
+                    </div>
+                    <div class="main-banner-feature-item">
+                        <p style="font-size: 18px; font-weight: var(--font-weight-bold); color: var(--text-primary);">
+                            중개수수료</p>
+                        <strong style="font-size: 26px; color: var(--primary-blue);">0엔</strong>
+                    </div>
+                    <div class="main-banner-feature-item">
+                        <p style="font-size: 18px; font-weight: var(--font-weight-bold); color: var(--text-primary);">
+                            허위매물</p>
+                        <strong style="font-size: 26px; color: var(--primary-blue);">없음</strong>
+                    </div>
+                </div>
             </div>
-            <div class="bridge-features">
-                <div class="bridge-feature-card">
-                    <div class="bridge-feature-icon">
-                        <i class="icon-1"></i>
-                    </div>
-                    <p class="bridge-feature-text">실시간 업데이트되는<br>정확한 매물 정보</p>
+        </section>
+    </section>
+
+    <section class="property-preview">
+            <section class="property-preview-wrapper">
+                <div class="property-preview-header">
+                    <p id="property-recent-date">--년 --월 --일</p>
+                    <h2><span class="text-primary-blue">오늘의 특가계약</span> 맨션</h2>
                 </div>
-                <div class="bridge-feature-card">
-                    <div class="bridge-feature-icon">
-                        <i class="icon-2"></i>
+                <div class="property-card-wrapper">
+                    <div class="property-card-list">
+                        <a class="property-card" href="/special/detail/">
+                            <div class="property-hook">
+                                <span class="original-price">
+                                    ¥389,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.85552 0.219668C5.12797 -0.0732227 5.56972 -0.0732227 5.84218 0.219668L9.79565 4.46968C10.0681 4.76257 10.0681 5.23745 9.79565 5.53034L5.84218 9.78032C5.56972 10.0732 5.12797 10.0732 4.85552 9.78032C4.58306 9.48742 4.58306 9.01262 4.85552 8.71972L7.61797 5.75001H0.697676C0.312364 5.75001 0 5.41422 0 5.00001C0 4.5858 0.312364 4.25001 0.697676 4.25001H7.61797L4.85552 1.28033C4.58306 0.98744 4.58306 0.512559 4.85552 0.219668Z"
+                                        fill="#24292E" />
+                                </svg>
+                                <span class="discount-price">
+                                    ¥120,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9" viewBox="0 0 11 9"
+                                    fill="none">
+                                    <path
+                                        d="M4.3542 7.76866C4.75056 8.35712 5.61662 8.35712 6.01299 7.76867L10.1959 1.55866C10.6433 0.894435 10.1674 0 9.3665 0H1.00069C0.199831 0 -0.276116 0.894433 0.171291 1.55866L4.3542 7.76866Z"
+                                        fill="#F06265" />
+                                </svg>
+                            </div>
+                            <div class="property-card-image">
+                                <img src="assest/property-assest/a-1.png" alt="Property Image">
+                            </div>
+                            <div class="property-card-content">
+                                <h3>월세 ¥ 70,000</h3>
+                                <p>大阪市中央区南久宝寺町１丁目</p>
+                                <strong>초기비용 <span style="font-size: 20px">¥120,000</span></strong>
+                            </div>
+                        </a>
+                        <a class="property-card" href="/special/detail/">
+                            <div class="property-hook">
+                                <span class="original-price">
+                                    ¥389,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.85552 0.219668C5.12797 -0.0732227 5.56972 -0.0732227 5.84218 0.219668L9.79565 4.46968C10.0681 4.76257 10.0681 5.23745 9.79565 5.53034L5.84218 9.78032C5.56972 10.0732 5.12797 10.0732 4.85552 9.78032C4.58306 9.48742 4.58306 9.01262 4.85552 8.71972L7.61797 5.75001H0.697676C0.312364 5.75001 0 5.41422 0 5.00001C0 4.5858 0.312364 4.25001 0.697676 4.25001H7.61797L4.85552 1.28033C4.58306 0.98744 4.58306 0.512559 4.85552 0.219668Z"
+                                        fill="#24292E" />
+                                </svg>
+                                <span class="discount-price">
+                                    ¥120,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9" viewBox="0 0 11 9"
+                                    fill="none">
+                                    <path
+                                        d="M4.3542 7.76866C4.75056 8.35712 5.61662 8.35712 6.01299 7.76867L10.1959 1.55866C10.6433 0.894435 10.1674 0 9.3665 0H1.00069C0.199831 0 -0.276116 0.894433 0.171291 1.55866L4.3542 7.76866Z"
+                                        fill="#F06265" />
+                                </svg>
+                            </div>
+                            <div class="property-card-image">
+                                <img src="assest/property-assest/a-2.png" alt="Property Image">
+                            </div>
+                            <div class="property-card-content">
+                                <h3>월세 ¥ 70,000</h3>
+                                <p>大阪市中央区南久宝寺町１丁目</p>
+                                <strong>초기비용 <span style="font-size: 20px">¥120,000</span></strong>
+                            </div>
+                        </a>
+                        <a class="property-card" href="/special/detail/">
+                            <div class="property-hook">
+                                <span class="original-price">
+                                    ¥389,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.85552 0.219668C5.12797 -0.0732227 5.56972 -0.0732227 5.84218 0.219668L9.79565 4.46968C10.0681 4.76257 10.0681 5.23745 9.79565 5.53034L5.84218 9.78032C5.56972 10.0732 5.12797 10.0732 4.85552 9.78032C4.58306 9.48742 4.58306 9.01262 4.85552 8.71972L7.61797 5.75001H0.697676C0.312364 5.75001 0 5.41422 0 5.00001C0 4.5858 0.312364 4.25001 0.697676 4.25001H7.61797L4.85552 1.28033C4.58306 0.98744 4.58306 0.512559 4.85552 0.219668Z"
+                                        fill="#24292E" />
+                                </svg>
+                                <span class="discount-price">
+                                    ¥120,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9" viewBox="0 0 11 9"
+                                    fill="none">
+                                    <path
+                                        d="M4.3542 7.76866C4.75056 8.35712 5.61662 8.35712 6.01299 7.76867L10.1959 1.55866C10.6433 0.894435 10.1674 0 9.3665 0H1.00069C0.199831 0 -0.276116 0.894433 0.171291 1.55866L4.3542 7.76866Z"
+                                        fill="#F06265" />
+                                </svg>
+                            </div>
+                            <div class="property-card-image">
+                                <img src="assest/property-assest/a-3.png" alt="Property Image">
+                            </div>
+                            <div class="property-card-content">
+                                <h3>월세 ¥ 70,000</h3>
+                                <p>大阪市中央区南久宝寺町１丁目</p>
+                                <strong>초기비용 <span style="font-size: 20px">¥120,000</span></strong>
+                            </div>
+                        </a>
+                        <a class="property-card" href="/special/detail/">
+                            <div class="property-hook">
+                                <span class="original-price">
+                                    ¥389,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"
+                                    fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.85552 0.219668C5.12797 -0.0732227 5.56972 -0.0732227 5.84218 0.219668L9.79565 4.46968C10.0681 4.76257 10.0681 5.23745 9.79565 5.53034L5.84218 9.78032C5.56972 10.0732 5.12797 10.0732 4.85552 9.78032C4.58306 9.48742 4.58306 9.01262 4.85552 8.71972L7.61797 5.75001H0.697676C0.312364 5.75001 0 5.41422 0 5.00001C0 4.5858 0.312364 4.25001 0.697676 4.25001H7.61797L4.85552 1.28033C4.58306 0.98744 4.58306 0.512559 4.85552 0.219668Z"
+                                        fill="#24292E" />
+                                </svg>
+                                <span class="discount-price">
+                                    ¥120,000
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9" viewBox="0 0 11 9"
+                                    fill="none">
+                                    <path
+                                        d="M4.3542 7.76866C4.75056 8.35712 5.61662 8.35712 6.01299 7.76867L10.1959 1.55866C10.6433 0.894435 10.1674 0 9.3665 0H1.00069C0.199831 0 -0.276116 0.894433 0.171291 1.55866L4.3542 7.76866Z"
+                                        fill="#F06265" />
+                                </svg>
+                            </div>
+                            <div class="property-card-image">
+                                <img src="assest/property-assest/a-4.png" alt="Property Image">
+                            </div>
+                            <div class="property-card-content">
+                                <h3>월세 ¥ 70,000</h3>
+                                <p>大阪市中央区南久宝寺町１丁目</p>
+                                <strong>초기비용 <span style="font-size: 20px">¥120,000</span></strong>
+                            </div>
+                        </a>
                     </div>
-                    <p class="bridge-feature-text">비자·예산·옵션으로<br>쉽고 빠른 필터링</p>
                 </div>
-                <div class="bridge-feature-card">
-                    <div class="bridge-feature-icon">
-                        <i class="icon-3"></i>
+                <div class="short-cut">
+                    <a class="short-cut-item" href="/special/client/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="40" viewBox="0 0 50 40" fill="none">
+                            <path
+                                d="M36.6777 11.3629C36.6777 11.9152 37.1254 12.3629 37.6777 12.3629H39.6469C40.1992 12.3629 40.6469 11.9152 40.6469 11.3629V9.36141C40.6469 8.80912 40.1992 8.36141 39.6469 8.36141H37.6777C37.1254 8.36141 36.6777 8.80912 36.6777 9.36141V11.3629ZM36.6777 20.5008C36.6777 21.0531 37.1254 21.5008 37.6777 21.5008H39.6469C40.1992 21.5008 40.6469 21.0531 40.6469 20.5008V18.4992C40.6469 17.947 40.1992 17.4992 39.6469 17.4992H37.6777C37.1254 17.4992 36.6777 17.947 36.6777 18.4992V20.5008ZM36.6777 29.6386C36.6777 30.1909 37.1254 30.6386 37.6777 30.6386H39.6469C40.1992 30.6386 40.6469 30.1909 40.6469 29.6386V27.6371C40.6469 27.0848 40.1992 26.6371 39.6469 26.6371H37.6777C37.1254 26.6371 36.6777 27.0848 36.6777 27.6371V29.6386ZM35.8341 40C35.2818 40 34.8341 39.5523 34.8341 39V36.9985C34.8341 36.4462 35.2818 35.9985 35.8341 35.9985H46.0308V4.00153H24.8815V7.83822C24.8815 8.654 23.9573 9.12653 23.296 8.64889L21.3268 7.22663C21.0665 7.03862 20.9123 6.73706 20.9123 6.41596V1C20.9123 0.447715 21.36 0 21.9123 0L49 0C49.5523 0 50 0.447715 50 1V39C50 39.5523 49.5523 40 49 40H35.8341ZM1 40C0.447715 40 0 39.5523 0 39V18.2299C0 17.9112 0.151946 17.6115 0.409083 17.4232L14.575 7.04692C14.9268 6.78923 15.405 6.78923 15.7568 7.04693L29.9227 17.4232C30.1798 17.6115 30.3318 17.9112 30.3318 18.2299V39C30.3318 39.5523 29.884 40 29.3318 40H19.3649C18.8126 40 18.3649 39.5523 18.3649 39V28.8315H11.9668V39C11.9668 39.5523 11.5191 40 10.9668 40H1ZM3.96919 35.9985H7.99763V25.83C7.99763 25.2777 8.44535 24.83 8.99763 24.83H21.3341C21.8864 24.83 22.3341 25.2777 22.3341 25.83V35.9985H26.3626V19.7534L15.1659 11.6309L3.96919 19.7534V35.9985Z"
+                                fill="#3D8BFF" />
+                        </svg>
+                        <p>초저가 한정 매물 리스트</p>
+                    </a>
+                    <a class="short-cut-item" href="/special/owner/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <path
+                                d="M11.016 13.0481V9.46524H28.4492V13.0481H11.016ZM11.016 19.4652V15.8824H28.4492V19.4652H11.016ZM18.7166 39C18.7166 39.5523 18.2689 40 17.7166 40H4.86631C3.52941 40 2.38414 39.5321 1.43048 38.5963C0.476827 37.6604 0 36.5241 0 35.1872V28.4332C0 27.8809 0.447715 27.4332 1 27.4332H4.59893V1C4.59893 0.447715 5.04665 0 5.59893 0H33.8663C34.4186 0 34.8663 0.447715 34.8663 1V17.8213C34.8663 18.3532 34.4474 18.7829 33.9249 18.8824C33.5938 18.9455 33.2748 19.0328 32.9679 19.1444C32.2352 19.4108 31.2834 18.95 31.2834 18.1703V3.58289H8.18182V27.4332H21.5965C22.4874 27.4332 22.9336 28.5103 22.3036 29.1403L20.7207 30.7232C20.5332 30.9107 20.2788 31.016 20.0136 31.016H3.58289V35.1872C3.58289 35.5355 3.70588 35.8276 3.95187 36.0636C4.19786 36.2993 4.50267 36.4171 4.86631 36.4171H18.7166V39ZM23.2995 40C22.7472 40 22.2995 39.5523 22.2995 39V34.1444L33.4759 23.0214C33.7169 22.775 33.9882 22.593 34.2898 22.4754C34.5914 22.3581 34.8911 22.2995 35.1888 22.2995C35.5135 22.2995 35.8246 22.3574 36.1219 22.4733C36.4196 22.5891 36.6873 22.7629 36.9251 22.9947L39.2781 25.4278C39.5045 25.666 39.6815 25.9305 39.8091 26.2214C39.9364 26.5123 40 26.8139 40 27.1262C40 27.4385 39.9433 27.7451 39.8299 28.046C39.7169 28.3469 39.533 28.615 39.2781 28.8503L28.1551 40H23.2995ZM24.7326 37.5668H27.139L33.3957 31.3102L32.2192 30.0802L31.0428 28.9037L24.7326 35.1604V37.5668ZM32.2192 30.0802L31.0428 28.9037L33.3957 31.3102L32.2192 30.0802Z"
+                                fill="#3D8BFF" />
+                        </svg>
+                        <p>매물 등록 안내</p>
+                    </a>
+                </div>
+        </section>
+    </section>
+    <section class="why-choose">
+        <section class="direct-wrapper">
+            <section class="why-choose-wrapper">
+                <div class="why-choose-item-wrapper">
+                    <div class="why-choose-item-line why-choose-item-line--left">
+                        <div class="why-choose-item-line-track">
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>중개수수료가 없어서<br>부담이 확 줄었어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    최○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-3"></div>
+                                <div class="why-line-item-text">
+                                    <p>허위매물이 없어서<br>믿고 진행했어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    김○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>비용이 10만엔 이상<br>절감됐어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    윤○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>IT 기반이라서<br>진행이 체계적이었어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    강○○님
+                                </div>
+                            </div>
+                            <!-- 복제: 순환용 -->
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>입주까지 전부<br>도와줘서 편했어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    서○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-2"></div>
+                                <div class="why-line-item-text">
+                                    <p>계약까지 정말 빠르고<br>복잡하지 않았습니다</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    박○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>실제로 계약 가능한<br>매물만 있어서 안심!</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    정○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-3"></div>
+                                <div class="why-line-item-text">
+                                    <p>외국인 계약 가능해<br>안심됐어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    나○○님
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p class="bridge-feature-text">외국인도 안심하고<br>이용할 수 있는 전문 상담 연결</p>
+                    <div class="why-choose-item-line why-choose-item-line--right">
+                        <div class="why-choose-item-line-track">
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>입주까지 전부<br>도와줘서 편했어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    서○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-2"></div>
+                                <div class="why-line-item-text">
+                                    <p>계약까지 정말 빠르고<br>복잡하지 않았습니다</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    박○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>실제로 계약 가능한<br>매물만 있어서 안심!</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    정○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-3"></div>
+                                <div class="why-line-item-text">
+                                    <p>외국인 계약 가능해<br>안심됐어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    나○○님
+                                </div>
+                            </div>
+                            <!-- 복제: 순환용 -->
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>중개수수료가 없어서<br>부담이 확 줄었어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    최○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-3"></div>
+                                <div class="why-line-item-text">
+                                    <p>허위매물이 없어서<br>믿고 진행했어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    김○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>비용이 10만엔 이상<br>절감됐어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    윤○○님
+                                </div>
+                            </div>
+                            <div class="why-choose-item-line-item">
+                                <div class="why-line-item-icon person-1"></div>
+                                <div class="why-line-item-text">
+                                    <p>IT 기반이라서<br>진행이 체계적이었어요</p>
+                                </div>
+                                <div class="why-line-item-name">
+                                    강○○님
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="why-choose-item-text">
+                    <p style="font-size: 40px; color: var(--text-white); font-weight: 200;">
+                        <b style="font-weight: 600;">일본공간</b>의<br>
+                        <b style="font-weight: 600;">6,600개</b>의 <b style="font-weight: 600;">매물</b><br>
+                        <b style="font-weight: 600;">382명</b>의 <b style="font-weight: 600;">손님</b>
+                    </p>
+                </div>
+            </section>
+        </section>
+    </section>
+    <section class="owner-contract">
+        <section class="direct-wrapper">
+            <div class="owner-contract-text">
+                <p style="font-size: 18px; color: var(--text-white); font-weight: bold;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8.17829 1.68994C8.12766 1.65148 8.06479 1.63053 8 1.63053C7.93521 1.63053 7.87234 1.65148 7.82171 1.68994L1.82171 6.25524C1.7881 6.28077 1.76098 6.31319 1.74238 6.35007C1.72378 6.38696 1.71417 6.42738 1.71429 6.46829V14.0978C1.71429 14.2478 1.84229 14.3695 2 14.3695H5.14286V8.6629C5.14286 8.44668 5.23317 8.23933 5.39391 8.08644C5.55465 7.93355 5.77267 7.84767 6 7.84767H10C10.2273 7.84767 10.4454 7.93355 10.6061 8.08644C10.7669 8.23933 10.8571 8.44668 10.8571 8.6629V14.3695H14C14.0758 14.3695 14.1485 14.3409 14.2021 14.29C14.2557 14.239 14.2857 14.1699 14.2857 14.0978V6.4672C14.2856 6.42647 14.276 6.38628 14.2574 6.34958C14.2387 6.3129 14.2118 6.28066 14.1783 6.25524L8.17829 1.68994ZM6.74971 0.41708C7.10439 0.147096 7.54514 0 7.99943 0C8.45371 0 8.89447 0.147096 9.24914 0.41708L15.2491 4.98239C15.7234 5.34326 16 5.89002 16 6.46829V14.0978C16 14.6023 15.7893 15.0861 15.4142 15.4428C15.0391 15.7996 14.5304 16 14 16H10C9.77267 16 9.55465 15.9141 9.39391 15.7612C9.23317 15.6084 9.14286 15.401 9.14286 15.1848V9.47813H6.85714V15.1848C6.85714 15.401 6.76683 15.6084 6.60609 15.7612C6.44535 15.9141 6.22733 16 6 16H2C1.46957 16 0.960857 15.7996 0.585783 15.4428C0.210709 15.0861 0 14.6023 0 14.0978V6.4672C0 5.89002 0.276571 5.34326 0.750857 4.98239L6.75086 0.41708H6.74971Z"
+                            fill="white" />
+                    </svg>
+                    <b style="font-weight: 600;">집 주인분들을 위한 안내</b>
+                </p>
+                <h2 style="font-size: 34px; color: var(--text-white); font-weight: 600; margin-bottom: 20px;">앤드유저와 직접
+                    만나세요</h2>
+
+                <p style="font-size: 16px; color: var(--text-white); font-weight: 600; margin-bottom: 40px;">일본공간은 세입자를
+                    직접 연결하고<br>
+                    신청부터 열쇠 전달까지 전 과정을 지원합니다</p>
+
+                <div class="owner-contract-features">
+                    <div class="owner-contract-feature-item">
+                        <p style="font-size: 18px; color: #234270; font-weight: bold;">광고비</p>
+                        <strong>감소↓</strong>
+                    </div>
+                    <div class="owner-contract-feature-item">
+                        <p style="font-size: 18px; color: #234270; font-weight: bold;">숨겨진 수수료</p>
+                        <strong>없음 <span style="font-size: 20px;">0¥</span></strong>
+                    </div>
+                    <div class="owner-contract-feature-item">
+                        <p style="font-size: 18px; color: #234270; font-weight: bold;">바로 시작</p>
+                        <strong>가능</strong>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </section>
-    <section class="how-it-works">
-        <div class="how-it-works-title"></div>
-        <p class="how-it-works-description">
-            일본에서의 새 시작, 일본공간이 함께합니다
-        </p>
-    </section>
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links">
@@ -459,104 +818,8 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="main/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function showPrivacyModal() {
-                const privacyModal = document.getElementById('privacyModal');
-                if (privacyModal) {
-                    privacyModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-
-            function hidePrivacyModal() {
-                const privacyModal = document.getElementById('privacyModal');
-                if (privacyModal) {
-                    privacyModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            }
-
-            // 개인정보 처리방침 상세보기 링크
-            const privacyDetailLink = document.getElementById('privacyDetailLink');
-            if (privacyDetailLink) {
-                privacyDetailLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    showPrivacyModal();
-                });
-            }
-
-            // 모달 닫기 버튼
-            const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
-            if (privacyModalCloseBtn) {
-                privacyModalCloseBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    hidePrivacyModal();
-                });
-            }
-
-            // 모달 밖 클릭 시 닫기
-            const privacyModal = document.getElementById('privacyModal');
-            if (privacyModal) {
-                const modalContent = privacyModal.querySelector('.modal-content');
-                if (modalContent) {
-                    // modal-content 클릭 시 이벤트 전파 방지
-                    modalContent.addEventListener('click', function (e) {
-                        e.stopPropagation();
-                    });
-                }
-                // 모달 배경(backdrop) 클릭 시 닫기
-                privacyModal.addEventListener('click', function (e) {
-                    if (e.target === privacyModal || e.target.classList.contains('modal-backdrop')) {
-                        hidePrivacyModal();
-                    }
-                });
-            }
-
-            // hero 배경: 초기 줌인(4초) 후 상태 고정 → 1번 호버 시 추가 줌인 로직이 꼬이지 않도록
-            var heroEl = document.querySelector('.hero');
-            if (heroEl) {
-                setTimeout(function () {
-                    heroEl.classList.add('hero-ready');
-                }, 4000);
-            }
-
-            // hero 타이틀: 1번·2번 호버 시 문구 변경
-            var heroTitleEl = document.getElementById('hero-title');
-            var item1 = document.getElementById('hero-content-item-1');
-            var item2 = document.getElementById('hero-content-item-2');
-            var heroTitleDefault = '지도로 한눈에 보는 <strong>실시간 공실 정보</strong>';
-            var heroTitleFor1 = '지도로 한눈에 보는 <strong>실시간 공실 정보</strong>';
-            var heroTitleFor2 = '<strong>희망하는 조건의 매물</strong>을 바로 받아보세요!';
-            var heroTitleRestoreTimer = null;
-
-            function setHeroTitle(html) {
-                if (heroTitleEl) heroTitleEl.innerHTML = html;
-            }
-            function scheduleRestoreTitle() {
-                heroTitleRestoreTimer = setTimeout(function () {
-                    if (!item1.matches(':hover') && !item2.matches(':hover')) {
-                        setHeroTitle(heroTitleDefault);
-                    }
-                    heroTitleRestoreTimer = null;
-                }, 50);
-            }
-
-            if (heroTitleEl && item1 && item2) {
-                item1.addEventListener('mouseenter', function () {
-                    if (heroTitleRestoreTimer) clearTimeout(heroTitleRestoreTimer);
-                    setHeroTitle(heroTitleFor1);
-                });
-                item1.addEventListener('mouseleave', scheduleRestoreTitle);
-                item2.addEventListener('mouseenter', function () {
-                    if (heroTitleRestoreTimer) clearTimeout(heroTitleRestoreTimer);
-                    setHeroTitle(heroTitleFor2);
-                });
-                item2.addEventListener('mouseleave', scheduleRestoreTitle);
-            }
-        });
-    </script>
+    <script src="../main/main.js"></script>
+    <script src="static/index.js"></script>
 </body>
 
 </html>

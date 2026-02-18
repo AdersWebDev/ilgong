@@ -1,0 +1,110 @@
+/* ========================================
+   property-preview
+   ======================================== */
+   .property-preview {
+    width: 100%;
+    max-width: 1095px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+}
+.property-preview-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.property-card-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.property-card-list {
+    display: grid;
+    grid-template-columns: repeat(4, 255px);
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+/* 반응형: 4x4 그리드 - 카드 크기 255px 고정 */
+@media (max-width: 1180px) {
+    .property-card-list {
+        grid-template-columns: repeat(3, 255px);
+    }
+}
+@media (max-width: 830px) {
+    .property-card-list {
+        grid-template-columns: repeat(2, 255px);
+    }
+}
+@media (max-width: 570px) {
+    .property-card-list {
+        grid-template-columns: 255px;
+    }
+}
+/* ========================================*/
+.property-card {
+    position: relative;
+    width: 255px;
+    height: 342px;
+    background-color: var(--bg-white);
+    border-radius: 20px;
+    padding: 10px;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid #DCDCDC;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out;
+}
+.property-card:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.10);
+}
+.property-hook {
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    left: 10px;
+    padding: 3px 10px;
+    background-color: var(--bg-gray);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.property-hook .original-price {
+    color: var(--text-secondary);
+    text-decoration: line-through;
+}
+.property-hook .discount-price {
+    color: var(--text-primary);
+}
+.property-card-image {
+    position: absolute;
+    width: 255px;
+    height: 214px;
+    top: 0;
+    left: 0;
+    background-color: var(--bg-gray);
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+}
+.property-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.property-card-content {
+    position: absolute;
+    top: 234px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+}

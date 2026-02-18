@@ -1,6 +1,59 @@
 // ========================================
 // Language Selector Dropdown
 // ========================================
+document.addEventListener('DOMContentLoaded', () => {
+        function showPrivacyModal() {
+            const privacyModal = document.getElementById('privacyModal');
+            if (privacyModal) {
+                privacyModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function hidePrivacyModal() {
+            const privacyModal = document.getElementById('privacyModal');
+            if (privacyModal) {
+                privacyModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // 개인정보 처리방침 상세보기 링크
+        const privacyDetailLink = document.getElementById('privacyDetailLink');
+        if (privacyDetailLink) {
+            privacyDetailLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                showPrivacyModal();
+            });
+        }
+
+        // 모달 닫기 버튼
+        const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
+        if (privacyModalCloseBtn) {
+            privacyModalCloseBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                hidePrivacyModal();
+            });
+        }
+
+        // 모달 밖 클릭 시 닫기
+        const privacyModal = document.getElementById('privacyModal');
+        if (privacyModal) {
+            const modalContent = privacyModal.querySelector('.modal-content');
+            if (modalContent) {
+                // modal-content 클릭 시 이벤트 전파 방지
+                modalContent.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            }
+            // 모달 배경(backdrop) 클릭 시 닫기
+            privacyModal.addEventListener('click', function (e) {
+                if (e.target === privacyModal || e.target.classList.contains('modal-backdrop')) {
+                    hidePrivacyModal();
+                }
+            });
+        }
+});
 function initLangSelector() {
     const selector = document.querySelector('[data-lang-selector]');
     if (!selector) return;
