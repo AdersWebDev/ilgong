@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="icon" href="../../assest/favicon.png" type="image/png" />
+    <link rel="icon" href="/assest/favicon.png" type="image/png" />
 
     <!-- 디테일 페이지: 건물 + 호실 상세 -->
     <title>日本空間 | リアルタイム不動産詳細</title>
@@ -49,9 +49,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 
-    <!-- Base Stylesheet -->
-    <link rel="stylesheet" href="../../../main/style.css">
-    <link rel="stylesheet" href="static/detail.css">
+    <!-- Base Stylesheet (root-relative: path 형식 URL에서도 동작) -->
+    <link rel="stylesheet" href="/main/style.css">
+    <link rel="stylesheet" href="/jp/map/detail/static/detail.css">
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXLQL7200F"></script>
@@ -571,14 +571,14 @@
         </div>
     </footer>
 
-    <!-- JavaScript Modules -->
-    <script src="../../../main/main.js"></script>
-    <script src="static/api.js"></script>
-    <script src="static/timer.js"></script>
-    <script src="static/gallery.js"></script>
-    <script src="static/carousel.js"></script>
-    <script src="static/form.js"></script>
-    <script src="static/detail.js"></script>
+    <!-- JavaScript Modules (root-relative: path 형식 URL에서도 동작) -->
+    <script src="/main/main.js"></script>
+    <script src="/jp/map/detail/static/api.js"></script>
+    <script src="/jp/map/detail/static/timer.js"></script>
+    <script src="/jp/map/detail/static/gallery.js"></script>
+    <script src="/jp/map/detail/static/carousel.js"></script>
+    <script src="/jp/map/detail/static/form.js"></script>
+    <script src="/jp/map/detail/static/detail.js"></script>
     <script>
         Kakao.init("91ed72bb01c7495238cdd2b0043ed5da");
         async function sendOncePerHour(key, sendFn) {
