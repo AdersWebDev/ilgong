@@ -425,11 +425,16 @@ const PropertyAPI = {
                 if (url) ilgongPhotoList.push(url);
             });
         }
+        // 건물 사진: 호실 순회하다가 building이 하나라도 나오는 첫 호실에서 멈추고, 그 호실의 building 사진만 사용
         let images = [];
         if (apiResponse.ilgongRooms && apiResponse.ilgongRooms.length > 0) {
-            const firstRoom = apiResponse.ilgongRooms[0];
-            if (firstRoom && firstRoom.photoMulti) {
-                images = this.parsePhotoMulti(firstRoom.photoMulti, 'building');
+            for (const room of apiResponse.ilgongRooms) {
+                if (!room || !room.photoMulti) continue;
+                const buildingPaths = this.parsePhotoMulti(room.photoMulti, 'building');
+                if (buildingPaths.length > 0) {
+                    images = buildingPaths;
+                    break;
+                }
             }
         }
 
