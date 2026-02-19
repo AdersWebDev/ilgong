@@ -821,3 +821,17 @@ input, select, textarea {
         height: 100vh;
     }
 }
+.fs-34 {
+    font-size: 34px;
+    color: #17171B;
+    font-weight: 700;
+    line-height: 50px;
+}
+@media (max-width: 786px) {
+    .fs-34 {
+        font-size: 24px !important;
+        color: #17171B;
+        font-weight: 700;
+        line-height: 34px;
+    }
+}
