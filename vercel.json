@@ -2,6 +2,9 @@
   "buildCommand": "npm run vercel-build",
   "outputDirectory": ".",
   "framework": null,
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "rewrites": [
+    { "source": "/map/detail/:producer/:id", "destination": "/map/detail/index.html" },
+    { "source": "/jp/map/detail/:producer/:id", "destination": "/jp/map/detail/index.html" }
+  ]
 }
-
