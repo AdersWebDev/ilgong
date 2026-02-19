@@ -7,21 +7,24 @@ const PropertyAPI = {
     baseUrl: 'https://www.houberapp.com',
 
     /**
-     * URL에서 producer와 id 추출 (query parameter 형식 - 테스트용)
+     * URL에서 producer와 id 추출 (pathname 형식: .../detail/:producer/:id)
      * @returns {Object|null} {producer, id} 또는 null
      */
     extractUrlParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const producer = urlParams.get('producer');
-        const id = urlParams.get('id');
-
-        if (producer && id) {
-            return {
-                producer: producer,
-                id: parseInt(id, 10)
-            };
+        const parts = window.location.pathname.split('/').filter(Boolean);
+        const detailIndex = parts.indexOf('detail');
+        if (detailIndex === -1 || parts.length < detailIndex + 3) {
+            return null;
         }
-        return null;
+        const producer = parts[detailIndex + 1];
+        const idNum = parseInt(parts[detailIndex + 2], 10);
+        if (!producer || isNaN(idNum) || idNum <= 0) {
+            return null;
+        }
+        return {
+            producer: producer,
+            id: idNum
+        };
     },
 
     /**

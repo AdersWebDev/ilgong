@@ -400,9 +400,8 @@ class MarkerManager {
         // 썸네일 이미지 (있는 경우)
         const thumbnail = location.thumbnail || null;
 
-        // 상세 페이지 URL 생성 (query parameter 형식 - 테스트용)
-        const detailUrl = location.id && location.producer ? `/jp/map/detail/index.html?producer=${location.producer}&id=${location.id}` : '#';
-        console.log(location);
+        // 상세 페이지 URL (경로 형식: /jp/map/detail/:producer/:id)
+        const detailUrl = location.id && location.producer ? `/jp/map/detail/${location.producer}/${location.id}` : '#';
         return `
             <div id="info-window-content-${location.producer}_${location.id || 'default'}" class="property-card pin" 
             onclick="window.open('${detailUrl}', '_blank');"
