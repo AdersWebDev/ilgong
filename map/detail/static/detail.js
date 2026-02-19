@@ -26,6 +26,19 @@ const PropertyDetail = {
             // 기본 데이터 로드 (초기 비용 문서 제외)
             await this.loadData();
 
+            // GA4 컨텍스트 제공 + view_item 1회 전송 (데이터 로드 이후에만 가능)
+            try {
+                window.__detailGa4Context = {
+                    producer: this.producer,
+                    propertyId: this.propertyId,
+                    property: this.propertyData?.property || null
+                };
+                const dedupeKey = `ga4_view_item_${this.producer}_${this.propertyId}`;
+                if (window.GA4Ecom?.viewItem && window.__detailGa4Context.property) {
+                    window.GA4Ecom.viewItem(window.__detailGa4Context.property, this.producer, dedupeKey);
+                }
+            } catch (_) { }
+
             // 핫딜 이벤트 적용 (eventId가 있을 때만)
             await this.initHotDealEvent();
 

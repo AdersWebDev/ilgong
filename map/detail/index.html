@@ -653,7 +653,6 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links">
-                <a style="cursor: pointer;">법적 고지사항</a>
                 <a style="cursor: pointer;" class="privacy-detail-link" id="privacyDetailLink">개인정보 처리 방침</a>
                 <a style="cursor: pointer;">문의하기</a>
             </div>
@@ -670,6 +669,7 @@
     <script src="/map/detail/static/gallery.js"></script>
     <script src="/map/detail/static/carousel.js"></script>
     <script src="/map/detail/static/form.js"></script>
+    <script src="/map/detail/static/analytics.js"></script>
     <script src="/map/detail/static/detail.js"></script>
     <script>
         Kakao.init("91ed72bb01c7495238cdd2b0043ed5da");
@@ -691,6 +691,13 @@
                         keepalive: true,
                     })
                 );
+
+                try {
+                    const ctx = window.__detailGa4Context;
+                    if (ctx?.property && window.GA4Ecom?.addToCart) {
+                        window.GA4Ecom.addToCart(ctx.property, ctx.producer);
+                    }
+                } catch (_) { }
                 Kakao.Channel.chat({
                     channelPublicId: "_qTEPj",
                 });
