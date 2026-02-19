@@ -391,7 +391,11 @@
     background-color: #3D8BFF;
     border-color: #3D8BFF;
 }
-
+@media (max-width: 786px) {
+    .info-navigation-item a {
+        font-size: 16px;
+    }
+}
 /* ========================================
    #more-info
    ======================================== */
