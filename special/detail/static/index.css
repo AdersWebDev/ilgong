@@ -569,7 +569,16 @@
         align-items: center;
     }
 }
-
+@media (max-width: 670px) {
+    .more-info-facility-grid {
+        grid-template-columns: repeat(2, 210px);
+    }
+}
+@media (max-width: 480px) {
+    .more-info-facility-grid {
+        grid-template-columns: repeat(1, 210px);
+    }
+}
 /* ========================================
    #initial-cost
    ======================================== */

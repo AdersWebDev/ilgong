@@ -106,12 +106,21 @@
     white-space: nowrap;
 }
 @media (max-width: 1024px) {
+    .owner-intro {
+        height: auto;
+        padding: 20px;
+    }
+    .owner-intro-features {
+        flex-direction: column;
+        height: auto;
+    }
     .owner-point-left {
         align-items: center;
         text-align: center;
         justify-content: center;
     }
     .owner-point-right {
+        width: unset;
         align-items: center;
         justify-content: center;
     }
