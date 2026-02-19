@@ -439,7 +439,7 @@ const PropertyDetail = {
             // init-num 표시 및 roomName 업데이트
             initNumSpans.forEach(span => {
                 if (initCostData.roomName) {
-                    span.textContent = `*${initCostData.roomName}호실 기준`;
+                    span.textContent = `*${initCostData.roomName}号室基準`;
                 }
                 span.style.display = 'inline';
             });
