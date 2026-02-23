@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>건물 상세 (il)</title>
+    <link rel="stylesheet" href="/main/style.css">
+    <link rel="stylesheet" href="/aders/dashboard/building/static/building.css">
+    <link rel="icon" href="../../../assest/favicon.png" type="image/png" />
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1 class="page-title" id="buildingTitle">건물 상세 (il)</h1>
+            <a class="back-link" href="/aders/dashboard/building">← 목록으로</a>
+        </div>
+        <div id="detailIlLoading" class="detail-loading">로딩 중...</div>
+        <div id="detailIlError" class="detail-error" style="display: none;"></div>
+        <div id="detailIlContent" style="display: none;">
+            <p class="detail-loading">il 전용 상세·수정 본문 구현 예정입니다. (제공사 사진 없음, add와 동일 확장 필드)</p>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var API_BASE_URL = 'https://www.houberapp.com';
+            var loading = document.getElementById('detailIlLoading');
+            var errEl = document.getElementById('detailIlError');
+            var content = document.getElementById('detailIlContent');
+            var titleEl = document.getElementById('buildingTitle');
+
+            var params = new URLSearchParams(window.location.search);
+            var id = params.get('id');
+
+            function showLoading(on) { if (loading) loading.style.display = on ? 'block' : 'none'; }
+            function showError(msg) {
+                if (loading) loading.style.display = 'none';
+                if (content) content.style.display = 'none';
+                if (errEl) { errEl.style.display = 'block'; errEl.textContent = msg || '오류'; }
+            }
+            function showContent() {
+                if (loading) loading.style.display = 'none';
+                if (errEl) errEl.style.display = 'none';
+                if (content) content.style.display = 'block';
+            }
+
+            if (!id || !id.trim()) {
+                showLoading(false);
+                showContent();
+                if (titleEl) titleEl.textContent = '건물 상세 (il)';
+                return;
+            }
+
+            showLoading(true);
+            fetch(API_BASE_URL + '/aders/building/rent/detail/il/' + encodeURIComponent(id.trim()))
+                .then(function (res) {
+                    if (!res.ok) throw new Error('조회 실패: ' + res.status);
+                    return res.json();
+                })
+                .then(function (raw) {
+                    if (titleEl && raw.buildingName) titleEl.textContent = raw.buildingName + ' (il)';
+                    showContent();
+                })
+                .catch(function () {
+                    if (titleEl) titleEl.textContent = '건물 상세 (il)';
+                    showContent();
+                });
+        })();
+    </script>
+</body>
+
+</html>
