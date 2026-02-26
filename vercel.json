@@ -6,5 +6,24 @@
   "rewrites": [
     { "source": "/map/detail/:producer/:id", "destination": "/map/detail/index.html" },
     { "source": "/jp/map/detail/:producer/:id", "destination": "/jp/map/detail/index.html" }
+  ],
+  "redirects": [
+    {"source": "/map", "destination": "/map/"},
+    {"source": "/agent/houber", "destination": "/agent/houber/"},
+    {"source": "/map/detail", "destination": "/map/detail/"},
+
+    {"source": "/jp/map", "destination": "/jp/map/"},
+    {"source": "/jp/agent/houber", "destination": "/jp/agent/houber/"},
+    {"source": "/jp/map/detail", "destination": "/jp/map/detail/"},
+
+    {"source": "/special", "destination": "/special/"},
+    {"source": "/special/owner", "destination": "/special/owner/"},
+    {"source": "/special/client", "destination": "/special/client/"},
+    {"source": "/special/detail", "destination": "/special/detail/"},
+
+    {"source": "/jp/special", "destination": "/jp/special/"},
+    {"source": "/jp/special/owner", "destination": "/jp/special/owner/"},
+    {"source": "/jp/special/client", "destination": "/jp/special/client/"},
+    {"source": "/jp/special/detail", "destination": "/jp/special/detail/"}
   ]
 }
