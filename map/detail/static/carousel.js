@@ -212,6 +212,17 @@ const PropertyCarousel = {
             }
         }
         
+        const firstUnit = unitsToRender[0] || this.units[0] || null;
+        const isIlProducer = firstUnit?.producer === 'il';
+
+        if (isIlProducer) {
+            const unitListHeader = document.getElementById('unitListHeader');
+            const unitListTitle = unitListHeader.querySelector('.unit-list-title');
+            const unitListUpdateInfo = unitListHeader.querySelector('.unit-list-update-info');
+            unitListTitle.innerHTML = '이 맨션은 실시간 공실이 아닙니다<br> 반드시 중개회사에게 <span style="color: #F06265;">공실확인이 필요</span>합니다';
+            unitListUpdateInfo.style.display = 'none';
+        }
+
         // 호실 카드 렌더링
         unitsToRender.forEach((unit) => {
             const card = document.createElement('div');

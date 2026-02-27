@@ -716,6 +716,9 @@ const PropertyDetail = {
      * unitUpdateTime을 확인하여 30분 이상 차이나면 갱신, 그렇지 않으면 갱신하지 않음
      */
     async autoRefreshUnits() {
+        if (this.propertyData?.property?.producer === 'il') {
+            return;
+        }
         try {
             // unitUpdateTime 확인 (초기 로드된 updatedAt)
             const initialUpdatedAt = this.propertyData?.property?.updatedAt;
