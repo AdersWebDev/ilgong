@@ -1157,10 +1157,10 @@ class FilterManager {
         const years = this.filterState.buildingAgeYears;
         
         if (years.length === 0) {
-            ageFilterDisplay.textContent = '전체';
+            ageFilterDisplay.textContent = 'すべて';
         } else {
             const minYear = Math.min(...years);
-            ageFilterDisplay.textContent = `${minYear}년 이상`;
+            ageFilterDisplay.textContent = `${minYear}年以上`;
         }
     }
 
