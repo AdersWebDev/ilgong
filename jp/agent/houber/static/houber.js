@@ -245,6 +245,15 @@ async function sendToBackend(params) {
         document.body.style.overflow = 'hidden';
     }
     
+    // 0에서부터 fetch 비동기 전송 (응답은 나중에 확인)
+    const fetchPromise = fetch(API_ENDPOINT + '/agent/houber', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params)
+    });
+    
     // 60까지 진행시키는 시뮬레이션
     const flowSequence = [5, 10, 20, 30, 60];
     
@@ -264,15 +273,9 @@ async function sendToBackend(params) {
         }
     }
     
-    // 백엔드 요청 전송 (60까지 진행한 후)
+    // 60 도달 후 fetch 응답 대기 → 200/대기/오류 확인 후 대기가 아니면 70으로 진행
     try {
-        const response = await fetch(API_ENDPOINT + '/agent/houber', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(params)
-        });
+        const response = await fetchPromise;
         
         if (!response.ok) {
             // 에러 발생 시 모달 닫기
