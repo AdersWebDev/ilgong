@@ -34,8 +34,7 @@ body {
 
 /* Floating Recommendation Button */
 .floating-recommendation-btn {
-    position: absolute;
-    bottom: 40px;
+    position: fixed;
     left: 50%;
     transform: translateX(-50%);
     min-width: 200px;
