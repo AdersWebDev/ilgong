@@ -138,13 +138,31 @@ class PropertyListManager {
         `).join('');
         
         // Add click events
-        container.querySelectorAll('.property-card').forEach(card => {
+        const cards = Array.from(container.querySelectorAll('.property-card'));
+        cards.forEach((card, index) => {
+            const property = propertiesToShow[index];
+            if (property && property.buildingId && typeof Constants !== 'undefined') {
+                card.dataset.detailUrl = `/map/detail/${card.dataset.producer}/${card.dataset.id}`;
+            }
+
             card.addEventListener('click', () => {
                 const lat = Number(card.dataset.lat);
                 const lng = Number(card.dataset.lng);
                 const producer = card.dataset.producer;
                 const id = card.dataset.id;
+                const detailUrl = card.dataset.detailUrl;
+
+                const isNarrowViewport = typeof window !== 'undefined'
+                    && typeof window.matchMedia === 'function'
+                    && window.matchMedia('(max-width: 838px)').matches;
+
+                // 모바일/좁은 화면: 디테일 페이지로 바로 이동
+                if (isNarrowViewport && detailUrl) {
+                    window.location.href = detailUrl;
+                    return;
+                }
                 
+                // 데스크톱/넓은 화면: 기존 지도 이동 + 인포윈도우 동작 유지
                 if (this.onResultClick) {
                     this.onResultClick({
                         lat,
