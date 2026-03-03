@@ -136,13 +136,31 @@ class PropertyListManager {
         `).join('');
         
         // Add click events
-        container.querySelectorAll('.property-card').forEach(card => {
+        const cards = Array.from(container.querySelectorAll('.property-card'));
+        cards.forEach((card, index) => {
+            const property = propertiesToShow[index];
+            if (property && property.buildingId && typeof Constants !== 'undefined') {
+                card.dataset.detailUrl = `/jp/map/detail/${card.dataset.producer}/${card.dataset.id}`;
+            }
+
             card.addEventListener('click', () => {
                 const lat = Number(card.dataset.lat);
                 const lng = Number(card.dataset.lng);
                 const producer = card.dataset.producer;
                 const id = card.dataset.id;
+                const detailUrl = card.dataset.detailUrl;
+
+                const isNarrowViewport = typeof window !== 'undefined'
+                    && typeof window.matchMedia === 'function'
+                    && window.matchMedia('(max-width: 838px)').matches;
+
+                // モバイル／狭い画面: 詳細ページへ直接遷移
+                if (isNarrowViewport && detailUrl) {
+                    window.location.href = detailUrl;
+                    return;
+                }
                 
+                // デスクトップ／広い画面: 既存のマップ移動＋インフォウィンドウ動作を維持
                 if (this.onResultClick) {
                     this.onResultClick({
                         lat,
@@ -168,7 +186,7 @@ class PropertyListManager {
                 this.setPanelData(this.currentBounds, this.currentFilter, nextPage, result);
             })
             .catch((err) => {
-                console.error('패널 추가 로드 오류:', err);
+                console.error('pannerl load error:', err);
             });
     }
 

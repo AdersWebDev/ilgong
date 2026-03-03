@@ -681,3 +681,25 @@ body:has(.visa-tutorial-modal.active) #visa-tutorial-btn {
     font-size: var(--font-size-sm);
     color: var(--text-primary);
 }
+
+@media (max-width: 768px) {
+    .visa-tutorial-modal {
+        width: 270px;
+        max-width: unset;
+        background-color: var(--bg-white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--transition-base), visibility var(--transition-base);
+        /* top, left는 JS로 #visa-tutorial-btn 기준 설정 */
+    }
+    .visa-tutorial-subtitle {
+        font-size: 15px;
+        color: var(--text-primary);
+        margin: 0;
+        white-space: unset;
+        margin-bottom: 20px;
+    }
+}
