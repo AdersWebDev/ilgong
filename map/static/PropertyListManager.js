@@ -140,11 +140,9 @@ class PropertyListManager {
         // Add click events
         const cards = Array.from(container.querySelectorAll('.property-card'));
         cards.forEach((card, index) => {
-            const property = propertiesToShow[index];
-            if (property && property.buildingId && typeof Constants !== 'undefined') {
-                card.dataset.detailUrl = `/map/detail/${card.dataset.producer}/${card.dataset.id}`;
-            }
 
+            card.dataset.detailUrl = `/map/detail/${card.dataset.producer}/${card.dataset.id}`;
+            
             card.addEventListener('click', () => {
                 const lat = Number(card.dataset.lat);
                 const lng = Number(card.dataset.lng);
