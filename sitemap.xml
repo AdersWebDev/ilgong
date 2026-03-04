@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://www.ilgongjp.com/sitemap-static.xml</loc>
+    <loc>https://ilgongjp.com/sitemap-static.xml</loc>
   </sitemap>
   <sitemap>
-    <loc>https://www.ilgongjp.com/api/sitemap-detail</loc>
+    <loc>https://ilgongjp.com/api/sitemap-detail</loc>
   </sitemap>
 </sitemapindex>

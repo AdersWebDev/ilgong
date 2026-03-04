@@ -39,6 +39,16 @@ const PropertyDetail = {
                 }
             } catch (_) { }
 
+            // SEO 메타 및 JSON-LD 동적 적용
+            try {
+                const detailUrl = window.location.origin + window.location.pathname;
+                const meta = buildKrDetailMeta(this.propertyData.property, this.propertyData.units, detailUrl);
+                applyDetailMeta(meta);
+                injectJsonLd(meta.jsonLd);
+            } catch (e) {
+                console.warn('detail meta 적용 중 오류:', e);
+            }
+
             // 핫딜 이벤트 적용 (eventId가 있을 때만)
             await this.initHotDealEvent();
 
@@ -805,6 +815,209 @@ const PropertyDetail = {
         }
     }
 };
+
+/**
+ * KR 상세 페이지용 메타 데이터 생성
+ */
+function buildKrDetailMeta(property, units, detailUrl) {
+    const safeProperty = property || {};
+    const safeUnits = Array.isArray(units) ? units : [];
+
+    const minRent = typeof safeProperty.rent === 'number' && safeProperty.rent > 0
+        ? safeProperty.rent
+        : (() => {
+            const rents = safeUnits
+                .map(u => u.rent)
+                .filter(r => typeof r === 'number' && r > 0);
+            return rents.length > 0 ? Math.min(...rents) : null;
+        })();
+
+    const minArea = safeUnits.reduce((acc, u) => {
+        const v = typeof u.area === 'number' && u.area > 0 ? u.area : null;
+        return v === null ? acc : (acc === null ? v : Math.min(acc, v));
+    }, null);
+    const maxArea = safeUnits.reduce((acc, u) => {
+        const v = typeof u.area === 'number' && u.area > 0 ? u.area : null;
+        return v === null ? acc : (acc === null ? v : Math.max(acc, v));
+    }, null);
+
+    const areaText = (() => {
+        if (minArea === null && maxArea === null) return '';
+        if (minArea !== null && maxArea !== null && minArea !== maxArea) {
+            return `${minArea.toFixed(2)}~${maxArea.toFixed(2)}㎡`;
+        }
+        const v = (minArea ?? maxArea);
+        return v != null ? `${v.toFixed(2)}㎡` : '';
+    })();
+
+    const trans = [safeProperty.trans1, safeProperty.trans2, safeProperty.trans3]
+        .filter(t => typeof t === 'string' && t.trim() !== '')
+        .map(t => t.trim());
+
+    const buildingName = safeProperty.name || '오사카 맨션';
+    const address = safeProperty.address || '';
+
+    const rentText = minRent != null ? `${(minRent / 10000).toFixed(1).replace(/\\.0$/, '')}만 엔대` : '월세 문의';
+
+    const title = `${buildingName} ${rentText} | 오사카 월세 | 일본공간`;
+
+    const parts = [];
+    if (address) parts.push(address);
+    parts.push(`${rentText} 맨션`);
+    if (areaText) parts.push(`전용면적 약 ${areaText}`);
+    if (trans.length > 0) parts.push(`주요 역: ${trans.join(', ')}`);
+
+    let description = parts.join(' · ');
+    description += ' / 실시간 공실 정보, 호실 설비, 초기비용, 특약조건을 한국어로 한 번에 확인하세요.';
+    if (description.length > 220) {
+        description = description.slice(0, 217) + '...';
+    }
+
+    const ogTitle = `${buildingName} ${rentText} | 일본공간`;
+    const ogDescription = description;
+
+    const imageUrl = (safeProperty.listPhoto || (safeProperty.images && safeProperty.images[0])) || 'https://ilgongjp.com/assest/favicon.png';
+
+    const jsonLd = buildDetailJsonLd(safeProperty, safeUnits, detailUrl);
+
+    return {
+        title,
+        description,
+        ogTitle,
+        ogDescription,
+        ogImage: imageUrl,
+        canonical: detailUrl,
+        alternates: {
+            ko: detailUrl,
+            ja: detailUrl.replace('/map/detail/', '/jp/map/detail/')
+        },
+        jsonLd
+    };
+}
+
+function ensureMetaTagByName(name) {
+    let el = document.head.querySelector(`meta[name="${name}"]`);
+    if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('name', name);
+        document.head.appendChild(el);
+    }
+    return el;
+}
+
+function ensureMetaTagByProperty(property) {
+    let el = document.head.querySelector(`meta[property="${property}"]`);
+    if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('property', property);
+        document.head.appendChild(el);
+    }
+    return el;
+}
+
+function ensureLinkTagByRel(rel, hreflang) {
+    const selector = hreflang
+        ? `link[rel="${rel}"][hreflang="${hreflang}"]`
+        : `link[rel="${rel}"]`;
+    let el = document.head.querySelector(selector);
+    if (!el) {
+        el = document.createElement('link');
+        el.setAttribute('rel', rel);
+        if (hreflang) el.setAttribute('hreflang', hreflang);
+        document.head.appendChild(el);
+    }
+    return el;
+}
+
+function applyDetailMeta(meta) {
+    if (!meta) return;
+
+    document.title = meta.title;
+
+    const desc = ensureMetaTagByName('description');
+    desc.setAttribute('content', meta.description);
+
+    const ogTitle = ensureMetaTagByProperty('og:title');
+    ogTitle.setAttribute('content', meta.ogTitle || meta.title);
+
+    const ogDesc = ensureMetaTagByProperty('og:description');
+    ogDesc.setAttribute('content', meta.ogDescription || meta.description);
+
+    const ogImage = ensureMetaTagByProperty('og:image');
+    ogImage.setAttribute('content', meta.ogImage);
+
+    const ogUrl = ensureMetaTagByProperty('og:url');
+    ogUrl.setAttribute('content', meta.canonical);
+
+    const canonical = ensureLinkTagByRel('canonical');
+    canonical.setAttribute('href', meta.canonical);
+
+    if (meta.alternates?.ko) {
+        const aKo = ensureLinkTagByRel('alternate', 'ko');
+        aKo.setAttribute('href', meta.alternates.ko);
+    }
+    if (meta.alternates?.ja) {
+        const aJa = ensureLinkTagByRel('alternate', 'ja');
+        aJa.setAttribute('href', meta.alternates.ja);
+    }
+}
+
+function buildDetailJsonLd(property, units, detailUrl) {
+    const safeProperty = property || {};
+    const safeUnits = Array.isArray(units) ? units : [];
+
+    const minRent = typeof safeProperty.rent === 'number' && safeProperty.rent > 0
+        ? safeProperty.rent
+        : (() => {
+            const rents = safeUnits
+                .map(u => u.rent)
+                .filter(r => typeof r === 'number' && r > 0);
+            return rents.length > 0 ? Math.min(...rents) : null;
+        })();
+
+    const price = Number.isFinite(minRent) && minRent != null ? minRent : 0;
+
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Apartment",
+        "name": safeProperty.name || '',
+        "url": detailUrl,
+        "image": safeProperty.listPhoto || (safeProperty.images && safeProperty.images[0]) || '',
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "JP",
+            "addressLocality": safeProperty.address || ''
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": price,
+            "priceCurrency": "JPY",
+            "url": detailUrl
+        }
+    };
+
+    if (typeof safeProperty.lat === 'number' && typeof safeProperty.lng === 'number') {
+        jsonLd.geo = {
+            "@type": "GeoCoordinates",
+            "latitude": safeProperty.lat,
+            "longitude": safeProperty.lng
+        };
+    }
+
+    return jsonLd;
+}
+
+function injectJsonLd(jsonLd) {
+    if (!jsonLd) return;
+    const old = document.head.querySelector('script[data-ilgong-jsonld="detail"]');
+    if (old) old.remove();
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-ilgong-jsonld', 'detail');
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+}
 
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', async () => {

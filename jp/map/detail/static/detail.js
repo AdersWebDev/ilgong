@@ -26,6 +26,15 @@ const PropertyDetail = {
             // 기본 데이터 로드 (초기 비용 문서 제외)
             await this.loadData();
 
+            // SEO 메타 및 JSON-LD 동적 적용 (JP)
+            try {
+                const detailUrl = window.location.origin + window.location.pathname;
+                const meta = buildJpDetailMeta(this.propertyData.property, this.propertyData.units, detailUrl);
+                applyDetailMeta(meta);
+                injectJsonLd(meta.jsonLd);
+            } catch (e) {
+            }
+
             // 핫딜 이벤트 적용 (eventId가 있을 때만)
             await this.initHotDealEvent();
 
@@ -799,6 +808,85 @@ const PropertyDetail = {
         }
     }
 };
+
+/**
+ * JP 상세 페이지용 메타 데이터 생성
+ */
+function buildJpDetailMeta(property, units, detailUrl) {
+    const safeProperty = property || {};
+    const safeUnits = Array.isArray(units) ? units : [];
+
+    const minRent = typeof safeProperty.rent === 'number' && safeProperty.rent > 0
+        ? safeProperty.rent
+        : (() => {
+            const rents = safeUnits
+                .map(u => u.rent)
+                .filter(r => typeof r === 'number' && r > 0);
+            return rents.length > 0 ? Math.min(...rents) : null;
+        })();
+
+    const minArea = safeUnits.reduce((acc, u) => {
+        const v = typeof u.area === 'number' && u.area > 0 ? u.area : null;
+        return v === null ? acc : (acc === null ? v : Math.min(acc, v));
+    }, null);
+    const maxArea = safeUnits.reduce((acc, u) => {
+        const v = typeof u.area === 'number' && u.area > 0 ? u.area : null;
+        return v === null ? acc : (acc === null ? v : Math.max(acc, v));
+    }, null);
+
+    const areaText = (() => {
+        if (minArea === null && maxArea === null) return '';
+        if (minArea !== null && maxArea !== null && minArea !== maxArea) {
+            return `${minArea.toFixed(2)}~${maxArea.toFixed(2)}㎡`;
+        }
+        const v = (minArea ?? maxArea);
+        return v != null ? `${v.toFixed(2)}㎡` : '';
+    })();
+
+    const trans = [safeProperty.trans1, safeProperty.trans2, safeProperty.trans3]
+        .filter(t => typeof t === 'string' && t.trim() !== '')
+        .map(t => t.trim());
+
+    const buildingName = safeProperty.name || '大阪マンション';
+    const address = safeProperty.address || '';
+
+    const rentText = minRent != null ? `${(minRent / 10000).toFixed(1).replace(/\\.0$/, '')}万円台` : '賃料要相談';
+
+    const title = `${buildingName} ${rentText} | 大阪賃貸 | 日本空間`;
+
+    const parts = [];
+    if (address) parts.push(address);
+    parts.push(`${rentText} マンション`);
+    if (areaText) parts.push(`専有面積 約${areaText}`);
+    if (trans.length > 0) parts.push(`最寄り駅: ${trans.join('、')}`);
+
+    let description = parts.join(' · ');
+    description += '。リアルタイム空室情報、設備、初期費用、特約条件を日本語でまとめて確認できます。';
+    if (description.length > 220) {
+        description = description.slice(0, 217) + '...';
+    }
+
+    const ogTitle = `${buildingName} ${rentText} | 日本空間`;
+    const ogDescription = description;
+
+    const imageUrl = (safeProperty.listPhoto || (safeProperty.images && safeProperty.images[0])) || 'https://ilgongjp.com/assest/favicon.png';
+
+    const jsonLd = buildDetailJsonLd(safeProperty, safeUnits, detailUrl);
+
+    return {
+        title,
+        description,
+        ogTitle,
+        ogDescription,
+        ogImage: imageUrl,
+        canonical: detailUrl,
+        alternates: {
+            ja: detailUrl,
+            ko: detailUrl.replace('/jp/map/detail/', '/map/detail/')
+        },
+        jsonLd
+    };
+}
 
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', async () => {
