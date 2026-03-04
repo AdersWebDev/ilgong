@@ -432,6 +432,8 @@ const PropertyAPI = {
                 name: apiResponse.buildingName || ' - ',
                 address: apiResponse.address || ' - ',
                 rent: minRent,
+                lat: apiResponse.lat ?? null,
+                lng: apiResponse.lng ?? null,
                 constructionDate: apiResponse.constructionDate || ' - ',
                 structure: apiResponse.structure || ' - ',
                 updatedAt: apiResponse.updatedAt || ' - ',

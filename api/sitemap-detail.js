@@ -5,7 +5,7 @@
  */
 
 const BACKEND_SITEMAP_URL = 'https://www.houberapp.com/map/rent/sitemap';
-const BASE_URL = 'https://www.ilgongjp.com';
+const BASE_URL = 'https://ilgongjp.com';
 
 function escapeXml(str) {
   if (str == null) return '';
