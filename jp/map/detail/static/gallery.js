@@ -65,6 +65,8 @@ const PropertyGallery = {
 
         if (this.images.length === 0) {
             if (this.mainImage) {
+                this.mainImage.setAttribute('fetchpriority', 'high');
+                this.mainImage.decoding = 'async';
                 this.mainImage.src = listPhoto;
             }
             return;
@@ -72,6 +74,8 @@ const PropertyGallery = {
         // 메인 이미지: 건물이면 대표 사진(photo/listPhoto), 아니면 리스트 첫 장
         if (this.mainImage) {
             const mainSrc = (isBuilding && listPhoto) ? listPhoto : this.images[0];
+            this.mainImage.setAttribute('fetchpriority', 'high');
+            this.mainImage.decoding = 'async';
             this.mainImage.src = mainSrc;
             this.mainImage.onerror = () => {
                 this.mainImage.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3EImage Load Error%3C/text%3E%3C/svg%3E';

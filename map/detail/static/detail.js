@@ -26,6 +26,16 @@ const PropertyDetail = {
             // 기본 데이터 로드 (초기 비용 문서 제외)
             await this.loadData();
 
+            // LCP 이미지 우선 요청 (listPhoto 확정 직후 preload)
+            const listPhoto = this.propertyData?.listPhoto;
+            if (listPhoto && typeof listPhoto === 'string') {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'image';
+                link.href = listPhoto;
+                document.head.appendChild(link);
+            }
+
             // GA4 컨텍스트 제공 + view_item 1회 전송 (데이터 로드 이후에만 가능)
             try {
                 window.__detailGa4Context = {

@@ -194,6 +194,60 @@ class MarkerManager {
     }
 
     /**
+     * 현재 bounds 밖에 있는 마커만 제거 (핀 모드 증분 렌더링 시 메모리·DOM 과다 방지)
+     * @param {google.maps.LatLngBounds} bounds - 현재 뷰포트 bounds (마진 적용됨)
+     * @param {number} marginRatio - bounds 확장 비율 (0~1, 예: 0.1 = 10% 여유)
+     */
+    removeMarkersOutsideBounds(bounds, marginRatio = 0.15) {
+        if (!bounds || !this.map) return;
+
+        const ne = bounds.getNorthEast();
+        const sw = bounds.getSouthWest();
+        if (!ne || !sw) return;
+
+        let minLat = sw.lat();
+        let maxLat = ne.lat();
+        let minLng = sw.lng();
+        let maxLng = ne.lng();
+        if (marginRatio > 0) {
+            const latSpan = maxLat - minLat;
+            const lngSpan = maxLng - minLng;
+            minLat -= latSpan * marginRatio;
+            maxLat += latSpan * marginRatio;
+            minLng -= lngSpan * marginRatio;
+            maxLng += lngSpan * marginRatio;
+        }
+
+        const toRemove = [];
+        for (let i = this.markers.length - 1; i >= 0; i--) {
+            const marker = this.markers[i];
+            const pos = marker.getPosition && marker.getPosition();
+            if (!pos) continue;
+            const lat = typeof pos.lat === 'function' ? pos.lat() : pos.lat;
+            const lng = typeof pos.lng === 'function' ? pos.lng() : pos.lng;
+            if (lat < minLat || lat > maxLat || lng < minLng || lng > maxLng) {
+                toRemove.push(marker);
+                if (marker.setMap) marker.setMap(null);
+                if (marker.locationData && marker.locationData.producer != null && marker.locationData.id != null) {
+                    this.displayedMarkerKeys.delete(`${marker.locationData.producer}_${marker.locationData.id}`);
+                }
+                this.markerOriginalIcons.delete(marker);
+                if (this.clickedMarker === marker) {
+                    this.closeInfoWindow();
+                    this.clickedMarker = null;
+                }
+                this.markers.splice(i, 1);
+            }
+        }
+
+        if (toRemove.length > 0 && this.markerClusterer) {
+            if (typeof this.markerClusterer.removeMarkers === 'function') {
+                this.markerClusterer.removeMarkers(toRemove);
+            }
+        }
+    }
+
+    /**
      * 그룹 마커용 커스텀 아이콘 생성
      * @param {string} countText - 표시할 개수 텍스트 (예: "10")
      * @param {boolean} hasEvent - 이벤트가 있는지 여부
