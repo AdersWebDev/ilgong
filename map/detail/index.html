@@ -61,7 +61,6 @@
 
     gtag('config', 'G-HXLQL7200F');
 </script>
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 <body>
     <!-- Header -->
     <header class="header">
@@ -663,16 +662,33 @@
     </footer>
 
     <!-- JavaScript Modules (root-relative: path 형식 URL에서도 동작) -->
-    <script src="/main/main.js"></script>
-    <script src="/map/detail/static/api.js"></script>
-    <script src="/map/detail/static/timer.js"></script>
-    <script src="/map/detail/static/gallery.js"></script>
-    <script src="/map/detail/static/carousel.js"></script>
-    <script src="/map/detail/static/form.js"></script>
-    <script src="/map/detail/static/analytics.js"></script>
-    <script src="/map/detail/static/detail.js"></script>
+    <script src="/main/main.js" defer></script>
+    <script src="/map/detail/static/api.js" defer></script>
+    <script src="/map/detail/static/timer.js" defer></script>
+    <script src="/map/detail/static/gallery.js" defer></script>
+    <script src="/map/detail/static/carousel.js" defer></script>
+    <script src="/map/detail/static/form.js" defer></script>
+    <script src="/map/detail/static/analytics.js" defer></script>
+    <script src="/map/detail/static/detail.js" defer></script>
     <script>
-        Kakao.init("91ed72bb01c7495238cdd2b0043ed5da");
+        function loadKakaoSDK() {
+            if (window.__kakaoSDKLoaded) return window.__kakaoSDKLoaded;
+            window.__kakaoSDKLoaded = new Promise(function (resolve, reject) {
+                if (window.Kakao && window.Kakao.isInitialized && window.Kakao.isInitialized()) {
+                    resolve();
+                    return;
+                }
+                var s = document.createElement("script");
+                s.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
+                s.onload = function () {
+                    Kakao.init("91ed72bb01c7495238cdd2b0043ed5da");
+                    resolve();
+                };
+                s.onerror = reject;
+                document.head.appendChild(s);
+            });
+            return window.__kakaoSDKLoaded;
+        }
         async function sendOncePerHour(key, sendFn) {
             const now = Date.now();
             const until = Number(localStorage.getItem(key) || 0);
@@ -698,9 +714,11 @@
                         window.GA4Ecom.addToCart(ctx.property, ctx.producer);
                     }
                 } catch (_) { }
-                Kakao.Channel.chat({
-                    channelPublicId: "_qTEPj",
-                });
+                loadKakaoSDK().then(function () {
+                    Kakao.Channel.chat({
+                        channelPublicId: "_qTEPj",
+                    });
+                }).catch(function () { });
             });
         });
 

@@ -180,10 +180,16 @@
             }
         }
 
-        updateMapMarkersFromLocations(mapResponseData, map) {
+        updateMapMarkersFromLocations(mapResponseData, map, options = {}) {
             if (!this.markerManager || !map) return;
             const { mode, items, cellSizeM } = mapResponseData;
-            this.markerManager.clearMarkers();
+            const incremental = options.incremental && mode === 'point';
+
+            if (!incremental) {
+                this.markerManager.clearMarkers();
+            } else {
+                this.markerManager.removeMarkersOutsideBounds(map.getBounds());
+            }
 
             if (mode === 'cluster') {
                 const groupClickHandlers = new Map();
@@ -225,11 +231,13 @@
                 const uniqueLocations = Utils.removeDuplicateLocations(locationsForMarkers);
                 this.markerManager.displayLocations(uniqueLocations, {
                     performanceMode: false,
+                    appendMode: incremental,
                     onMarkerClick: (marker, location) => {
                         this.markerManager.showInfoWindow(marker, location);
                     }
                 });
-                UIRenderer.updateMapStatus(`${uniqueLocations.length.toLocaleString('ko-KR')}개의 위치를 표시했습니다.`);
+                const totalShown = this.markerManager.getMarkers().length;
+                UIRenderer.updateMapStatus(`${totalShown.toLocaleString('ko-KR')}개의 위치를 표시했습니다.`);
             }
 
             this.tryOpenPendingInfoWindow();
@@ -318,7 +326,11 @@
                         this.propertyListManager.setPanelData(effectiveBounds, filterQueryString, 1, { items: [], total: 0 });
                     });
 
-                this.updateMapMarkersFromLocations({ mode, items, cellSizeM }, map);
+                this.updateMapMarkersFromLocations(
+                    { mode, items, cellSizeM },
+                    map,
+                    { incremental: !force && (mode === 'point') }
+                );
                 if (this.isInitialLoad) {
                     this.isInitialLoad = false;
                 }

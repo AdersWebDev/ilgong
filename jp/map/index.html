@@ -49,13 +49,17 @@
   <link rel="alternate" hreflang="ja" href="https://ilgongjp.com/jp/map/">
   <link rel="alternate" hreflang="ko" href="https://ilgongjp.com/map/">
   <link rel="alternate" hreflang="x-default" href="https://ilgongjp.com/map/">
-    <!-- Google Fonts -->
+    <!-- Google Fonts (비동기 로드, 렌더 차단 완화) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://maps.googleapis.com">
+    <link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap"></noscript>
 
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- Font Awesome (비동기 로드) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"></noscript>
 
     <!-- CSS -->
     <link rel="stylesheet" href="/jp/assest/style.css">
@@ -665,21 +669,21 @@
 
     <!-- <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script> -->
     <!-- 모듈 로드 순서 중요 -->
-    <script src="/main/main.js"></script>
-    <script src="/jp/map/static/Constants.js"></script>
-    <script src="/jp/map/static/Utils.js"></script>
-    <script src="/jp/map/static/ClusterManager.js"></script>
-    <script src="/jp/map/static/UIRenderer.js"></script>
-    <script src="/jp/map/static/DataLoader.js"></script>
-    <script src="/jp/map/static/MarkerManager.js"></script>
-    <script src="/jp/map/static/MapManager.js"></script>
+    <script src="/main/main.js" defer></script>
+    <script src="/jp/map/static/Constants.js" defer></script>
+    <script src="/jp/map/static/Utils.js" defer></script>
+    <script src="/jp/map/static/ClusterManager.js" defer></script>
+    <script src="/jp/map/static/UIRenderer.js" defer></script>
+    <script src="/jp/map/static/DataLoader.js" defer></script>
+    <script src="/jp/map/static/MarkerManager.js" defer></script>
+    <script src="/jp/map/static/MapManager.js" defer></script>
     <!-- 필터 관련 모듈 -->
-    <script src="/jp/map/static/FilterManager.js"></script>
-    <script src="/jp/map/static/SearchManager.js"></script>
-    <script src="/jp/map/static/PropertyListManager.js"></script>
-    <script src="/jp/map/static/MobileManager.js"></script>
+    <script src="/jp/map/static/FilterManager.js" defer></script>
+    <script src="/jp/map/static/SearchManager.js" defer></script>
+    <script src="/jp/map/static/PropertyListManager.js" defer></script>
+    <script src="/jp/map/static/MobileManager.js" defer></script>
     <!-- 메인 애플리케이션 -->
-    <script src="/jp/map/static/map.js"></script>
+    <script src="/jp/map/static/map.js" defer></script>
     <script>
         // 서버에서 API 키를 가져와서 Google Maps API 동적 로드
         async function loadGoogleMapsAPI() {
